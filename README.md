@@ -4,7 +4,7 @@
 
 覆盖**像素按钮与交互**、**像素背景**、**容器窗口**和**样式交互动画**四大组件家族，全部锁定在同一套视觉契约之下。
 
-> 🌐 English version: [README.md](README.md)
+> 🌐 English version: [README.en.md](README.en.md)
 
 ---
 
