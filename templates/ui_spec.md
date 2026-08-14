@@ -119,7 +119,7 @@
 | Typewriter caret | blink | steps(1) | 1s infinite |
 | Glitch | clip-path slices | steps(1) | 3s infinite |
 
-### F. Dynamic Effects (蒸馏自 JIEJOE + 粒子指南 — recipes in `references/dynamic-effects.md`)
+### F. Dynamic Effects (蒸馏自 JIEJOE + 粒子指南 + 流体网格像素背景 demo — recipes in `references/dynamic-effects.md` / `references/background-fluid-grid.md`)
 
 | Effect | Class | Trigger | Motion | Timing | Duration |
 |--------|-------|---------|--------|--------|----------|
@@ -129,6 +129,8 @@
 | 像素粒子网络背景 | `geek-particle-bg` | pointermove / loop | canvas pixel squares float; proximity links; mouse repel + cyan cursor links | rAF | — |
 | 四向滚动光带 | `geek-marquee` | loop | 4-direction scrolling strips (text + glyphs) | linear | 8s infinite |
 | CRT 水波纹 | `geek-crt-ripple` | loop | SVG turbulence displacement, rAF seed/scale | — | — |
+| 流体网格像素背景 | `geek-fluid-grid` | loop / pointermove | fixed-grid pixel values flow via fBm noise / wave / vortex; hue follows flow direction; breathing flicker; mouse swirl-repel (engine A) or uniform pixels + dual-noise fields + breathing tide, no mouse (engine B) | rAF | — |
+| 复制参数 | `geek-copy-params` | click | serialize settings → clipboard; button flips `复制参数 → ✓ 已复制` | — | 1.5s feedback |
 
 ---
 

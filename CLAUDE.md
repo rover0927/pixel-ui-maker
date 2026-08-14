@@ -71,8 +71,12 @@ Three independent scripts that share no common library:
 | Canvas pixel-particle network | `geek-particle-bg` (Canvas 2D + rAF) | 《粒子背景动画效果实现指南》(not JIEJOE) |
 | 4-direction scrolling strips | `geek-marquee` | JIEJOE `photos_draglines_*` |
 | CRT water-ripple filter | `geek-crt-ripple` (SVG + rAF) | JIEJOE video cover filter |
+| Fluid-grid pixel background | `geek-fluid-grid` (Canvas 2D + rAF, 双引擎) | 流体网格像素背景 Vue demo (`examples/fluid-grid-bg/`) — `useFluidGrid` flow modes (noise/wave/vortex + mouse) + `useDisturbanceWave` uniform pixels / dual-noise fields / breathing tide; see `references/background-fluid-grid.md` |
+| Copy-params interaction | `geek-copy-params` | same demo — one click serializes the settings to JSON and copies it, so the user can paste it back to an agent to reproduce the effect |
 
-Naming contract: `geek-btn-wipe`, `geek-float-parallax`, `geek-float-rise`, `geek-particle-bg`, `geek-marquee` classes; `--geek-motion-*`, `--geek-stagger`, `--geek-rise-height`, `--geek-parallax-x`, `--geek-parallax-rot` custom properties. All effects are plain CSS except the GSAP variants (optional) and the two `requestAnimationFrame` drivers (the ripple's seed/scale and `geek-particle-bg`'s particle loop). `geek-float-parallax` (hero background float), `geek-float-rise` (menu/section entrance) and `geek-particle-bg` (canvas particle network, layers *under* the parallax) are **three different background effects** — don't conflate them. Every effect ships a `prefers-reduced-motion` fallback.
+> Runnable source: `examples/geek-homepage/` is the full Vue 3 + Vite implementation of the JIEJOE effects above (11 `Geek*` components + 3 `use*` composables + `assets/geek-homepage.css`), alongside the fluid-grid demo in `examples/fluid-grid-bg/`. See `examples/README.md` for the index.
+
+Naming contract: `geek-btn-wipe`, `geek-float-parallax`, `geek-float-rise`, `geek-particle-bg`, `geek-marquee` classes; `--geek-motion-*`, `--geek-stagger`, `--geek-rise-height`, `--geek-parallax-x`, `--geek-parallax-rot` custom properties. All effects are plain CSS except the GSAP variants (optional) and the three `requestAnimationFrame` drivers (the ripple's seed/scale, `geek-particle-bg`'s particle loop, `geek-fluid-grid`'s flow loop). `geek-float-parallax` (hero background float), `geek-float-rise` (menu/section entrance), `geek-particle-bg` (canvas particle network, layers *under* the parallax) and `geek-fluid-grid` (fixed LED-matrix pixel grid, flow-driven) are **different background effects** — don't conflate them. Every effect ships a `prefers-reduced-motion` fallback (canvas backgrounds render one static frame).
 
 ## Key Design Decisions
 

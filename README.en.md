@@ -14,7 +14,7 @@ Given a UI description, wireframe, or existing CSS/reference screenshot, the ski
 
 1. A **UI design spec** (`ui_spec.md`) — theme name, geek style, color palette, style-lock parameters, component inventory, and an animation plan.
 2. A **CSS implementation** (`theme.css` or per-family splits) with `--geek-*` custom properties and `geek-` prefixed component classes.
-3. **Dynamic effects** (distilled from the JIEJOE design portfolio + the particle-background guide; see `references/dynamic-effects.md`) — `geek-btn-wipe` dual-layer wipe button, `geek-float-parallax` mouse-parallax background float (pure CSS / GSAP), `geek-float-rise` staggered pixel-art rise (pure CSS / GSAP), `geek-particle-bg` canvas pixel-particle network (pixel squares + proximity links + mouse repel), `geek-marquee` 4-direction scrolling strips, `geek-crt-ripple` CRT water-ripple filter.
+3. **Dynamic effects** (distilled from the JIEJOE design portfolio + the particle-background guide; see `references/dynamic-effects.md`) — `geek-btn-wipe` dual-layer wipe button, `geek-float-parallax` mouse-parallax background float (pure CSS / GSAP), `geek-float-rise` staggered pixel-art rise (pure CSS / GSAP), `geek-particle-bg` canvas pixel-particle network (pixel squares + proximity links + mouse repel), `geek-marquee` 4-direction scrolling strips, `geek-crt-ripple` CRT water-ripple filter. Plus the **fluid-grid pixel background** `geek-fluid-grid` (Canvas dual-engine: noise/wave/vortex flow + mouse swirl-repel, or uniform pixels + dual-noise fields + breathing tide; includes the `geek-copy-params` copy-params button; see `references/background-fluid-grid.md`, runnable source in `examples/fluid-grid-bg/`). A complete Vue implementation of the JIEJOE effects lives in `examples/geek-homepage/` (the CYBER GEEK homepage); see `examples/README.md` for the full runnable-example index.
 4. **Validation** — automated checks that every component obeys the style-lock rules.
 
 A demo of the core output shape:
@@ -50,6 +50,7 @@ Invoke this skill when the request mentions any of:
 - "pixel-style the UI", "make a pixel theme", "generate pixel CSS"
 - "terminal style", "hacker theme", "geek UI"
 - **像素风界面**, **像素样式开发**, **像素按钮**, **像素背景**, **像素窗口** (backward-compatible aliases)
+- "fluid grid", "grid background", "particle background" — **流体网格**, **点阵背景**, **背景噪声**, **粒子背景** (canvas backgrounds)
 - **暗黑终端**, **终端极客**, **黑客风**, **角标**, **CRT**, **scanline**, **glitch**, **typewriter**
 - `pixel-ui-maker`
 

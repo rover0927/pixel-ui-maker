@@ -138,7 +138,7 @@ Variants: `--primary` (red fill), `--ghost` (hover `#ffffff14` + red border), `-
 | `geek-rise` | translateY(var(--geek-rise-height))→0 + opacity 0→1, `--geek-motion-rise`, delay `calc(var(--i) * var(--geek-stagger))` |
 | `geek-marquee-x/y` | `to { transform: translateX(-50%) }` / `translateY(-50%)`, `--geek-motion-marquee` |
 
-### E. Dynamic Effects (recipes in `references/dynamic-effects.md`)
+### E. Dynamic Effects (recipes in `references/dynamic-effects.md` / `references/background-fluid-grid.md`)
 
 | Effect | Recipe |
 |--------|--------|
@@ -148,7 +148,9 @@ Variants: `--primary` (red fill), `--ghost` (hover `#ffffff14` + red border), `-
 | `geek-particle-bg` | canvas 2D pixel **squares** (`fillRect`, integer 1–3px) in palette colors; proximity links under `linkDist` (alpha fades with distance); mouse repel radius + cyan cursor links; DPR capped 2; rAF loop; static frame under reduced-motion |
 | `geek-marquee` | duplicate content in one track, `translate(-50%)` for seamless loop; `--up/--down/--left/--right` directions |
 | `geek-crt-ripple` | SVG `feTurbulence` + `feDisplacementMap`; rAF loop nudges `seed`/`scale`; `filter: url(#geek-crt-ripple)` |
-| reduced-motion | kill all animations/transitions, reveal final states (`transform: translateX(0)` / `translateY(0)` / opacity 1) |
+| `geek-fluid-grid` | Canvas 2D + rAF; fixed grid `cellSize`+`gap`, `maxPixels≈4500` auto-thicken; value-noise fBm flow (`noise`/`wave`/`vortex`), `flowAngle` gradient → hue shift `baseHue + (ang/2π)*hueSpread`, per-pixel breathing phase, mouse swirl-repel (engine A); engine B = uniform pixels, dual-noise fields (`nv` brightness `fbm .012`, `cn` color `fbm .006`), `colorLerp` off-white `#f8f6e8` ↔ theme primary (HSV `.55/.9`), tide `0.5+0.5*sin(t*0.015*flicker)`; DPR≤2 — recipe in `references/background-fluid-grid.md` |
+| `geek-copy-params` | click serializes full settings `JSON.stringify(s, null, 2)` → `navigator.clipboard` (fallback: textarea + `execCommand('copy')`); button flips `复制参数 → ✓ 已复制` for 1.5s; success = accent border + `color-mix` wash |
+| reduced-motion | kill all animations/transitions, reveal final states (`transform: translateX(0)` / `translateY(0)` / opacity 1); canvas backgrounds render one static frame |
 
 ## 5. Output Format
 

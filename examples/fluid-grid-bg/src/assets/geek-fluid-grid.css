@@ -1,0 +1,363 @@
+/* geek-fluid-grid — 流体网格像素背景 demo（暗色终端像素风） */
+:root {
+  --bg: #050807;
+  --panel: rgba(8, 14, 11, 0.84);
+  --line: rgba(140, 255, 200, 0.14);
+  --line-strong: rgba(140, 255, 200, 0.45);
+  --text: #d8ffe9;
+  --muted: #6b8f7c;
+  --accent: #41ff9d;
+  --mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Courier New', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  overflow: hidden;
+}
+
+.page {
+  position: fixed;
+  inset: 0;
+}
+
+/* 画布 */
+.fluid-grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+}
+
+/* CRT 扫描线叠加层 */
+.page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.02) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+/* 顶部标题 */
+.header {
+  position: absolute;
+  top: 24px;
+  left: 28px;
+  z-index: 3;
+  pointer-events: none;
+}
+.header h1 {
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+  color: var(--text);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.header .sub {
+  margin-top: 8px;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+}
+.header .tags {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tag {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  border: 1px solid var(--line-strong);
+  padding: 3px 9px;
+  background: rgba(0, 0, 0, 0.28);
+}
+
+/* 左下角统计 */
+.stats {
+  position: absolute;
+  left: 28px;
+  bottom: 24px;
+  z-index: 3;
+  font-size: 11px;
+  line-height: 1.9;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  pointer-events: none;
+}
+.stats b {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* 底部居中提示 */
+.hint {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+  pointer-events: none;
+  animation: pulse 2.6s ease-in-out infinite;
+  white-space: nowrap;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.95; }
+}
+
+/* 控制面板 */
+.panel {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  z-index: 4;
+  width: 292px;
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  font-size: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+}
+.panel__head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 13px;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  user-select: none;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+}
+.panel__head .caret {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.14em;
+}
+.panel__body {
+  padding: 14px 14px 12px;
+  overflow-y: auto;
+}
+.panel h3 {
+  margin: 2px 0 9px;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  color: var(--muted);
+  font-weight: 500;
+}
+.panel h3:not(:first-child) {
+  margin-top: 16px;
+}
+
+.row {
+  margin-bottom: 13px;
+}
+.row label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+.row label .val {
+  color: var(--accent);
+}
+
+/* 滑块 */
+input[type='range'] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 18px;
+  background: transparent;
+  margin: 0;
+}
+input[type='range']::-webkit-slider-runnable-track {
+  height: 2px;
+  background: var(--line);
+}
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  margin-top: -4px;
+  background: var(--accent);
+  border: none;
+  border-radius: 0;
+}
+input[type='range']::-moz-range-track {
+  height: 2px;
+  background: var(--line);
+}
+input[type='range']::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-radius: 0;
+  background: var(--accent);
+}
+
+/* 分段选择 */
+.seg {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(56px, 1fr));
+  gap: 6px;
+}
+.seg button {
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 7px 0;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--muted);
+  cursor: pointer;
+}
+.seg button:hover {
+  color: var(--text);
+}
+.seg button.active {
+  color: var(--accent);
+  border-color: var(--line-strong);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+/* 主题色块 */
+.themes {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.theme-chip {
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--muted);
+  cursor: pointer;
+}
+.theme-chip:hover {
+  color: var(--text);
+}
+.theme-chip.active {
+  border-color: var(--line-strong);
+  color: #fff;
+  background: color-mix(in srgb, var(--chip) 26%, transparent);
+}
+
+/* 面板底部 */
+.panel__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding-top: 11px;
+  border-top: 1px solid var(--line);
+}
+.foot-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* 复制参数按钮（geek-copy-params）— 点击序列化当前参数为 JSON，反馈「已复制」 */
+.btn.geek-copy-params.copied {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.foot-note {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.btn {
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  border: 1px solid var(--line-strong);
+  color: var(--accent);
+  background: transparent;
+  padding: 7px 14px;
+  cursor: pointer;
+}
+.btn:hover {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+/* 折叠后的齿轮按钮 */
+.gear {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  z-index: 4;
+  border: 1px solid var(--line-strong);
+  color: var(--accent);
+  background: var(--panel);
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+.gear:hover {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+/* 干扰波模式说明条 */
+.disturb-note {
+  margin: 2px 0 13px;
+  padding: 8px 10px;
+  font-size: 10px;
+  line-height: 1.7;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* 禁用态（干扰波模式下不适用的控件） */
+.row.disabled,
+.themes.disabled,
+.seg.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* 滚动条 */
+.panel__body::-webkit-scrollbar {
+  width: 6px;
+}
+.panel__body::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+}
+.panel__body::-webkit-scrollbar-track {
+  background: transparent;
+}

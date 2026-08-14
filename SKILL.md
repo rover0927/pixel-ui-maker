@@ -13,7 +13,9 @@ description: >
   "背景视差", "视差浮动", "鼠标视差", "像素画浮动", "上浮动画", "wipe button",
   "float-rise", "stagger", "parallax float", "parallax", "背景漂浮",
   "粒子背景", "粒子网络", "粒子浮动", "canvas 粒子", "连线粒子", "particle",
-  "particle background", "粒子动画", "marquee", "滚动光带", "光带", "动效",
+  "particle background", "粒子动画", "流体网格", "fluid grid", "流体背景",
+  "grid background", "点阵背景", "像素点阵", "噪声背景", "背景噪声",
+  "marquee", "滚动光带", "光带", "动效",
   "动态效果", or mentions "pixel-ui-maker".
 ---
 
@@ -57,6 +59,7 @@ description: >
 |-----------|------|---------|
 | Geek generator rules | `${SKILL_DIR}/references/generator-pixel-ui.md` | CSS implementation rules, style lock, component families, signature motifs |
 | **Dynamic effects kit** | `${SKILL_DIR}/references/dynamic-effects.md` | **Distilled motion recipes: `geek-btn-wipe` dual-layer wipe button, `geek-float-parallax` background pixel-art mouse-parallax float (CSS + GSAP), `geek-float-rise` pixel-art stagger rise (CSS + GSAP), `geek-particle-bg` canvas pixel-particle network (from 粒子指南, not JIEJOE), `geek-marquee` scrolling strips, `geek-crt-ripple` CRT filter** |
+| **Fluid-grid background** | `${SKILL_DIR}/references/background-fluid-grid.md` | **Canvas pixel-grid background (双引擎): `geek-fluid-grid` flow modes (noise/wave/vortex + mouse swirl-repel) and the disturbance-wave engine (uniform pixels + dual-noise fields + breathing tide, no mouse); 9-field param schema + `geek-copy-params` interaction + control-panel UI; runnable source in `examples/fluid-grid-bg/`** |
 
 ---
 
@@ -109,7 +112,7 @@ description: >
 | **Cards & windows** | `geek-card` (corner brackets + hover lift), `geek-panel`, `geek-window`, `geek-tag` |
 | **Decorative motifs** | `.corner` brackets, `//` eyebrow, timeline, typewriter caret, scanlines, grid, glitch |
 | **Interaction animations** | ease transitions, hover lift, scroll reveal, caret/glitch `steps(1)`, reduced-motion |
-| **Dynamic effects** | `geek-btn-wipe` dual-layer wipe button, `geek-float-parallax` background pixel-art mouse-parallax float (CSS + GSAP), `geek-float-rise` pixel-art stagger rise (CSS + GSAP), `geek-particle-bg` canvas pixel-particle network (pixel squares + proximity links + mouse repel), `geek-marquee` 4-direction scrolling strips, `geek-crt-ripple` CRT water-ripple filter — recipes in `references/dynamic-effects.md` |
+| **Dynamic effects** | `geek-btn-wipe` dual-layer wipe button, `geek-float-parallax` background pixel-art mouse-parallax float (CSS + GSAP), `geek-float-rise` pixel-art stagger rise (CSS + GSAP), `geek-particle-bg` canvas pixel-particle network (pixel squares + proximity links + mouse repel), `geek-marquee` 4-direction scrolling strips, `geek-crt-ripple` CRT water-ripple filter — recipes in `references/dynamic-effects.md`; `geek-fluid-grid` canvas fluid-grid pixel background (noise/wave/vortex + mouse) and the disturbance-wave dual-noise breathing-tide engine, `geek-copy-params` JSON-copy button — recipe + param schema in `references/background-fluid-grid.md` |
 
 **Animation Plan** (for each interaction):
 
@@ -126,6 +129,8 @@ description: >
 | `geek-particle-bg` | pointermove / loop | canvas pixel squares float; proximity links; mouse repel + cyan cursor links | rAF | — |
 | `geek-marquee` | loop | 4-direction scrolling strips | linear | 8s infinite |
 | `geek-crt-ripple` | loop | SVG turbulence displacement, rAF-driven seed/scale | — | — |
+| `geek-fluid-grid` | loop (+ pointermove in engine A) | fixed grid pixel values flow via fBm noise / wave / vortex; hue follows flow direction; breathing flicker; mouse swirl-repel (A) or uniform pixels + dual-noise fields + breathing tide, no mouse (B) | rAF | — |
+| `geek-copy-params` | click | serialize settings → clipboard; button flips `复制参数 → ✓ 已复制` | — | 1.5s feedback |
 | ... | ... | ... | ... | ... |
 
 **Output**:
@@ -153,7 +158,7 @@ Wait for user approval or revision before proceeding.
 
 🚧 **GATE**: Step 3 confirmed by user
 
-**Role**: See `references/generator-pixel-ui.md` for detailed generation rules. When the spec includes dynamic motion (wipe buttons, floating backgrounds, marquees, CRT ripple), follow `references/dynamic-effects.md` — it holds the distilled, style-locked recipes for those effects.
+**Role**: See `references/generator-pixel-ui.md` for detailed generation rules. When the spec includes dynamic motion (wipe buttons, floating backgrounds, marquees, CRT ripple), follow `references/dynamic-effects.md` — it holds the distilled, style-locked recipes for those effects. When the spec calls for a **canvas fluid-grid / LED-matrix background** (fixed pixel grid, flow-driven), follow `references/background-fluid-grid.md` (`geek-fluid-grid` + `geek-copy-params`; runnable source in `examples/fluid-grid-bg/`).
 
 **Core rules**:
 1. Generate CSS **per component family** — complete one family (e.g., buttons) before the next

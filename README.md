@@ -14,7 +14,7 @@
 
 1. **UI 设计规范**（`ui_spec.md`）—— 主题名称、风格、调色板、样式锁参数、组件清单和动画方案。
 2. **CSS 实现**（`theme.css` 或按家族拆分）—— 使用 `--geek-*` 自定义属性与 `geek-` 前缀组件类。
-3. **动态效果**（蒸馏自 JIEJOE 设计稿 + 粒子背景动画指南，见 `references/dynamic-effects.md`）—— 双层擦除按钮 `geek-btn-wipe`、背景像素画视差浮动 `geek-float-parallax`（鼠标跟随，纯 CSS / GSAP）、背景像素画错峰上浮 `geek-float-rise`（纯 CSS / GSAP）、背景像素粒子网络 `geek-particle-bg`（canvas 像素方块 + 邻近连线 + 鼠标排斥）、四向滚动光带 `geek-marquee`、CRT 水波纹 `geek-crt-ripple`。
+3. **动态效果**（蒸馏自 JIEJOE 设计稿 + 粒子背景动画指南，见 `references/dynamic-effects.md`）—— 双层擦除按钮 `geek-btn-wipe`、背景像素画视差浮动 `geek-float-parallax`（鼠标跟随，纯 CSS / GSAP）、背景像素画错峰上浮 `geek-float-rise`（纯 CSS / GSAP）、背景像素粒子网络 `geek-particle-bg`（canvas 像素方块 + 邻近连线 + 鼠标排斥）、四向滚动光带 `geek-marquee`、CRT 水波纹 `geek-crt-ripple`。以及**流体网格像素背景** `geek-fluid-grid`（Canvas 双引擎：噪声/波浪/涡流流场 + 鼠标扰动，或双噪声场 + 呼吸潮汐；含 `geek-copy-params` 复制参数按钮；见 `references/background-fluid-grid.md`，完整源码在 `examples/fluid-grid-bg/`）。以上 JIEJOE 动效的完整 Vue 实现见 `examples/geek-homepage/`（CYBER GEEK 个人主页），全部可运行示例见 `examples/README.md`。
 4. **验证** —— 自动检查每个组件是否遵守样式锁规则。
 
 核心产出形态示例：
@@ -50,6 +50,7 @@
 - "pixel-style the UI"、"make a pixel theme"、"generate pixel CSS"
 - "terminal style"、"hacker theme"、"geek UI"
 - **像素风界面**、**像素样式开发**、**像素按钮**、**像素背景**、**像素窗口**（向后兼容别名）
+- **流体网格**、**点阵背景**、**背景噪声**、**粒子背景**（canvas 背景）
 - **暗黑终端**、**终端极客**、**黑客风**、**角标**、**CRT**、**scanline**、**glitch**、**typewriter**
 - `pixel-ui-maker`
 
