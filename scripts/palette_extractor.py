@@ -48,7 +48,7 @@ def analyze_css(css_path):
         "unique_colors": len(extract_colors(css_path)),
         "has_gradient": bool(re.search(r"(linear|radial|conic)-gradient", text)),
         "has_filter_blur": bool(re.search(r"filter\s*:\s*[^;}]*blur", text)),
-        "class_count": len(re.findall(r"\.pix-[\w-]+", text)),
+        "class_count": len(re.findall(r"\.geek-[\w-]+", text)),
     }
 
 

@@ -1,23 +1,24 @@
 #!/usr/bin/env python3
 """
-Style Validator for Pixel UI Maker
+Style Validator for Pixel UI Maker (dark terminal / geek lock)
 
-Validates a CSS file against the pixel style-lock rules:
+Validates a CSS file against the "geek lock" rules (SJTU SITA dark-hacker-terminal language):
 - All HEX colors come from the declared palette OR the theme's own custom properties
-- border-radius <= 2px
-- No gradient fills (repeating hard-edge patterns allowed)
-- box-shadow hard only (blur/spread radius == 0 or absent)
-- No filter: blur(...)
-- opacity only 0 or 1 (non-binary -> warning)
-- Spacing on the grid unit (when --grid given)
+- border-radius: 0px on boxes (allowed: 0/1/2px, 50% on dots, 8px on scrollbars)
+- Soft shadows + neon glows allowed (blur/spread unrestricted)
+- Gradients allowed (grid lines, CRT scanlines, radial glows)
+- filter: blur / backdrop-filter allowed (blurred nav)
+- Fractional opacity allowed
+- Spacing: integer px only (no strict grid enforcement)
 - Class names follow a prefix contract (when --prefix given)
 
-Custom properties (var(--pix-*)) are resolved against the file's own :root
+Custom properties (var(--geek-*)) are resolved against the file's own :root
 definitions before validation, so themed components validate cleanly.
 
 Usage:
     python style_validator.py <css_file> [--palette HEX HEX ...] [--spec FILE]
-        [--grid N] [--prefix pix-] [--strict] [--output FILE]
+        [--prefix geek-] [--strict] [--output FILE]
+    (--grid is accepted and ignored for backward compatibility)
 """
 
 import argparse
@@ -27,11 +28,11 @@ import re
 import sys
 
 HEX_RE = re.compile(r"#[0-9a-fA-F]{3,8}\b")
-GRADIENT_RE = re.compile(r"(?<!repeating-)(linear|radial|conic)-gradient")
-FILTER_BLUR_RE = re.compile(r"filter\s*:\s*[^;}]*blur", re.IGNORECASE)
 CLASS_RE = re.compile(r"\.([a-zA-Z_][\w-]*)")
 VAR_DEF_RE = re.compile(r"(--[\w-]+)\s*:\s*([^;}\n]+)")
 VAR_USE_RE = re.compile(r"var\(\s*(--[\w-]+)(?:\s*,\s*([^)]*))?\s*\)")
+# Ruleset = selector { body } where the body has no nested braces (works inside @media too)
+RULESET_RE = re.compile(r"([^{}]+)\{([^{}]*)\}", re.DOTALL)
 
 
 def normalize_hex(token):
@@ -111,80 +112,68 @@ def resolve_vars(decl, var_map, depth=6):
     return resolve_vars(resolved, var_map, depth - 1)
 
 
-def parse_lengths(shadow_part):
-    """Extract numeric length values from a shadow, ignoring color tokens."""
-    no_color = re.sub(r"#[0-9a-fA-F]{3,8}\b", " ", shadow_part)
-    no_color = re.sub(r"rgba?\([^)]*\)", " ", no_color)
-    no_color = no_color.replace("inset", " ")
-    values = []
-    for m in re.finditer(r"([+-]?\d*\.?\d+)(px|em|rem)?", no_color):
-        if m.group(1) in ("", "+", "-"):
-            continue
-        try:
-            values.append(float(m.group(1)))
-        except ValueError:
-            continue
-    return values
+def check_corners(text, violations):
+    """Every border-radius is 0 on boxes; allow 1/2px, 50% (dots), 8px (scrollbars)."""
+    for m in RULESET_RE.finditer(text):
+        selector, body = m.group(1), m.group(2)
+        for dm in re.finditer(r"border-radius\s*:\s*([^;}]+)", body, re.IGNORECASE):
+            decl = dm.group(1).strip()
+            if "var(" in decl:
+                continue  # cannot evaluate; assume themed radius
+            for value, unit in re.findall(r"(\d*\.?\d+)(px|%)\b", decl):
+                fv = float(value)
+                if unit == "%":
+                    if fv != 50:
+                        violations.append(f"border-radius {value}% must be 50% (dots) only: {decl}")
+                else:
+                    is_scrollbar = "scrollbar" in selector.lower()
+                    if fv > 2 or (is_scrollbar and fv not in (0, 1, 2, 8)):
+                        violations.append(
+                            f"border-radius {value}px exceeds the 0px geek limit "
+                            f"(allowed 0/1/2px, 50% dots, 8px scrollbars): {decl}"
+                        )
 
 
-def check_shadows(text, var_map, violations, warnings):
-    """Check every box-shadow declaration for blur/spread radius."""
+def check_shadows(text, var_map, warnings):
+    """Shadows are unrestricted (soft + glow). Only warn on unresolvable var()."""
     for m in re.finditer(r"box-shadow\s*:\s*([^;}]+)", text, re.IGNORECASE):
         decl = m.group(1)
         for part in decl.split(","):
             part = part.strip()
             if not part:
                 continue
-            resolved = resolve_vars(part, var_map)
-            if resolved is None:
+            if resolve_vars(part, var_map) is None:
                 warnings.append(f"Unresolvable var() in box-shadow: {part}")
-                continue
-            lengths = parse_lengths(resolved)
-            if len(lengths) >= 3 and abs(lengths[2]) > 0:
-                violations.append(f"Blur radius in box-shadow: {part}")
-            if len(lengths) >= 4 and abs(lengths[3]) > 0:
-                violations.append(f"Spread radius in box-shadow: {part}")
 
 
-def check_corners(text, violations):
-    """Check every border-radius declaration stays within 2px."""
-    for m in re.finditer(r"border-radius\s*:\s*([^;}]+)", text, re.IGNORECASE):
-        decl = m.group(1).strip()
-        if "var(" in decl:
-            continue  # cannot evaluate; assume themed radius
-        for num in re.findall(r"(\d*\.?\d+)px", decl):
-            if float(num) > 2:
-                violations.append(f"border-radius {num}px exceeds 2px limit: {decl}")
-
-
-def check_opacity(text, warnings):
-    """Flag non-binary opacity values (stepped overlay scrims are the allowed exception)."""
-    for m in re.finditer(r"opacity\s*:\s*([^;}]+)", text, re.IGNORECASE):
-        val = m.group(1).strip()
-        if val not in ("0", "1"):
-            warnings.append(f"Non-binary opacity '{val}' (overlay scrims only)")
-
-
-def check_grid_spacing(text, grid, warnings):
-    """Flag spacing values that are not multiples of the grid unit."""
+def check_spacing(text, warnings, violations, strict):
+    """Flag non-integer px in padding/margin/gap/inset (warning; violation under --strict)."""
     props = r"(padding|margin|gap|row-gap|column-gap|inset)(?:-[a-z]+)?"
     for m in re.finditer(r"(" + props + r")\s*:\s*([^;}]+)", text, re.IGNORECASE):
         decl = m.group(3)
         for num in re.findall(r"(\d+\.?\d*)px", decl):
-            if float(num) % grid != 0:
-                warnings.append(
-                    f"Spacing {num}px not a multiple of grid {grid}px in {m.group(1)}: {decl.strip()}"
-                )
+            if float(num) % 1 != 0:
+                msg = f"Non-integer spacing {num}px in {m.group(1)}: {decl.strip()}"
+                if strict:
+                    violations.append(msg)
+                else:
+                    warnings.append(msg)
 
 
 def check_naming(text, prefix, warnings):
-    """Flag class selectors that do not follow the prefix contract."""
+    """Flag class selectors that do not follow the prefix contract.
+
+    The signature `.corner` helper is unprefixed by design and exempt.
+    """
+    exempt = {"corner"}
     for cls in sorted(set(CLASS_RE.findall(text))):
+        if cls in exempt:
+            continue
         if not cls.startswith(prefix):
             warnings.append(f"Class '.{cls}' does not follow '{prefix}' prefix contract")
 
 
-def validate_css(css_path, palette=None, spec=None, grid=None, prefix=None, strict=False):
+def validate_css(css_path, palette=None, spec=None, prefix=None, strict=False, grid=None):
     results = {
         "valid": True,
         "violations": [],
@@ -218,28 +207,16 @@ def validate_css(css_path, palette=None, spec=None, grid=None, prefix=None, stri
             off = ["#" + c for c in off_palette]
             results["violations"].append(f"Colors outside palette/tokens: {off}")
 
-    # 2. Gradients
-    if GRADIENT_RE.search(css):
-        results["violations"].append("Gradient fill detected (repeating-* patterns are allowed)")
-
-    # 3. filter: blur
-    if FILTER_BLUR_RE.search(css):
-        results["violations"].append("filter: blur(...) is forbidden")
-
-    # 4. box-shadow hard-only
-    check_shadows(css, var_map, results["violations"], results["warnings"])
-
-    # 5. corners
+    # 2. Corners (geek: 0px boxes, dots 50%, scrollbars 8px)
     check_corners(css, results["violations"])
 
-    # 6. opacity
-    check_opacity(css, results["warnings"])
+    # 3. box-shadow — unrestricted (soft + glow), warn on unresolvable vars
+    check_shadows(css, var_map, results["warnings"])
 
-    # 7. grid spacing
-    if grid:
-        check_grid_spacing(css, grid, results["warnings"])
+    # 4. Spacing — integer px (warn; violation under --strict)
+    check_spacing(css, results["warnings"], results["violations"], strict)
 
-    # 8. naming contract
+    # 5. naming contract
     if prefix:
         check_naming(css, prefix, results["warnings"])
 
@@ -259,12 +236,12 @@ def validate_css(css_path, palette=None, spec=None, grid=None, prefix=None, stri
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Validate CSS against pixel style-lock rules")
+    parser = argparse.ArgumentParser(description="Validate CSS against geek style-lock rules")
     parser.add_argument("css", help="Path to CSS file")
-    parser.add_argument("--palette", nargs="+", help="Declared palette hex values (e.g., #111111 #5D8BFF)")
+    parser.add_argument("--palette", nargs="+", help="Declared palette hex values (e.g., #1d211c #c9151e)")
     parser.add_argument("--spec", help="Path to ui_spec.md for palette extraction")
-    parser.add_argument("--grid", type=int, help="Spacing grid unit (e.g., 4)")
-    parser.add_argument("--prefix", help="Class prefix contract (e.g., pix-)")
+    parser.add_argument("--grid", type=int, help="Deprecated (ignored) — spacing is integer px, not grid-locked")
+    parser.add_argument("--prefix", default="geek-", help="Class prefix contract (default: geek-)")
     parser.add_argument("--strict", action="store_true", help="Warnings count as failure")
     parser.add_argument("--output", "-o", help="Output JSON file path")
     args = parser.parse_args()
@@ -274,7 +251,7 @@ def main():
         sys.exit(1)
 
     palette = load_palette(args.palette) if args.palette else None
-    results = validate_css(args.css, palette, args.spec, args.grid, args.prefix, args.strict)
+    results = validate_css(args.css, palette, args.spec, args.prefix, args.strict, args.grid)
 
     output = json.dumps(results, indent=2)
 

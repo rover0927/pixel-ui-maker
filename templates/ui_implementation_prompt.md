@@ -1,6 +1,6 @@
-# Pixel UI Implementation Prompt
+# Dark Terminal Geek UI Implementation Prompt
 
-> Universal template for generating pixel-art CSS/component implementations with consistent style across all components.
+> Universal template for generating dark-hacker/terminal CSS/component implementations (SJTU SITA style) with consistent style across all components.
 
 ---
 
@@ -10,116 +10,145 @@
 Theme:       [name]
 Interface:   [login page / dashboard / settings / ...]
 Framework:   [vue / react / plain / mini-program]
-Style:       [pixel style]
-Grid:        [N]px base unit
-Corner:      [0|2]px
-Border:      [N]px per component type
+Style:       [SJTU SITA dark terminal / 暗黑终端极客 / retro terminal]
+Corner:      [0]px (boxes; dots 50%, scrollbars 8px, code 2px)
+Border:      [1]px hairline per component type
+Spacing:     integer px, loose (base [N]px)
 
 Palette (≤ [N] colors):
-  background    → #[hex]
-  surface       → #[hex]
-  line          → #[hex]
-  text-primary  → #[hex]
-  text-secondary→ #[hex]
-  accent        → #[hex]
-  accent-hover  → #[hex]
-  accent-edge   → #[hex]
-  accent-shadow → #[hex]
-  danger        → #[hex]
-  success       → #[hex]
-  overlay       → #[hex]
+  background   → #[hex]   /* olive dark, default #1d211c */
+  surface      → #[hex]   /* default #232825 */
+  line         → #[hex]   /* default #2c3330 */
+  red-accent   → #[hex]   /* primary, default #c9151e */
+  text         → #[hex]   /* default #ffffff */
+  text-secondary→ #[hex]  /* default #c9cfca */
+  text-muted   → #[hex]   /* default #8a918d */
+  teal         → #[hex]   /* success / 研究, default #43d9c1 */
+  blue         → #[hex]   /* info, default #7aa6ff */
+  amber        → #[hex]   /* warn, default #ffc043 */
+  crimson      → #[hex]   /* danger, default #c8324a */
   ...
 ```
 
 ## 2. Style Lock (ALL components)
 
 ```
-- Corner radius 0-2px ONLY
-- Integer px borders, consistent per component type
-- HARD shadows only: box-shadow: offsetX offsetY color (NO blur/spread)
-- NO gradients for fills (repeating hard-edge patterns allowed for texture)
-- NO filter: blur(...)
-- Opacity 0 or 1 (stepped overlay alpha allowed)
-- All spacing = multiples of [N]px grid
+- Corner radius: 0px on boxes (dots 50%, scrollbars 8px, code 2px)
+- 1px hairline borders, consistent per component type
+- Soft shadows + neon glows allowed: card 0 8px 32px rgba(0,0,0,.45),
+  glow 0 0 24px rgba(201,21,30,.45)
+- Gradients allowed (grid lines, CRT scanlines, radial glows)
+- filter: blur / backdrop-filter allowed (blurred nav)
+- Fractional opacity allowed (scanlines .025, glows .45)
+- Spacing: integer px (loose, no strict grid)
 - Colors from declared palette ONLY
-- Class prefix `pix-`, custom properties `--pix-*`
-- Motion uses steps() or short linear, with reduced-motion fallback
+- Class prefix `geek-`, custom properties `--geek-*`
+- Motion: smooth ease (.2s colors / .3s transform / .6s zoom / .8s reveal);
+  typewriter caret & glitch use steps(1); reduced-motion fallback mandatory
+- Signature motifs MUST be used: `.corner` red brackets on cards,
+  `//` eyebrow labels, CRT scanlines, typewriter caret, glowing dots
 ```
 
 ## 3. Custom Properties (`:root`)
 
 ```
 :root {
-  --pix-color-bg:        #[hex];
-  --pix-color-surface:   #[hex];
-  --pix-color-line:      #[hex];
-  --pix-color-text:      #[hex];
-  --pix-color-text-dim:  #[hex];
-  --pix-color-accent:    #[hex];
-  --pix-color-accent-hover: #[hex];
-  --pix-color-accent-edge:  #[hex];
-  --pix-color-accent-shadow: #[hex];
-  --pix-color-danger:    #[hex];
-  --pix-color-success:   #[hex];
-  --pix-color-overlay:   #[hex];
+  --geek-color-bg:        #[hex];   /* default #1d211c */
+  --geek-color-bg-soft:   #[hex];   /* default #232825 */
+  --geek-color-line:      #[hex];   /* default #2c3330 */
+  --geek-color-red:       #[hex];   /* default #c9151e */
+  --geek-color-red-soft:  rgba(201, 21, 30, .13);
+  --geek-color-text:      #[hex];   /* default #ffffff */
+  --geek-color-text-dim:  #[hex];   /* default #c9cfca */
+  --geek-color-text-mute: #[hex];   /* default #8a918d */
+  --geek-color-teal:      #[hex];   /* default #43d9c1 */
+  --geek-color-blue:      #[hex];   /* default #7aa6ff */
+  --geek-color-amber:     #[hex];   /* default #ffc043 */
+  --geek-color-crimson:   #[hex];   /* default #c8324a */
 
-  --pix-space-1: [N]px;  --pix-space-2: calc([N]*2);  /* keep multiples */
-  --pix-radius: [0|2]px;
-  --pix-border: [N]px;
-  --pix-shadow-panel:  [X]px [Y]px 0 #[hex];
-  --pix-shadow-window: [X]px [Y]px 0 #[hex];
-  --pix-motion-fast: 80ms linear;
-  --pix-motion-hover: 150ms linear;
-  --pix-motion-enter: 160ms steps(2, end);
-  --pix-motion-exit:  120ms steps(2, end);
+  --geek-font-mono: "JetBrains Mono","Fira Code",Consolas,...,monospace;
+  --geek-font-sans: "Inter",-apple-system,...,"PingFang SC",sans-serif;
+
+  --geek-space-1: [N]px; ... --geek-space-6: [N*6]px;
+  --geek-radius: 0px;
+  --geek-border: 1px;
+
+  --geek-shadow-glow: 0 0 24px rgba(201, 21, 30, .45);
+  --geek-shadow-card: 0 8px 32px rgba(0, 0, 0, .45);
+  --geek-shadow-card-hover: 0 12px 40px rgba(0, 0, 0, .55);
+
+  --geek-motion-color: .2s ease;
+  --geek-motion-transform: .3s ease;
+  --geek-motion-zoom: .6s ease;
+  --geek-motion-reveal: .8s ease;
+
+  /* dynamic effects (see references/dynamic-effects.md) */
+  --geek-motion-wipe:    .4s ease;
+  --geek-motion-rise:    .8s ease;
+  --geek-motion-marquee: 8s linear infinite;
+  --geek-motion-parallax: 3s ease;
+  --geek-parallax-x:     0px;   /* pointer X → layer drift (written by JS) */
+  --geek-parallax-rot:   0deg;  /* pointer Y → bg rotation, capped ±15deg */
+  --geek-stagger:        120ms;
+  --geek-rise-height:    100%;
 }
 ```
 
 ## 4. Component-by-Component Spec
 
-### A. Buttons — `pix-btn`
+### A. Buttons — `geek-btn`
 
 | State | Value |
 |-------|-------|
-| base | `background: accent; border: 2px solid accent-edge; border-radius: radius; box-shadow: 0 4px 0 accent-shadow;` |
-| hover | `background: accent-hover;` |
-| active | `transform: translateY(3px); box-shadow: 0 1px 0 accent-shadow;` |
-| focus-visible | `outline: 3px solid accent; outline-offset: 2px;` |
-| disabled | desaturated, `cursor: not-allowed`, no shadow |
+| base | `font-family: mono; font-size:14px; letter-spacing:.08em; background: transparent; border:1px solid text; radius 0; padding:14px 22px;` |
+| hover | `transform: translateY(-2px);` (primary inverts: white bg + red text + glow) |
+| active | `transform: translateY(0);` |
+| focus-visible | `outline: 3px solid red; outline-offset: 2px;` |
+| disabled | `opacity:.5; cursor: not-allowed;` |
 
-Variants: `--solid`, `--outlined`, `--ghost`, `--danger`, `--success`. Sizes: `--sm` 32px / `--md` 40px / `--lg` 48px.
+Variants: `--primary` (red fill), `--ghost` (hover `#ffffff14` + red border), `--danger` (crimson). Sizes: `--sm` / `--lg`.
 
-### B. Backgrounds — `pix-bg--*`
-
-| Class | Recipe |
-|-------|--------|
-| `pix-bg--flat` | solid color |
-| `pix-bg--checker` | `repeating-conic-gradient` at [N]px cell |
-| `pix-bg--grid` | 1px `repeating-linear-gradient` lines at [N]px |
-| `pix-bg--scanline` | 3-4px hard line overlay |
-| `pix-bg--vignette` | nested hard inset shadows, stepped |
-
-### C. Container Windows — `pix-window` / `pix-panel` / `pix-card`
+### B. Cards / Windows — `geek-card` / `geek-panel` / `geek-window`
 
 | Class | Rule |
 |-------|------|
-| `pix-window` | 2px border, 6px 6px 0 shadow, `--radius`, `overflow: hidden` |
-| `pix-window__title` | accent-dark bar, 8px padding, pixel text |
-| `pix-window__btn` | 16x16 flat squares, hover invert, active press |
-| `pix-window__body` | surface fill, grid padding, square scrollbar |
-| `pix-panel` | 2px border, 4px 4px 0 shadow |
-| `pix-panel--sunken` | `inset 2px 2px 0` shadow |
-| `pix-card` | like panel, optional title |
+| `geek-card` | `position:relative; bg-soft; 1px line; radius 0; card shadow`; hover `translateY(-4px)` + red border; `.corner` brackets |
+| `.corner` | 14×14 red L-brackets (top-left `:before` + bottom-right `:after`) |
+| `geek-window` | like card + `overflow:hidden`; `__title` = 4px red top bar + mono title |
+| `geek-tag` | mono 12px, radius 0, status color + 13% alpha soft bg |
+
+### C. Eyebrow / Timeline / Typewriter / Backgrounds
+
+| Class | Recipe |
+|-------|--------|
+| `geek-eyebrow` | mono 13px red `.18em` uppercase; `:before` = 28px red line; text begins with `//` |
+| `geek-timeline` | red vertical gradient line + 11px glowing red dot (`0 0 14px`) |
+| `geek-typewriter__caret` | `▌` red, `1s steps(1) infinite` blink |
+| `geek-bg--scanline` | `repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px)` |
+| `geek-bg--grid` | 56px `linear-gradient` lines |
+| `geek-glitch` | red + teal clip-path slices, `mix-blend-mode: screen` |
 
 ### D. Interaction Animations
 
-| Class / Keyframe | Recipe |
-|------------------|--------|
-| `pix-pop` | 0% scale(0) → 50% scale(1.1) → 100% scale(1), `steps(2)` |
-| `pix-bob` | translateY 0 / -2px / 0, 2s infinite `steps(2)` |
-| `pix-shake` | translateX 0 / -3px / 3px / 0 |
-| `[data-open]` | apply pop-in on mount; stagger children 40ms multiples |
-| reduced-motion | kill all animations/transitions, show final states |
+| Keyframe | Recipe |
+|----------|--------|
+| `geek-blink` | `50% { opacity: 0 }`, `1s steps(1) infinite` |
+| `geek-fade-up` | opacity 0→1 + translateY(24px)→0, `.8s ease` (scroll reveal) |
+| `geek-glitch-a/b` | clip-path slices + translate, `3s steps(1) infinite` |
+| `geek-rise` | translateY(var(--geek-rise-height))→0 + opacity 0→1, `--geek-motion-rise`, delay `calc(var(--i) * var(--geek-stagger))` |
+| `geek-marquee-x/y` | `to { transform: translateX(-50%) }` / `translateY(-50%)`, `--geek-motion-marquee` |
+
+### E. Dynamic Effects (recipes in `references/dynamic-effects.md`)
+
+| Effect | Recipe |
+|--------|--------|
+| `geek-btn-wipe` | `overflow:hidden`; `:before`/`:after` layers at `translateX(-100%)` → wipe to `0` on hover, `:after` delayed `.1s`; label `-13%→0` + color flip; icon `320%→550%` |
+| `geek-float-parallax` | layers at opposite corners inside `overflow:hidden`; on pointermove write `--geek-parallax-x`/`--geek-parallax-rot`; bg `rotate(var(--geek-parallax-rot))`, big layer `translateX(var(--geek-parallax-x))`, small layer `translateX(calc(var(--geek-parallax-x) * -1))`, all `--geek-motion-parallax`; JS skips under reduced-motion |
+| `geek-float-rise` | container `overflow:hidden`; tiles `translateY(var(--geek-rise-height))`; `.geek-float-rise--active img` animates `geek-rise` with `--i` stagger; GSAP variant `power3.out` + `stagger:.1` |
+| `geek-particle-bg` | canvas 2D pixel **squares** (`fillRect`, integer 1–3px) in palette colors; proximity links under `linkDist` (alpha fades with distance); mouse repel radius + cyan cursor links; DPR capped 2; rAF loop; static frame under reduced-motion |
+| `geek-marquee` | duplicate content in one track, `translate(-50%)` for seamless loop; `--up/--down/--left/--right` directions |
+| `geek-crt-ripple` | SVG `feTurbulence` + `feDisplacementMap`; rAF loop nudges `seed`/`scale`; `filter: url(#geek-crt-ripple)` |
+| reduced-motion | kill all animations/transitions, reveal final states (`transform: translateX(0)` / `translateY(0)` / opacity 1) |
 
 ## 5. Output Format
 

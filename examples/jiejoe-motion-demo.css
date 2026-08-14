@@ -1,0 +1,261 @@
+/* ==========================================================================
+   jiejoe-motion-demo.css — distilled dynamic effects for the geek lock
+   Effects: geek-btn-wipe, geek-float-rise, geek-marquee, geek-crt-ripple
+   Source: references/dynamic-effects.md  (distilled from JIEJOE portfolio)
+   ========================================================================== */
+
+:root {
+  /* geek palette (SJTU SITA default) */
+  --geek-color-bg:        #1d211c;
+  --geek-color-bg-soft:   #232825;
+  --geek-color-line:      #2c3330;
+  --geek-color-red:       #c9151e;
+  --geek-color-text:      #ffffff;
+  --geek-color-text-dim:  #c9cfca;
+  --geek-color-text-mute: #8a918d;
+  --geek-color-teal:      #43d9c1;
+  --geek-font-mono: "JetBrains Mono","Fira Code",Consolas,monospace;
+  --geek-font-sans: "Inter",-apple-system,"PingFang SC",sans-serif;
+  --geek-space-1: 4px;  --geek-space-2: 8px;  --geek-space-3: 12px;
+  --geek-space-4: 16px; --geek-space-5: 24px; --geek-space-6: 32px;
+  --geek-radius: 0px;
+  --geek-border: 1px;
+  --geek-shadow-card: 0 8px 32px rgba(0,0,0,.45);
+  --geek-shadow-glow: 0 0 24px rgba(201,21,30,.45);
+  --geek-motion-color: .2s ease;
+  --geek-motion-transform: .3s ease;
+  --geek-motion-zoom: .6s ease;
+  --geek-motion-reveal: .8s ease;
+  /* dynamic-effects motion contract */
+  --geek-motion-wipe:    .4s ease;
+  --geek-motion-rise:    .8s ease;
+  --geek-motion-marquee: 8s linear infinite;
+  --geek-stagger:        120ms;
+  --geek-rise-height:    100%;
+}
+
+/* jiejoe original palette (green-on-black) — flip via data-theme="jiejoe" */
+:root[data-theme="jiejoe"] {
+  --geek-color-bg:        #0d0d0d;
+  --geek-color-bg-soft:   #f2f2f2;
+  --geek-color-line:      #2a2a2a;
+  --geek-color-red:       #17f700;
+  --geek-color-text:      #ffffff;
+  --geek-color-text-dim:  #c9cfca;
+  --geek-color-text-mute: #6a6a6a;
+  --geek-shadow-glow:     0 0 24px rgba(23,247,0,.35);
+}
+
+/* ---- base / layout ---- */
+.geek-demo {
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--geek-space-6);
+  min-height: 100vh;
+  font-family: var(--geek-font-sans);
+  color: var(--geek-color-text);
+  background-color: var(--geek-color-bg);
+  background-image:
+    linear-gradient(1px, transparent 1px, rgba(201,21,30,.06) 1px, transparent 2px),
+    linear-gradient(90deg, transparent 1px, rgba(201,21,30,.06) 1px, transparent 2px);
+  background-size: 56px 56px;
+}
+.geek-demo h1,
+.geek-demo h2 {
+  font-family: var(--geek-font-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.geek-demo h1 { font-size: 22px; }
+.geek-demo h2 { font-size: 15px; color: var(--geek-color-red); }
+.geek-demo section { margin-bottom: var(--geek-space-6); }
+
+.geek-demo__row { display: flex; gap: var(--geek-space-4); align-items: center; flex-wrap: wrap; }
+
+/* ==========================================================================
+   1. geek-btn-wipe — dual-layer wipe button (from JIEJOE CONTACT)
+   ========================================================================== */
+.geek-btn-wipe {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 22px;
+  font-family: var(--geek-font-mono);
+  font-size: 14px;
+  letter-spacing: .08em;
+  color: var(--geek-color-red);
+  background: transparent;
+  border: 1px solid var(--geek-color-red);
+  border-radius: 0;
+  cursor: pointer;
+  overflow: hidden;
+  transition: color var(--geek-motion-wipe);
+}
+.geek-btn-wipe:before,
+.geek-btn-wipe:after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  transform: translateX(-100%);
+  z-index: 0;
+}
+.geek-btn-wipe:before { background: var(--geek-color-bg-soft); transition: transform var(--geek-motion-wipe); }
+.geek-btn-wipe:after  { background: var(--geek-color-red);     transition: transform var(--geek-motion-wipe); transition-delay: .1s; }
+.geek-btn-wipe:hover:before,
+.geek-btn-wipe:hover:after { transform: translateX(0); }
+.geek-btn-wipe__label {
+  position: relative; z-index: 1;
+  transform: translateX(-13%);
+  transition: color var(--geek-motion-wipe), transform var(--geek-motion-wipe);
+}
+.geek-btn-wipe__icon {
+  position: relative; z-index: 1;
+  width: 14px; height: 14px;
+  transform: translateX(320%);
+  transition: transform var(--geek-motion-wipe);
+}
+.geek-btn-wipe__icon line,
+.geek-btn-wipe__icon polyline {
+  fill: none;
+  stroke: var(--geek-color-text);
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+.geek-btn-wipe:hover .geek-btn-wipe__label { color: var(--geek-color-text); transform: translateX(0); }
+.geek-btn-wipe:hover .geek-btn-wipe__icon  { transform: translateX(550%); }
+.geek-btn-wipe:active .geek-btn-wipe__label,
+.geek-btn-wipe:active .geek-btn-wipe__icon { transition-duration: .2s; }
+.geek-btn-wipe:focus-visible { outline: 3px solid var(--geek-color-red); outline-offset: 2px; }
+
+/* ==========================================================================
+   2. geek-float-rise — staggered background pixel-art rise (from JIEJOE menu)
+   ========================================================================== */
+.geek-menu-open { padding: var(--geek-space-4) var(--geek-space-5); }
+
+.geek-float-rise {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+  width: 100%; height: 100%;
+}
+.geek-float-rise img {
+  position: absolute;
+  opacity: 0;
+  transform: translateY(var(--geek-rise-height));
+  will-change: transform, opacity;
+}
+.geek-float-rise--active img {
+  animation: geek-rise var(--geek-motion-rise) both;
+  animation-delay: calc(var(--i) * var(--geek-stagger));
+}
+@keyframes geek-rise {
+  from { transform: translateY(var(--geek-rise-height)); opacity: 0; }
+  to   { transform: translateY(0);                       opacity: 1; }
+}
+
+/* demo overlay panel */
+.geek-panel {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 480px; height: 320px;
+  background-color: var(--geek-color-bg-soft);
+  border: 1px solid var(--geek-color-line);
+  border-radius: 0;
+  box-shadow: var(--geek-shadow-card);
+}
+.geek-panel__label {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding: var(--geek-space-4);
+  font-family: var(--geek-font-mono);
+  font-size: 12px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--geek-color-red);
+}
+
+/* ==========================================================================
+   3. geek-marquee — 4-direction scrolling strips (from JIEJOE draglines)
+   ========================================================================== */
+.geek-marquee-stage {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100%; height: 88px;
+  background-color: var(--geek-color-bg-soft);
+  border: 1px solid var(--geek-color-line);
+  border-radius: 0;
+}
+.geek-marquee {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+}
+.geek-marquee--x { top: 50%; left: 0; right: 0; height: 44px; transform: translateY(-50%); }
+.geek-marquee--y { left: 50%; top: 0; bottom: 0; width: 44px; transform: translateX(-50%); }
+.geek-marquee__track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: geek-marquee-x var(--geek-motion-marquee);
+}
+.geek-marquee--y .geek-marquee__track {
+  flex-direction: column;
+  animation: geek-marquee-y var(--geek-motion-marquee);
+}
+.geek-marquee--down .geek-marquee__track,
+.geek-marquee--left  .geek-marquee__track { animation-direction: reverse; }
+.geek-marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  padding-right: 24px;
+  font-family: var(--geek-font-mono);
+  font-size: 22px;
+  letter-spacing: .12em;
+  color: var(--geek-color-text-mute);
+}
+.geek-marquee--y .geek-marquee__item {
+  writing-mode: vertical-rl;
+  padding-right: 0;
+  padding-bottom: 24px;
+}
+@keyframes geek-marquee-x { to { transform: translateX(-50%); } }
+@keyframes geek-marquee-y { to { transform: translateY(-50%); } }
+
+/* ==========================================================================
+   4. geek-crt-ripple — CRT water ripple filter (from JIEJOE video covers)
+   ========================================================================== */
+.geek-screen {
+  box-sizing: border-box;
+  width: 100%; height: 160px;
+  padding: var(--geek-space-4);
+  font-family: var(--geek-font-mono);
+  font-size: 13px;
+  letter-spacing: .1em;
+  color: var(--geek-color-teal);
+  background-color: #0a0e0c;
+  border: 1px solid var(--geek-color-line);
+  border-radius: 0;
+  overflow: hidden;
+}
+.geek-screen--ripple { filter: url(#geek-crt-ripple); }
+
+/* ---- reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .geek-btn-wipe:before,
+  .geek-btn-wipe:after,
+  .geek-float-rise img,
+  .geek-marquee__track {
+    animation: none !important;
+    transition: none !important;
+  }
+  .geek-btn-wipe:before,
+  .geek-btn-wipe:after { transform: translateX(0); }
+  .geek-float-rise img  { transform: translateY(0); opacity: 1; }
+}

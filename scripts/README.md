@@ -1,4 +1,4 @@
-# Pixel UI Maker - Scripts Reference
+# Pixel UI Maker - Scripts Reference (dark terminal geek lock)
 
 ## Overview
 
@@ -26,14 +26,14 @@ python skills/pixel-ui-maker/scripts/palette_extractor.py theme.css --format jso
 
 ### style_validator.py
 
-Validate a CSS file against the pixel style-lock rules.
+Validate a CSS file against the geek style-lock rules.
 
 ```bash
 # Validate against an explicit palette
-python skills/pixel-ui-maker/scripts/style_validator.py theme.css --palette "#111111" "#1E1E1E" "#5D8BFF"
+python skills/pixel-ui-maker/scripts/style_validator.py theme.css --palette "#1d211c" "#232825" "#c9151e"
 
-# Validate using palette from ui_spec.md, plus grid and naming contract
-python skills/pixel-ui-maker/scripts/style_validator.py theme.css --spec ui_spec.md --grid 4 --prefix pix-
+# Validate using palette from ui_spec.md, plus the naming contract
+python skills/pixel-ui-maker/scripts/style_validator.py theme.css --spec ui_spec.md --prefix geek-
 
 # Strict mode (warnings count as failures)
 python skills/pixel-ui-maker/scripts/style_validator.py theme.css --spec ui_spec.md --strict
@@ -44,13 +44,12 @@ python skills/pixel-ui-maker/scripts/style_validator.py theme.css --spec ui_spec
 
 Checks performed:
 - All HEX colors from declared palette
-- `border-radius` ≤ 2px
-- No gradient fills (`repeating-*` texture patterns allowed)
-- `box-shadow` hard only (blur/spread radius must be 0 or absent)
-- No `filter: blur(...)`
-- `opacity` 0 or 1 (non-binary → warning)
-- Spacing on the grid unit (with `--grid N`)
-- Class names follow prefix contract (with `--prefix pix-`)
+- `border-radius` 0px on boxes (allowed: 1/2px, dots 50%, scrollbars 8px)
+- Integer px spacing (non-integer → warning, or violation under `--strict`)
+- Class names follow prefix contract (default `--prefix geek-`)
+- Soft shadows / gradients / fractional opacity / blur are allowed (no violations)
+
+`--grid` is accepted and ignored for backward compatibility (spacing is integer px, not grid-locked).
 
 Exit code 0 = valid, 1 = invalid.
 
@@ -66,12 +65,13 @@ python skills/pixel-ui-maker/scripts/theme_scaffolder.py ui_spec.md --output the
 python skills/pixel-ui-maker/scripts/theme_scaffolder.py ui_spec.md --print
 ```
 
-The skeleton parses the spec's Color Palette table and Style Definition table to build `:root` custom properties, then emits component class scaffolds (buttons, backgrounds, windows, animations) as a starting point for Step 4 Implementation Generation.
+The skeleton parses the spec's Color Palette table and Style Definition table to build `:root` custom properties (`--geek-*`), then emits component class scaffolds (buttons, corner brackets, cards/windows, tags, eyebrow, backgrounds, glitch, timeline, typewriter, animations) as a starting point for Step 4 Implementation Generation.
 
 ## Naming Contract
 
 Generated themes MUST follow:
-- Class prefix: `pix-` (e.g., `.pix-btn`, `.pix-window`)
-- Custom properties: `--pix-*` (e.g., `--pix-color-accent`, `--pix-space-2`)
+- Class prefix: `geek-` (e.g., `.geek-btn`, `.geek-card`, `.geek-window`)
+- Custom properties: `--geek-*` (e.g., `--geek-color-red`, `--geek-space-2`, `--geek-shadow-glow`)
+- Signature `.corner` helper is unprefixed by design
 
 `style_validator.py` and `theme_scaffolder.py` rely on this contract.

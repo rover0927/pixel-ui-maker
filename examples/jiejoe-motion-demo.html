@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JIEJOE 蒸馏动效 — geek 风格演示</title>
+  <link rel="stylesheet" href="jiejoe-motion-demo.css">
+</head>
+<body class="geek-demo">
+
+  <h1>// JIEJOE 蒸馏动效 · geek 风格</h1>
+  <p style="color:var(--geek-color-text-dim);font-family:var(--geek-font-mono);letter-spacing:.1em;">
+    geek-btn-wipe · geek-float-rise · geek-marquee · geek-crt-ripple
+    &nbsp;|&nbsp; <button id="themeToggle" class="geek-btn-wipe" type="button"
+      style="padding:8px 14px;font-size:12px;"><span class="geek-btn-wipe__label">SWITCH PALETTE</span></button>
+  </p>
+
+  <section>
+    <h2>1. geek-btn-wipe — 双层擦除按钮（hover）</h2>
+    <div class="geek-demo__row">
+      <button class="geek-btn-wipe" type="button">
+        <span class="geek-btn-wipe__label">CONTACT</span>
+        <svg class="geek-btn-wipe__icon" viewBox="0 0 50 50" aria-hidden="true">
+          <polyline points="12,25 38,25" />
+          <polyline points="28,15 38,25 28,35" />
+        </svg>
+      </button>
+      <button class="geek-btn-wipe" type="button">
+        <span class="geek-btn-wipe__label">OPEN MENU</span>
+        <svg class="geek-btn-wipe__icon" viewBox="0 0 50 50" aria-hidden="true">
+          <line x1="12" y1="25" x2="38" y2="25" />
+          <line x1="20" y1="18" x2="38" y2="25" />
+          <line x1="20" y1="32" x2="38" y2="25" />
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <section>
+    <h2>2. geek-float-rise — 背景像素画错峰上浮（点按钮重播）</h2>
+    <div class="geek-demo__row">
+      <div class="geek-panel">
+        <p class="geek-panel__label">// MENU</p>
+        <div class="geek-float-rise" id="floatRise">
+          <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23c9151e'/%3E%3Crect x='10' y='10' width='20' height='20' fill='%231d211c'/%3E%3Crect x='16' y='16' width='8' height='8' fill='%23c9151e'/%3E%3C/svg%3E"
+               alt="tile A" style="--i:0; top:12%; left:15%; width:64px;">
+          <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23ffffff' opacity='.9'/%3E%3Crect x='8' y='8' width='24' height='24' fill='%23c9151e'/%3E%3Crect x='16' y='16' width='8' height='8' fill='%23ffffff'/%3E%3C/svg%3E"
+               alt="tile B" style="--i:1; top:6%; right:10%; width:56px;">
+          <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%231d211c'/%3E%3Crect x='6' y='22' width='28' height='12' fill='%23c9151e'/%3E%3Crect x='10' y='6' width='6' height='16' fill='%23ffffff' opacity='.6'/%3E%3Crect x='20' y='10' width='6' height='12' fill='%23ffffff' opacity='.6'/%3E%3C/svg%3E"
+               alt="tile C" style="--i:2; bottom:8%; left:10%; width:72px;">
+          <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23232825'/%3E%3Crect x='14' y='8' width='12' height='12' fill='%23ffffff' opacity='.8'/%3E%3Crect x='8' y='24' width='24' height='8' fill='%23c9151e'/%3E%3C/svg%3E"
+               alt="tile D" style="--i:3; bottom:10%; right:14%; width:52px;">
+        </div>
+      </div>
+      <button class="geek-btn-wipe" id="replayBtn" type="button">
+        <span class="geek-btn-wipe__label">REPLAY</span>
+        <svg class="geek-btn-wipe__icon" viewBox="0 0 50 50" aria-hidden="true">
+          <polyline points="12,25 38,25" />
+          <polyline points="28,15 38,25 28,35" />
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. geek-marquee — 四向滚动光带</h2>
+    <div class="geek-marquee-stage">
+      <div class="geek-marquee geek-marquee--x">
+        <div class="geek-marquee__track">
+          <span class="geek-marquee__item">PHOTOS →</span>
+          <span class="geek-marquee__item">PHOTOS →</span>
+          <span class="geek-marquee__item">PHOTOS →</span>
+          <span class="geek-marquee__item">PHOTOS →</span>
+          <span class="geek-marquee__item">PHOTOS →</span>
+          <span class="geek-marquee__item">PHOTOS →</span>
+          <span class="geek-marquee__item">PHOTOS →</span>
+          <span class="geek-marquee__item">PHOTOS →</span>
+        </div>
+      </div>
+      <div class="geek-marquee geek-marquee--y">
+        <div class="geek-marquee__track">
+          <span class="geek-marquee__item">PHOTOS</span>
+          <span class="geek-marquee__item">PHOTOS</span>
+          <span class="geek-marquee__item">PHOTOS</span>
+          <span class="geek-marquee__item">PHOTOS</span>
+          <span class="geek-marquee__item">PHOTOS</span>
+          <span class="geek-marquee__item">PHOTOS</span>
+          <span class="geek-marquee__item">PHOTOS</span>
+          <span class="geek-marquee__item">PHOTOS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>4. geek-crt-ripple — CRT 水波纹</h2>
+    <div class="geek-screen geek-screen--ripple" id="crtScreen">
+      &gt; GEEK SYSTEM ONLINE<br>
+      &gt; ripple driver: rAF · seed &amp; scale nudge<br>
+      &gt; target: element with filter: url(#geek-crt-ripple)
+    </div>
+    <svg width="0" height="0" aria-hidden="true" style="position:absolute;">
+      <defs>
+        <filter id="geek-crt-ripple">
+          <feTurbulence type="turbulence" baseFrequency="0 1" numOctaves="2" seed="1" result="n" stitchTiles="stitch" />
+          <feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+    </svg>
+  </section>
+
+  <script>
+    // geek-float-rise replay — re-trigger the stagger rise
+    var rise = document.getElementById('floatRise');
+    function replay() {
+      rise.classList.remove('geek-float-rise--active');
+      void rise.offsetWidth;               // force reflow to restart CSS animation
+      rise.classList.add('geek-float-rise--active');
+    }
+    document.getElementById('replayBtn').addEventListener('click', replay);
+    replay();                              // play once on load
+
+    // geek-crt-ripple driver — nudge turbulence seed + displacement scale per frame
+    var turb = document.querySelector('#geek-crt-ripple feTurbulence');
+    var disp  = document.querySelector('#geek-crt-ripple feDisplacementMap');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function ripple() {
+      turb.setAttribute('seed', Math.random() * 100);
+      disp.setAttribute('scale', 10 + Math.random() * 20);
+      if (!reduce.matches) requestAnimationFrame(ripple);
+    }
+    ripple();
+
+    // palette toggle — geek ⇄ jiejoe original (green on black)
+    var themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', function () {
+      document.documentElement.setAttribute('data-theme',
+        document.documentElement.getAttribute('data-theme') === 'jiejoe' ? 'geek' : 'jiejoe');
+    });
+  </script>
+</body>
+</html>

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Theme Scaffolder for Pixel UI Maker
+Theme Scaffolder for Pixel UI Maker (dark terminal / geek lock)
 
 Reads a ui_spec.md and generates a theme.css skeleton:
-- :root custom properties (--pix-color-*, --pix-space-*, style-lock params)
-- Component class scaffolds (buttons, backgrounds, windows, animations)
+- :root custom properties (--geek-color-*, --geek-space-*, fonts, shadows, motion)
+- Component class scaffolds (buttons, corner brackets, cards/windows, tags,
+  eyebrow, backgrounds, glitch, timeline, typewriter, animations)
 - prefers-reduced-motion fallback
 
 The generated skeleton is a STARTING POINT for Step 4 Implementation Generation —
@@ -15,14 +16,15 @@ Usage:
 """
 
 import argparse
-import json
 import os
 import re
 import sys
 
 ROLE_TO_PROP = {
     "background": "bg",
-    "surface": "surface",
+    "bg": "bg",
+    "surface": "bg-soft",
+    "bg-soft": "bg-soft",
     "line": "line",
     "line / border": "line",
     "border": "line",
@@ -30,18 +32,25 @@ ROLE_TO_PROP = {
     "text": "text",
     "text secondary": "text-dim",
     "text-secondary": "text-dim",
-    "accent": "accent",
-    "accent hover": "accent-hover",
-    "accent-hover": "accent-hover",
-    "accent edge": "accent-edge",
-    "accent-edge": "accent-edge",
-    "accent shadow": "accent-shadow",
-    "accent-shadow": "accent-shadow",
-    "danger": "danger",
-    "success": "success",
+    "text muted": "text-mute",
+    "text-muted": "text-mute",
+    "text mute": "text-mute",
+    "red accent": "red",
+    "accent": "red",
+    "red": "red",
+    "accent hover": "red-hover",
+    "accent-hover": "red-hover",
+    "primary": "red",
+    "primary hover": "red-hover",
+    "danger": "crimson",
+    "crimson": "crimson",
+    "success": "teal",
+    "teal": "teal",
+    "info": "blue",
+    "blue": "blue",
+    "warn": "amber",
+    "amber": "amber",
     "overlay": "overlay",
-    "primary": "accent",
-    "primary hover": "accent-hover",
 }
 
 
@@ -103,35 +112,54 @@ def parse_positive_int(field_text, default):
 
 # Defaults for theme tokens that scaffolds reference but specs often omit.
 DEFAULT_TOKENS = {
-    "text": "#FFFFFF",
-    "text-dim": "#8F92A1",
-    "shadow": "#000000",
+    "bg": "#1d211c",
+    "bg-soft": "#232825",
+    "line": "#2c3330",
+    "red": "#c9151e",
+    "text": "#ffffff",
+    "text-dim": "#c9cfca",
+    "text-mute": "#8a918d",
 }
 
+FONT_MONO = (
+    '"JetBrains Mono", "Fira Code", "SFMono-Regular", Consolas, '
+    '"Liberation Mono", Menlo, "PingFang SC", "Hiragino Sans GB", '
+    '"Microsoft YaHei", "WenQuanYi Micro Hei", monospace'
+)
+FONT_SANS = (
+    '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", '
+    '"PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif'
+)
 
-def build_root_vars(palette, grid, radius, border, panel_shadow, window_shadow, edge_depth):
+
+def build_root_vars(palette, spacing_base, radius, border):
     props = []
     used_keys = set()
     for entry in palette:
         key = ROLE_TO_PROP.get(entry["role"].lower(), slugify(entry["role"]))
-        props.append(f"  --pix-color-{key}: {entry['hex']};")
+        props.append(f"  --geek-color-{key}: {entry['hex']};")
         used_keys.add(key)
 
     # Ensure scaffold-referenced tokens exist even when the spec omits them
     for key, default in DEFAULT_TOKENS.items():
         if key not in used_keys:
-            props.append(f"  --pix-color-{key}: {default};  /* default token */")
+            props.append(f"  --geek-color-{key}: {default};  /* default token */")
 
-    space = [f"  --pix-space-{i}: {grid * i}px;" for i in range(1, 7)]
-    motion = (
-        "  --pix-motion-fast: 80ms linear;\n"
-        "  --pix-motion-hover: 150ms linear;\n"
-        "  --pix-motion-enter: 160ms steps(2, end);\n"
-        "  --pix-motion-exit: 120ms steps(2, end);"
+    space = [f"  --geek-space-{i}: {max(1, spacing_base) * i}px;" for i in range(1, 7)]
+    fonts = (
+        f"  --geek-font-mono: {FONT_MONO};\n"
+        f"  --geek-font-sans: {FONT_SANS};"
     )
-    shadow_vars = (
-        f"\n  --pix-shadow-panel: {panel_shadow or '4px 4px 0 var(--pix-color-shadow)'};"
-        f"\n  --pix-shadow-window: {window_shadow or '6px 6px 0 var(--pix-color-shadow)'};"
+    shadows = (
+        "\n  --geek-shadow-glow: 0 0 24px rgba(201, 21, 30, .45);\n"
+        "  --geek-shadow-card: 0 8px 32px rgba(0, 0, 0, .45);\n"
+        "  --geek-shadow-card-hover: 0 12px 40px rgba(0, 0, 0, .55);"
+    )
+    motion = (
+        "\n  --geek-motion-color: .2s ease;\n"
+        "  --geek-motion-transform: .3s ease;\n"
+        "  --geek-motion-zoom: .6s ease;\n"
+        "  --geek-motion-reveal: .8s ease;"
     )
 
     return (
@@ -139,163 +167,225 @@ def build_root_vars(palette, grid, radius, border, panel_shadow, window_shadow, 
         + "\n".join(props)
         + "\n"
         + "\n".join(space)
-        + f"\n  --pix-radius: {radius}px;"
-        + f"\n  --pix-border: {border}px;"
-        + f"\n  --pix-edge: {edge_depth}px;"
-        + shadow_vars
+        + f"\n  --geek-radius: {radius}px;"
+        + f"\n  --geek-border: {border}px;"
+        + shadows
         + "\n"
+        + fonts
         + motion
         + "\n}\n"
     )
 
 
 def component_scaffolds():
-    return """/* ========== Button interactions ========== */
-.pix-btn {
-  height: 40px;
-  padding: 0 16px;
-  background-color: var(--pix-color-accent);
-  border: var(--pix-border) solid var(--pix-color-accent-edge);
-  border-radius: var(--pix-radius);
-  color: var(--pix-color-text);
-  font-weight: 700;
-  letter-spacing: 1px;
+    return """/* ========== Buttons ========== */
+.geek-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  font-family: var(--geek-font-mono);
+  font-size: 14px;
+  letter-spacing: .08em;
+  background: transparent;
+  border: 1px solid var(--geek-color-text);
+  border-radius: var(--geek-radius);
+  color: var(--geek-color-text);
   cursor: pointer;
-  box-shadow: 0 var(--pix-edge) 0 var(--pix-color-accent-shadow);
-  transition: background-color var(--pix-motion-hover),
-              box-shadow var(--pix-motion-fast),
-              transform var(--pix-motion-fast);
+  transition: background-color var(--geek-motion-color),
+              color var(--geek-motion-color),
+              border-color var(--geek-motion-color),
+              box-shadow var(--geek-motion-color),
+              transform var(--geek-motion-transform);
 }
-.pix-btn:hover {
-  background-color: var(--pix-color-accent-hover);
-}
-.pix-btn:active {
-  transform: translateY(calc(var(--pix-edge) - 1px));
-  box-shadow: 0 1px 0 var(--pix-color-accent-shadow);
-  background-color: var(--pix-color-accent-shadow);
-}
-.pix-btn:focus-visible {
-  outline: 3px solid var(--pix-color-accent);
+.geek-btn:hover { transform: translateY(-2px); }
+.geek-btn:active { transform: translateY(0); }
+.geek-btn:focus-visible {
+  outline: 3px solid var(--geek-color-red);
   outline-offset: 2px;
 }
-.pix-btn:disabled {
-  opacity: 1;
-  background-color: var(--pix-color-line);
-  border-color: var(--pix-color-line);
-  color: var(--pix-color-text-dim);
-  cursor: not-allowed;
-  box-shadow: none;
+.geek-btn:disabled { opacity: .5; cursor: not-allowed; }
+.geek-btn--primary {
+  background: var(--geek-color-red);
+  border-color: var(--geek-color-red);
+  color: var(--geek-color-text);
 }
-.pix-btn--solid { /* filled (default) */ }
-.pix-btn--outlined {
-  background-color: transparent;
-  color: var(--pix-color-accent);
-  box-shadow: none;
+.geek-btn--primary:hover:not(:disabled) {
+  background: var(--geek-color-text);
+  border-color: var(--geek-color-text);
+  color: var(--geek-color-red);
+  box-shadow: var(--geek-shadow-glow);
 }
-.pix-btn--ghost {
-  background-color: transparent;
-  border-color: transparent;
-  box-shadow: none;
+.geek-btn--ghost:hover:not(:disabled) {
+  background: #ffffff14;
+  border-color: var(--geek-color-red);
 }
-.pix-btn--danger {
-  background-color: var(--pix-color-danger);
-  border-color: var(--pix-color-danger);
-  box-shadow: 0 var(--pix-edge) 0 var(--pix-color-danger);
-}
-.pix-btn-group { display: inline-flex; gap: 0; }
-.pix-btn-group .pix-btn { border-radius: 0; }
-.pix-btn-group .pix-btn + .pix-btn { border-left-width: 0; }
+.geek-btn--sm { padding: 10px 14px; font-size: 13px; }
+.geek-btn--lg { padding: 16px 28px; font-size: 15px; }
 
-/* ========== Backgrounds ========== */
-.pix-bg--flat { background-color: var(--pix-color-bg); }
-.pix-bg--checker {
-  background-color: var(--pix-color-bg);
-  background-image: repeating-conic-gradient(
-    var(--pix-color-bg) 0% 25%,
-    var(--pix-color-surface) 0% 50%
-  );
-  background-size: 8px 8px;
+/* ========== Corner brackets (signature motif) ========== */
+.corner { position: relative; }
+.corner:before, .corner:after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--geek-color-red);
 }
-.pix-bg--grid {
-  background-color: var(--pix-color-bg);
-  background-image:
-    repeating-linear-gradient(0deg, var(--pix-color-line) 0 1px, transparent 1px 8px),
-    repeating-linear-gradient(90deg, var(--pix-color-line) 0 1px, transparent 1px 8px);
-}
-.pix-bg--scanline {
-  background-image: repeating-linear-gradient(
-    0deg, transparent 0 3px, rgba(0, 0, 0, 0.5) 3px 4px
-  );
-}
+.corner:before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+.corner:after  { bottom: -1px; right: -1px; border-left: none; border-top: none; }
 
-/* ========== Container windows ========== */
-.pix-window {
-  background-color: var(--pix-color-surface);
-  border: var(--pix-border) solid var(--pix-color-line);
-  border-radius: var(--pix-radius);
-  box-shadow: var(--pix-shadow-window);
+/* ========== Cards / panels / windows ========== */
+.geek-card {
+  position: relative;
+  background: var(--geek-color-bg-soft);
+  border: 1px solid var(--geek-color-line);
+  border-radius: var(--geek-radius);
+  box-shadow: var(--geek-shadow-card);
+}
+.geek-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--geek-color-red);
+  box-shadow: var(--geek-shadow-card-hover);
+}
+.geek-panel {
+  position: relative;
+  background: var(--geek-color-bg-soft);
+  border: 1px solid var(--geek-color-line);
+  border-radius: var(--geek-radius);
+  box-shadow: var(--geek-shadow-card);
+  padding: 16px;
+}
+.geek-window {
+  position: relative;
+  background: var(--geek-color-bg-soft);
+  border: 1px solid var(--geek-color-line);
+  border-radius: var(--geek-radius);
+  box-shadow: var(--geek-shadow-card);
   overflow: hidden;
 }
-.pix-window__title {
+.geek-window__title {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px;
-  background-color: var(--pix-color-accent-shadow);
-  color: var(--pix-color-text);
-  font-weight: 700;
+  padding: 8px 16px;
+  border-top: 4px solid var(--geek-color-red);
+  font-family: var(--geek-font-mono);
+  color: var(--geek-color-text);
 }
-.pix-window__btn {
-  width: 16px;
-  height: 16px;
-  border: 1px solid var(--pix-color-text);
-  background-color: var(--pix-color-accent);
-  cursor: pointer;
+.geek-window__body { padding: 16px; background: var(--geek-color-bg-soft); }
+
+/* ========== Tags ========== */
+.geek-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--geek-radius);
+  font-family: var(--geek-font-mono);
+  font-size: 12px;
+  letter-spacing: .08em;
 }
-.pix-window__body {
-  padding: 16px;
-  background-color: var(--pix-color-surface);
-  overflow-y: auto;
+.geek-tag--teal    { color: var(--geek-color-teal);    background: rgba(67, 217, 193, .13); }
+.geek-tag--blue    { color: var(--geek-color-blue);    background: rgba(122, 166, 255, .13); }
+.geek-tag--amber   { color: var(--geek-color-amber);   background: rgba(255, 192, 67, .13); }
+.geek-tag--crimson { color: var(--geek-color-crimson); background: rgba(200, 50, 74, .13); }
+.geek-tag--muted   { color: var(--geek-color-text-mute); background: rgba(138, 145, 141, .14); }
+
+/* ========== Eyebrow label (// label) ========== */
+.geek-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--geek-font-mono);
+  font-size: 13px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--geek-color-red);
 }
-.pix-panel {
-  background-color: var(--pix-color-surface);
-  border: var(--pix-border) solid var(--pix-color-line);
-  border-radius: var(--pix-radius);
-  box-shadow: var(--pix-shadow-panel);
-  padding: 16px;
-}
-.pix-panel--sunken {
-  box-shadow: inset 2px 2px 0 var(--pix-color-shadow);
-}
-.pix-card {
-  background-color: var(--pix-color-surface);
-  border: var(--pix-border) solid var(--pix-color-line);
-  border-radius: var(--pix-radius);
-  box-shadow: var(--pix-shadow-panel);
-  padding: 16px;
+.geek-eyebrow:before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--geek-color-red);
 }
 
-/* ========== Interaction animations ========== */
-@keyframes pix-pop {
-  0%   { transform: scale(0); }
-  50%  { transform: scale(1.1); }
-  100% { transform: scale(1); }
+/* ========== Backgrounds ========== */
+.geek-bg--flat { background-color: var(--geek-color-bg); }
+.geek-bg--scanline {
+  background-image: repeating-linear-gradient(
+    0deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 3px
+  );
 }
-@keyframes pix-bob {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-2px); }
+.geek-bg--grid {
+  background-image:
+    linear-gradient(1px, transparent 1px, rgba(201, 21, 30, .06) 1px, transparent 2px),
+    linear-gradient(90deg, transparent 1px, rgba(201, 21, 30, .06) 1px, transparent 2px);
+  background-size: 56px 56px;
 }
-@keyframes pix-shake {
-  0%, 100% { transform: translateX(0); }
-  25%      { transform: translateX(-3px); }
-  75%      { transform: translateX(3px); }
+.geek-bg--radial {
+  background: radial-gradient(ellipse at center, rgba(201, 21, 30, .18), transparent 70%);
 }
-.pix-anim--pop   { animation: pix-pop 160ms steps(2, end); }
-.pix-anim--bob   { animation: pix-bob 2s steps(2, end) infinite; }
-.pix-anim--shake { animation: pix-shake 240ms steps(2, end); }
+
+/* ========== Glitch title ========== */
+.geek-glitch { position: relative; }
+.geek-glitch:before, .geek-glitch:after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+.geek-glitch:before { color: var(--geek-color-red);  mix-blend-mode: screen; animation: geek-glitch-a 3s steps(1) infinite; }
+.geek-glitch:after  { color: var(--geek-color-teal); mix-blend-mode: screen; animation: geek-glitch-b 3s steps(1) infinite; }
+
+/* ========== Timeline ========== */
+.geek-timeline {
+  position: relative;
+  padding-left: 24px;
+  background: linear-gradient(180deg, transparent 0%, var(--geek-color-red) 8%, var(--geek-color-red) 92%, transparent 100%);
+  background-position: left top;
+  background-size: 1px 100%;
+  background-repeat: no-repeat;
+}
+.geek-timeline__node {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid var(--geek-color-bg);
+  background: var(--geek-color-red);
+  box-shadow: 0 0 14px var(--geek-color-red);
+}
+
+/* ========== Typewriter caret ========== */
+.geek-typewriter__caret {
+  display: inline-block;
+  width: .6ch;
+  color: var(--geek-color-red);
+  animation: geek-blink 1s steps(1) infinite;
+}
+
+/* ========== Animations ========== */
+@keyframes geek-blink { 50% { opacity: 0; } }
+@keyframes geek-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes geek-glitch-a {
+  0%, 87%, 100% { transform: translate(0); clip-path: inset(0); }
+  88% { transform: translate(-3px); clip-path: inset(0 0 60% 0); }
+  92% { transform: translate(3px);  clip-path: inset(40% 0 0 0); }
+  96% { transform: translate(-2px); clip-path: inset(0 0 80% 0); }
+}
+@keyframes geek-glitch-b {
+  0%, 87%, 100% { transform: translate(0); clip-path: inset(0); }
+  90% { transform: translate(3px);  clip-path: inset(55% 0 0 0); }
+  94% { transform: translate(-3px); clip-path: inset(0 0 45% 0); }
+  98% { transform: translate(2px);  clip-path: inset(60% 0 0 0); }
+}
+.geek-anim--reveal { animation: geek-fade-up var(--geek-motion-reveal) ease both; }
 
 @media (prefers-reduced-motion: reduce) {
-  .pix-btn, .pix-window, .pix-panel, .pix-card, [class*="pix-anim"] {
+  .geek-btn, .geek-card, .geek-panel, .geek-window, .geek-glitch:before,
+  .geek-glitch:after, .geek-typewriter__caret, [class*="geek-anim"] {
     animation: none !important;
     transition: none !important;
   }
@@ -321,17 +411,15 @@ def main():
     if not palette:
         print("WARNING: No palette entries found in spec; generating with placeholders", file=sys.stderr)
 
-    grid = parse_positive_int(field_in_table(text, "Grid Unit"), 4)
-    radius = parse_positive_int(field_in_table(text, "Corner radius"), 2)
-    border = parse_positive_int(field_in_table(text, "Border weight"), 2)
-    edge_depth = parse_positive_int(field_in_table(text, "Button edge depth"), 4)
+    spacing_base = parse_positive_int(
+        field_in_table(text, "Grid Unit") or field_in_table(text, "Spacing base"), 4
+    )
+    radius = parse_positive_int(field_in_table(text, "Corner radius"), 0)
+    border = parse_positive_int(field_in_table(text, "Border weight"), 1)
 
-    panel_shadow = field_in_table(text, "Panel shadow")
-    window_shadow = field_in_table(text, "Window shadow")
-
-    root = build_root_vars(palette, grid, radius, border, panel_shadow, window_shadow, edge_depth)
+    root = build_root_vars(palette, spacing_base, radius, border)
     css = (
-        "/* Generated by pixel-ui-maker theme_scaffolder.py — skeleton, extend in Step 4 */\n"
+        "/* Generated by pixel-ui-maker theme_scaffolder.py (geek lock) — skeleton, extend in Step 4 */\n"
         "/* Palette extracted from ui_spec.md */\n"
         + root
         + "\n"

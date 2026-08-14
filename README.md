@@ -1,8 +1,8 @@
 # Pixel UI Maker
 
-> 像素风 UI / CSS 主题制作器 —— 一个 [Claude Code](https://claude.com/claude-code) 技能，把界面描述、线框图或参考设计转换为完整的像素艺术 UI 实现（CSS + 组件标记），并保持严格统一的视觉风格。
+> 暗黑终端极客风 UI / CSS 主题制作器 —— 一个 [Claude Code](https://claude.com/claude-code) 技能，把界面描述、线框图或参考设计转换为完整的**暗黑终端极客**风格 UI 实现（CSS + 组件标记），并保持严格统一的视觉风格。
 
-覆盖**像素按钮与交互**、**像素背景**、**容器窗口**和**样式交互动画**四大组件家族，全部锁定在同一套视觉契约之下。
+本技能蒸馏自 **SJTU SITA 思源极客协会**官网的设计语言：橄榄黑底 + 信号红强调色、0 圆角锐利几何、红色角标、CRT scanline / glitch / typewriter 终端 motif、柔和光晕与平滑动效。
 
 > 🌐 English version: [README.en.md](README.en.md)
 
@@ -12,30 +12,33 @@
 
 输入一段界面描述、线框图或现有的 CSS / 参考截图，该技能会产出：
 
-1. **UI 设计规范**（`ui_spec.md`）—— 主题名称、像素风格、调色板、样式锁参数、组件清单和动画方案。
-2. **CSS 实现**（`theme.css` 或按家族拆分）—— 使用 `--pix-*` 自定义属性与 `pix-` 前缀组件类。
-3. **验证** —— 自动检查每个组件是否遵守样式锁规则。
+1. **UI 设计规范**（`ui_spec.md`）—— 主题名称、风格、调色板、样式锁参数、组件清单和动画方案。
+2. **CSS 实现**（`theme.css` 或按家族拆分）—— 使用 `--geek-*` 自定义属性与 `geek-` 前缀组件类。
+3. **动态效果**（蒸馏自 JIEJOE 设计稿 + 粒子背景动画指南，见 `references/dynamic-effects.md`）—— 双层擦除按钮 `geek-btn-wipe`、背景像素画视差浮动 `geek-float-parallax`（鼠标跟随，纯 CSS / GSAP）、背景像素画错峰上浮 `geek-float-rise`（纯 CSS / GSAP）、背景像素粒子网络 `geek-particle-bg`（canvas 像素方块 + 邻近连线 + 鼠标排斥）、四向滚动光带 `geek-marquee`、CRT 水波纹 `geek-crt-ripple`。
+4. **验证** —— 自动检查每个组件是否遵守样式锁规则。
 
 核心产出形态示例：
 
 ```css
 :root {
-  --pix-color-bg:        #111111;
-  --pix-color-surface:   #1E1E1E;
-  --pix-color-accent:    #5D8BFF;
-  --pix-space-1: 4px;  --pix-space-2: 8px;
+  --geek-color-bg:        #1d211c;   /* 橄榄黑底 */
+  --geek-color-bg-soft:   #232825;   /* 表面 */
+  --geek-color-red:       #c9151e;   /* 主强调色 */
+  --geek-shadow-glow:     0 0 24px rgba(201, 21, 30, .45);
+  --geek-space-1: 4px;  --geek-space-2: 8px;
 }
 
-.pix-btn {           /* 按钮交互 */
-  border: 2px solid var(--pix-color-accent-edge);
-  border-radius: 2px;
-  box-shadow: 0 4px 0 var(--pix-color-accent-shadow);  /* 硬边 3D 立体感 */
-  transition: transform 60ms linear, box-shadow 60ms linear;
+.geek-btn {           /* 按钮：mono 描边，hover 反白 + 红光晕 + 上浮 */
+  font-family: var(--geek-font-mono);
+  border: 1px solid var(--geek-color-text);
+  border-radius: 0;
+  transition: box-shadow .2s ease, transform .3s ease;
 }
-.pix-btn:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 var(--pix-color-accent-shadow);  /* 按下时沿硬边下沉 */
+.geek-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--geek-shadow-glow);
 }
+.corner:before, .corner:after { ... }   /* 红色 L 型角标 */
 ```
 
 ---
@@ -45,10 +48,12 @@
 当请求中提到以下任一关键词时，调用本技能：
 
 - "pixel-style the UI"、"make a pixel theme"、"generate pixel CSS"
-- **像素风界面**、**像素样式开发**、**像素按钮**、**像素背景**、**像素窗口**
+- "terminal style"、"hacker theme"、"geek UI"
+- **像素风界面**、**像素样式开发**、**像素按钮**、**像素背景**、**像素窗口**（向后兼容别名）
+- **暗黑终端**、**终端极客**、**黑客风**、**角标**、**CRT**、**scanline**、**glitch**、**typewriter**
 - `pixel-ui-maker`
 
-典型场景：登录页、仪表盘、设置面板、游戏 UI、复古风格作品集 —— 支持 Vue、React、纯 HTML+CSS 或小程序。
+典型场景：登录页、仪表盘、设置面板、社团官网、极客作品集 —— 支持 Vue、React、纯 HTML+CSS 或小程序。
 
 ---
 
@@ -86,35 +91,41 @@
 
 ## 核心概念
 
-### 样式锁（Style Lock，严格规则）
+### 样式锁（Style Lock / "geek lock"，严格规则）
 
 生成的每个组件**必须**满足以下全部规则 —— 这是本技能的核心：
 
 | 规则 | 约束 |
 |------|------|
-| **调色板** | 只用声明过的 HEX 颜色 |
-| **圆角** | `border-radius` 只能是 0–2px，禁止柔和圆角 |
-| **边框** | 整数 px 粗细，按组件类型保持一致 |
-| **阴影** | 只能 HARD：`box-shadow: <offsetX> <offsetY> <color>` —— 无模糊/扩散半径 |
-| **渐变** | 填充禁止渐变；允许硬边的 `repeating-*` 纹理图案 |
-| **透明度** | 只能是 0 或 1（阶梯式遮罩除外） |
-| **模糊** | 禁止 `filter: blur(...)` |
-| **栅格** | 所有间距必须是基准单位（如 4px）的整数倍 |
-| **字体** | 等宽或像素字体；像素字体关闭 `font-smoothing` |
-| **图片** | 栅格资源使用 `image-rendering: pixelated` |
-| **动效** | 用 `steps()` 离散步进或短 linear；禁止弹性/ease-in-out 过冲；必须带 `prefers-reduced-motion` 降级 |
-| **命名** | `pix-` 类前缀、`--pix-*` 自定义属性 |
+| **调色板** | 只用声明过的 HEX 颜色（橄榄黑 `#1d211c` + 红 `#c9151e` + 状态色） |
+| **圆角** | 盒子 **0px**（锐利）；例外：圆点 `50%`、滚动条 `8px`、代码 `2px` |
+| **边框** | 1px 发丝线，按组件类型一致 |
+| **阴影** | **柔和 + 霓虹光晕允许**：卡片 `0 8px 32px`、光晕 `0 0 24px rgba(201,21,30,.45)` |
+| **渐变** | **允许**：网格线、CRT scanline、径向光晕、滚动条 |
+| **透明度** | **允许小数 alpha**（scanline `.025`、光晕 `.45`、遮罩 `.5`） |
+| **模糊** | **允许** `filter: blur` / `backdrop-filter`（毛玻璃导航） |
+| **间距** | 整数 px，宽松（不强制网格倍数） |
+| **字体** | **mono** 用于标签/数字/按钮/元信息 + 宽字距；**sans** 用于正文/标题 |
+| **动效** | 平滑 `ease`（.2s 颜色 / .3s 变换 / .6s 缩放 / .8s 滚入）；typewriter/glitch 用 `steps(1)`；必须带 `prefers-reduced-motion` 降级 |
+| **命名** | `geek-` 类前缀、`--geek-*` 自定义属性；`.corner` 例外 |
 
-### 四大组件家族
+### 签名 motif（必须使用）
+
+- **`.corner` 红色 L 型角标**（14×14、top-left + bottom-right）
+- **`//` 眉题标签**（mono 红、`.18em` 大写、前置 28px 红短线）
+- **CRT scanline**（`repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px)`）
+- **56px 网格底**、**glitch 标题**（红 + teal clip-path 切片）、**typewriter 光标 `▌`**、**发光时间线圆点**
+
+### 组件家族
 
 | 家族 | 覆盖组件 |
 |------|----------|
-| **按钮交互** | `pix-btn` 默认/hover/active/focus-visible/disabled 状态、`[aria-pressed]` 开关、变体（solid / outlined / ghost / danger / success）、尺寸（`--sm` 32px / `--md` 40px / `--lg` 48px）、`pix-btn-group` |
-| **背景** | 纯色、棋盘格、网格线、抖动填充、噪点/扫描线、暗角、瓷砖边框 |
-| **容器窗口** | `pix-window`（标题栏 + 内容区 + 窗口按钮）、`pix-panel`（+ raised/sunken）、`pix-card`、`pix-modal` |
-| **交互动画** | 弹出/收起、按压机制、待机上下浮动、抖动、焦点环、加载动画、环境循环 —— 全部步进式 |
+| **按钮交互** | `geek-btn` 默认/hover/active/focus-visible/disabled 状态、变体（primary / ghost / danger）、尺寸（`--sm`/`--lg`）、hover 反白 + 红光晕 + 上浮 |
+| **卡片与窗口** | `geek-card`（角标 + hover 上浮红边）、`geek-panel`、`geek-window`（4px 红顶条标题栏）、`geek-tag` |
+| **装饰 motif** | `.corner` 角标、`//` 眉题、时间线、typewriter 光标、scanline、网格、glitch |
+| **交互动画** | hover 反色/上浮、滚动滚入 fadeUp、卡片浮起、光标/glitch 步进 —— 全部 ease + `steps(1)` |
 
-> 完整的生成契约（按钮按压机制、背景配方、窗口结构、关键帧配方）见 [`references/generator-pixel-ui.md`](references/generator-pixel-ui.md)。
+> 完整的生成契约（按钮配方、卡片/窗口结构、背景配方、动效表）见 [`references/generator-pixel-ui.md`](references/generator-pixel-ui.md)。
 
 ---
 
@@ -134,13 +145,13 @@ python scripts/palette_extractor.py theme.css --format json --output palette.jso
 ### style_validator.py —— 按样式锁规则校验 CSS 文件
 
 ```bash
-python scripts/style_validator.py theme.css --palette "#111111" "#1E1E1E" "#5D8BFF"
-python scripts/style_validator.py theme.css --spec ui_spec.md --grid 4 --prefix pix-
+python scripts/style_validator.py theme.css --palette "#1d211c" "#232825" "#c9151e"
+python scripts/style_validator.py theme.css --spec ui_spec.md --prefix geek-
 python scripts/style_validator.py theme.css --spec ui_spec.md --strict          # 警告也视为失败
 python scripts/style_validator.py theme.css --spec ui_spec.md --output validation.json
 ```
 
-检查项：调色板归属、`border-radius` ≤ 2px、无渐变填充、仅硬阴影、无 `filter: blur`、透明度二值化、间距为栅格整数倍、`pix-` 前缀契约。**退出码 0 = 通过，1 = 未通过。**
+检查项：调色板归属、盒子圆角 0px（圆点 50%/滚动条 8px/代码 2px 例外）、间距整数 px、`geek-` 前缀契约。**退出码 0 = 通过，1 = 未通过。**（`--grid` 已废弃忽略——间距不再锁网格倍数。）
 
 ### theme_scaffolder.py —— 从 `ui_spec.md` 生成 `theme.css` 骨架
 
@@ -149,7 +160,7 @@ python scripts/theme_scaffolder.py ui_spec.md --output theme.css
 python scripts/theme_scaffolder.py ui_spec.md --print                   # 输出到标准输出
 ```
 
-解析规范中的调色板和样式表生成 `:root` 变量，再输出组件脚手架，作为第 4 步的起点。
+解析规范中的调色板和样式表生成 `:root` 变量（`--geek-*`），再输出组件脚手架（按钮、角标、卡片/窗口、标签、眉题、背景、glitch、时间线、typewriter、动画），作为第 4 步的起点。
 
 ---
 
@@ -168,7 +179,7 @@ python scripts/theme_scaffolder.py ui_spec.md --print                   # 输出
 
 | 工作流 | 适用场景 |
 |--------|----------|
-| [`workflows/extend-theme.md`](workflows/extend-theme.md) | 为**现有**像素主题添加新组件，同时保持样式锁一致 |
+| [`workflows/extend-theme.md`](workflows/extend-theme.md) | 为**现有**暗黑终端主题添加新组件，同时保持样式锁一致 |
 | [`workflows/from-reference.md`](workflows/from-reference.md) | 基于**参考**截图、线框图或现有 CSS 派生主题 |
 
 ---
@@ -177,8 +188,9 @@ python scripts/theme_scaffolder.py ui_spec.md --print                   # 输出
 
 所有生成的主题必须遵循（验证器和脚手架依赖此契约）：
 
-- **类前缀**：`pix-` → `.pix-btn`、`.pix-window`、`.pix-bg--checker`
-- **自定义属性**：`--pix-*` → `--pix-color-accent`、`--pix-space-2`、`--pix-motion-enter`
+- **类前缀**：`geek-` → `.geek-btn`、`.geek-card`、`.geek-window`
+- **自定义属性**：`--geek-*` → `--geek-color-red`、`--geek-space-2`、`--geek-shadow-glow`
+- **签名角标**：`.corner`（不带前缀，按设计如此）
 
 ---
 
@@ -191,11 +203,11 @@ output/<theme_name>_<timestamp>/
 ├── theme.css              # :root 变量 + 全部组件
 ├── components/            # 可选，按家族拆分
 │   ├── buttons.css
-│   ├── backgrounds.css
+│   ├── cards.css
 │   ├── windows.css
 │   └── animations.css
 ├── ui_spec.md             # 最终规范
-├── theme_manifest.json    # 主题名、调色板、栅格、文件映射（多文件模式）
+├── theme_manifest.json    # 主题名、调色板、文件映射（多文件模式）
 └── validation.json        # style_validator.py 输出
 ```
 

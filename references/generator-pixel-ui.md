@@ -1,6 +1,6 @@
-# Generator Pixel UI — CSS Implementation Rules
+# Generator Dark Terminal Geek UI — CSS Implementation Rules
 
-> Execution guidelines for generating pixel-art web UI styles with strict style consistency. Applies to buttons, backgrounds, container windows, and interaction animations.
+> Execution guidelines for generating dark-hacker/terminal web UI styles (SJTU SITA / 思源极客协会 language) with strict style consistency. Applies to buttons, cards/windows, tags, backgrounds, decorative motifs, and interaction animations.
 
 ---
 
@@ -8,12 +8,12 @@
 
 Before generating any CSS, output a confirmation listing:
 - Palette (all HEX values + roles)
-- Corner radius (0 or 2px)
-- Border weight per component type
-- Shadow style (hard offset, no blur)
-- Spacing grid unit
-- Transition style (steps vs linear, durations)
-- Component inventory (buttons, backgrounds, containers, animations)
+- Corner radius (0px boxes; dots 50%, scrollbars 8px, code 2px)
+- Border weight (1px hairline per component type)
+- Shadow style (soft + neon glow)
+- Spacing (integer px, loose)
+- Transition style (ease: .2s colors / .3s transform / .6s zoom / .8s reveal)
+- Component inventory (buttons, cards, windows, tags, eyebrow, timeline, typewriter, backgrounds, animations)
 
 ---
 
@@ -24,48 +24,75 @@ Every generated component MUST satisfy ALL of the following:
 | Rule | Constraint |
 |------|-----------|
 | **Palette** | Every HEX color from the declared palette ONLY |
-| **Corners** | `border-radius` 0–2px ONLY. No soft rounding |
-| **Borders** | Integer px weight (1–3px typical), consistent per component type |
-| **Shadows** | HARD only: `box-shadow: <offsetX> <offsetY> <color>`. NO blur radius, NO spread |
-| **Gradients** | FORBIDDEN for fills (`linear-gradient`/`radial-gradient`/`conic-gradient`). Dithering patterns via hard-edged repeating layers are allowed |
-| **Opacity** | 0 or 1 only. No fractional alpha fills; borders/text may use solid colors |
-| **Blur** | `filter: blur(...)` FORBIDDEN |
-| **Grid** | All spacing/margins/paddings are multiples of the base unit |
-| **Font** | Monospace or pixel font for headings; `font-smoothing` off for pixel fonts |
-| **Image** | `image-rendering: pixelated` for any raster assets |
-| **Naming** | Class names follow the `pix-` prefix; custom properties `--pix-*` |
-| **Motion** | Animations use discrete steps (`steps()`) or short linear; no elastic/ease-in-out overshoot |
-| **Consistency** | The same palette + corner + border + shadow + grid across ALL components |
+| **Corners** | `border-radius` **0px** on all boxes. Exceptions only: dots/badges `50%`, scrollbar thumb `8px`, code blocks `2px` |
+| **Borders** | Integer px weight (1px hairline typical), consistent per component type |
+| **Shadows** | **Soft + neon glow allowed**: card `0 8px 32px rgba(0,0,0,.45)`, glow `0 0 24px rgba(201,21,30,.45)`, neon dot `0 0 14px var(--geek-color-red)`. Blur/spread unrestricted |
+| **Gradients** | **Allowed** — 56px grid lines (`linear-gradient`), CRT scanlines (`repeating-linear-gradient`), radial glows, scrollbar gradient, timeline gradient |
+| **Opacity** | **Fractional alpha allowed** (scanlines `.025`, glows `.45`, scrims `.5`) |
+| **Blur** | **Allowed** — nav `backdrop-filter: blur(14px) saturate(140%)`, brand `drop-shadow` (add `-webkit-backdrop-filter` for Safari) |
+| **Spacing** | Integer px only. Loose — NO strict grid-multiple enforcement |
+| **Fonts** | **mono** for all labels/numbers/dates/tags/buttons/metadata with `letter-spacing .08em–.3em`; **sans** for body/headings. Mono stack: JetBrains Mono / Fira Code / …; sans stack: Inter / PingFang SC / … |
+| **Naming** | Class names follow the `geek-` prefix; custom properties `--geek-*`; `.corner` (signature) is unprefixed |
+| **Motion** | Smooth `ease` preferred (.2s colors / .3s transform / .6s zoom / .8s reveal); typewriter caret & glitch use `steps(1)`; NO bounce/elastic overshoot |
+| **Consistency** | The same palette + corner + border + shadow + font split + motion across ALL components |
 
 ---
 
-## 3. Component Family: Button Interactions (按钮交互)
+## 3. Signature Motifs (MANDATORY where applicable)
 
-### 3.1 Press Mechanics (the pixel button contract)
+The following make the theme recognizable — use them on cards, headings, labels, and page heroes:
 
-A pixel button is a flat slab with a hard offset "edge" shadow. Pressing it slides the slab down the edge.
+- **`.corner` red corner brackets** — 14×14px L-shapes, top-left + bottom-right, 1px red borders (verbatim):
+  ```css
+  .corner { position: relative; }
+  .corner:before, .corner:after { content:""; position:absolute; width:14px; height:14px; border:1px solid var(--geek-color-red); }
+  .corner:before { top:-1px; left:-1px; border-right:none; border-bottom:none; }
+  .corner:after  { bottom:-1px; right:-1px; border-left:none; border-top:none; }
+  ```
+- **CRT scanlines**: `repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px)` (+ `mix-blend-mode: overlay; opacity: .6` when used as an overlay).
+- **56px sub-page grid**: `background-image: linear-gradient(1px, transparent 1px, rgba(201,21,30,.06) 1px, transparent 2px), linear-gradient(90deg, ...); background-size: 56px 56px;` masked with a radial fade.
+- **Glitch title**: two `clip-path`-sliced copies (red `var(--geek-color-red)` + teal `var(--geek-color-teal)`) with `mix-blend-mode: screen`.
+- **Typewriter caret**: `▌` in red, `animation: 1s steps(1) infinite`.
+- **`//` eyebrow labels**: mono, red, `.18em` uppercase, preceded by a 28px red line. UI copy itself begins with `//` (e.g. `// SYSTEM INITIALIZED · WELCOME, GEEK.`).
+- **Left accent bars**: `border-left: 2px solid var(--geek-color-red)` (nav/items), 3px for h3/blockquotes, plus `box-shadow: 0 0 8px var(--geek-color-red)`.
+- **Timeline**: vertical red gradient line + glowing red node dots (`border:2px solid bg; border-radius:50%; box-shadow:0 0 14px var(--geek-color-red)`).
+
+---
+
+## 4. Component Family: Buttons (按钮交互)
+
+### 4.1 The terminal button contract
+
+A geek button is a mono outline slab that inverts on hover and lifts `-2px` with a red glow.
 
 ```css
-.pix-btn {
-  height: 40px;
-  padding: 0 16px;
-  background-color: var(--pix-color-accent);
-  border: 2px solid var(--pix-color-accent-edge);   /* 1px darker edge tone */
-  border-radius: 2px;
-  color: var(--pix-color-text);
-  font-weight: 700;
-  letter-spacing: 1px;
+.geek-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  font-family: var(--geek-font-mono);
+  font-size: 14px;
+  letter-spacing: .08em;
+  background: transparent;
+  border: 1px solid var(--geek-color-text);
+  border-radius: 0;                 /* sharp, never rounded */
+  color: var(--geek-color-text);
   cursor: pointer;
-  box-shadow: 0 4px 0 var(--pix-color-accent-shadow);  /* the 3D edge */
-  transition: background-color 120ms linear, box-shadow 60ms linear, transform 60ms linear;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease,
+              box-shadow .2s ease, transform .3s ease;
 }
-.pix-btn:hover {
-  background-color: var(--pix-color-accent-hover);
+.geek-btn:hover  { transform: translateY(-2px); }
+.geek-btn:active { transform: translateY(0); }
+.geek-btn--primary {
+  background: var(--geek-color-red);
+  border-color: var(--geek-color-red);
 }
-.pix-btn:active {
-  transform: translateY(3px);              /* slide down the edge */
-  box-shadow: 0 1px 0 var(--pix-color-accent-shadow);
-  background-color: var(--pix-color-accent-active);
+.geek-btn--primary:hover:not(:disabled) {
+  background: #fff;
+  border-color: #fff;
+  color: var(--geek-color-red);
+  box-shadow: 0 0 24px rgba(201, 21, 30, .45);  /* red glow */
 }
 ```
 
@@ -73,181 +100,157 @@ A pixel button is a flat slab with a hard offset "edge" shadow. Pressing it slid
 
 | State | Required Behavior |
 |-------|-------------------|
-| `:hover` | Brighten fill or raise edge (+1px shadow depth) |
-| `:active` | Press down: `translateY(N-1px)` + shadow shrinks to 1px depth. N = resting edge depth |
-| `:focus-visible` | Hard focus ring: `outline: 3px solid`, `outline-offset: 2px`, OR `box-shadow: 0 0 0 3px` flat ring |
-| `:disabled` | Desaturate/darken, `cursor: not-allowed`, remove edge shadow, NO active state |
-| `[aria-pressed="true"]` (toggles) | Show pressed/selected visual |
+| `:hover` | Lift `translateY(-2px)`; primary inverts to white bg + red text + glow; ghost gets `#ffffff14` bg + red border |
+| `:active` | Settle back `translateY(0)` |
+| `:focus-visible` | `outline: 3px solid var(--geek-color-red); outline-offset: 2px;` |
+| `:disabled` | `opacity:.5`, `cursor: not-allowed`, no hover lift |
+| `[aria-pressed="true"]` (toggles) | Show pressed/selected visual (red fill or red border) |
 
-### 3.2 Variants
+### 4.2 Variants & sizes
 
 | Variant | Recipe |
 |---------|--------|
-| `pix-btn--solid` | Filled accent + edge shadow (above) |
-| `pix-btn--outlined` | Transparent fill, 2px border in accent, no edge shadow; hover fills |
-| `pix-btn--ghost` | Transparent, no border; hover adds flat translucent bg |
-| `pix-btn--danger` | Red accent family (bg/edge/shadow triple) |
-| `pix-btn--success` | Green accent family |
+| `geek-btn--primary` | Red fill; hover inverts to white/red with glow |
+| `geek-btn--ghost` | Transparent; hover `#ffffff14` bg + red border |
+| `geek-btn--danger` | Crimson family (`--geek-color-crimson`) |
 
-### 3.3 Sizes
-
-All on the spacing grid: `pix-btn--sm` (32px), `pix-btn--md` (40px), `pix-btn--lg` (48px). Heights are grid multiples; padding derived from grid.
-
-### 3.4 Grouped / Split buttons
-
-`pix-btn-group` — children joined with no gap, 1px overlap border, active item shown by shadow removal.
+Sizes: `geek-btn--sm` (`padding:10px 14px; font-size:13px`), base md, `geek-btn--lg` (`padding:16px 28px; font-size:15px`).
 
 ---
 
-## 4. Component Family: Backgrounds (背景)
+## 5. Component Family: Cards / Windows (卡片与窗口)
 
-### 4.1 Layering contract
-
-Backgrounds are flat surfaces + hard-edged pattern layers. Never gradient fills.
-
-| Pattern | Technique |
-|---------|-----------|
-| **Flat** | Solid `background-color` from palette |
-| **Checkerboard** | `background-image: repeating-conic-gradient(#color 0% 25%, #color2 0% 50%)` + `background-size: 8px 8px` (each 8px cell = 2 grid units) |
-| **Grid lines** | `repeating-linear-gradient(0deg, ...)` + `repeating-linear-gradient(90deg, ...)` with `background-size` on the grid unit; 1px lines only |
-| **Dithered fill** | Layered hard `box-shadow` dots or a repeating pattern at 1–2px steps |
-| **Noise/scanlines** | `repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,0.5) 3px 4px)` — scanlines allowed (hard edges, no blur) |
-| **Vignette** | 2–3 nested hard `box-shadow` insets with stepped opacity, not radial-gradient |
-| **Tile border** | Corner tiles via nested elements with solid colors (top-left light, bottom-right dark) |
-
-### 4.2 Pattern rules
-
-- Cell sizes MUST be grid-unit multiples (e.g., 8px, 12px, 16px).
-- Pattern colors MUST come from the declared palette.
-- Scanline/checker alpha: prefer solid or stepped alpha (e.g., `rgba(0,0,0,0.5)` step is allowed for overlay texture only).
+### 5.1 Card recipe
 
 ```css
-.pix-bg--checker {
-  background-color: var(--pix-color-bg);
-  background-image: repeating-conic-gradient(
-    var(--pix-color-bg) 0% 25%,
-    var(--pix-color-surface) 0% 50%
-  );
-  background-size: 8px 8px;
+.geek-card {
+  position: relative;
+  background: var(--geek-color-bg-soft);   /* #232825 */
+  border: 1px solid var(--geek-color-line);/* #2c3330 hairline */
+  border-radius: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .45);
 }
-.pix-bg--grid {
-  background-color: var(--pix-color-bg);
-  background-image:
-    repeating-linear-gradient(0deg, var(--pix-color-line) 0 1px, transparent 1px 8px),
-    repeating-linear-gradient(90deg, var(--pix-color-line) 0 1px, transparent 1px 8px);
+.geek-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--geek-color-red);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .55);
 }
 ```
 
----
+Every card also carries the `.corner` brackets (see §3).
 
-## 5. Component Family: Container Windows (容器窗口)
-
-### 5.1 Window anatomy
+### 5.2 Window anatomy
 
 ```
-┌────────────────────────────────────────┐  <- title bar (accent-dark)
-│ ▢ ▣ ▮     窗口标题            │  <- title bar buttons
-├────────────────────────────────────────┤  <- 2px body border
+┌────────────────────────────────────────┐
+│ ▂▂▂▂  4px red top bar                  │  <- title bar: mono title, red top border
+│ title                      [×]         │
+├────────────────────────────────────────┤  <- 1px hairline border
 │                                        │
 │               content                  │
 │                                        │
-└────────────────────────────────────────┘  <- 6px hard drop shadow
+└────────────────────────────────────────┘  <- soft card shadow + corner brackets
 ```
 
 | Part | Class | Rule |
 |------|-------|------|
-| Window frame | `.pix-window` | 2px solid border (darker tone), 0–2px radius, hard drop shadow `6px 6px 0` |
-| Title bar | `.pix-window__title` | Full-width bar, accent-dark fill, pixel text, `padding: 8px` (grid multiple) |
-| Title bar buttons | `.pix-window__btn` | Small `16x16` flat squares, hover inverts, active pushes down |
-| Body | `.pix-window__body` | Surface fill, padding grid-multiple, internal scroll with square scrollbar |
-| Modal overlay | `.pix-modal__overlay` | Flat `rgba(0,0,0,0.7)` (stepped overlay allowed), content pops in via 2-step scale |
-| Status corner | `.pix-window__corner` | Optional diagonal corner via `clip-path` or nested 1px tiles |
-
-### 5.2 Panel / Card
-
-```css
-.pix-panel {
-  background-color: var(--pix-color-surface);
-  border: 2px solid var(--pix-color-line);
-  border-radius: 2px;
-  box-shadow: 4px 4px 0 var(--pix-color-shadow);
-  padding: calc(var(--pix-space-2) * 3);
-}
-.pix-panel--raised { box-shadow: 6px 6px 0 var(--pix-color-shadow); }  /* deeper */
-.pix-panel--sunken { box-shadow: inset 2px 2px 0 var(--pix-color-shadow); }  /* inset hard only */
-```
-
-### 5.3 Layout contract
-
-- Containers size on the grid; border box always on.
-- Overflow areas get the square `::-webkit-scrollbar` styling (2px radius thumb).
-- Fixed/variable sizes are both allowed, but all internal offsets are grid multiples.
+| Window frame | `.geek-window` | `bg-soft`, 1px line border, radius 0, `overflow: hidden`, card shadow, `.corner` |
+| Title bar | `.geek-window__title` | `border-top: 4px solid var(--geek-color-red)`, mono title, `padding: 8px 16px` |
+| Body | `.geek-window__body` | `bg-soft`, `padding: 16px`, internal scroll with geek scrollbar |
+| Modal overlay | `.geek-modal__overlay` | `rgba(0,0,0,.6)` scrim; content fades up via `geek-fade-up` |
 
 ---
 
-## 6. Component Family: Interaction Animations (样式交互动画)
-
-### 6.1 Motion contract
-
-- **Discrete preferred**: `transition-timing-function: steps(2, end)` or `steps(4, end)` for a stepped pixel feel.
-- **Allowed smooth**: short linear moves (60–200ms) for color/bg changes. NO `ease-in-out`, NO elastic, NO bounce overshoot.
-- **Durations**: state press ≤ 80ms, hover ≤ 150ms, enter/exit 120–240ms, ambient loops 1.5–3s.
-
-### 6.2 Keyframe recipes
+## 6. Component Family: Tags / Eyebrow / Timeline (标签与装饰)
 
 ```css
-/* Pop-in: pixel steps, not smooth scale */
-@keyframes pix-pop {
-  0%   { transform: scale(0); }
-  50%  { transform: scale(1.1); }   /* overshoot ON the grid, stepped */
-  100% { transform: scale(1); }
+.geek-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 0;
+  font-family: var(--geek-font-mono);
+  font-size: 12px;
+  letter-spacing: .08em;
 }
-.pix-window[data-open] { animation: pix-pop 160ms steps(2, end); }
+.geek-tag--teal    { color: var(--geek-color-teal);    background: rgba(67, 217, 193, .13); }
+.geek-tag--blue    { color: var(--geek-color-blue);    background: rgba(122, 166, 255, .13); }
+.geek-tag--amber   { color: var(--geek-color-amber);   background: rgba(255, 192, 67, .13); }
+.geek-tag--crimson { color: var(--geek-color-crimson); background: rgba(200, 50, 74, .13); }
 
-/* Idle bob (buttons/indicators) */
-@keyframes pix-bob {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-2px); }  /* 2px = grid unit */
+.geek-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--geek-font-mono);
+  font-size: 13px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--geek-color-red);
 }
-.pix-btn--idle { animation: pix-bob 2s steps(2, end) infinite; }
+.geek-eyebrow:before { content: ""; width: 28px; height: 1px; background: var(--geek-color-red); }
+```
 
-/* Shake (error feedback) */
-@keyframes pix-shake {
-  0%, 100% { transform: translateX(0); }
-  25%      { transform: translateX(-3px); }
-  75%      { transform: translateX(3px); }
+Timeline: vertical red gradient line (`linear-gradient(180deg, transparent 0%, red 8%, red 92%, transparent 100%)`, 1px wide) + 11px glowing red dots.
+
+---
+
+## 7. Component Family: Backgrounds & Decorative (背景与动效)
+
+| Pattern | Technique |
+|---------|-----------|
+| **Flat** | Solid `background-color: var(--geek-color-bg)` |
+| **Scanlines** | `repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px)` |
+| **Grid** | 56px `linear-gradient` 1px lines, radial-fade masked |
+| **Radial glow** | `radial-gradient(ellipse at center, rgba(201,21,30,.18), transparent 70%)` |
+| **Glitch** | `.geek-glitch` — two clip-path-sliced pseudo copies (red + teal), `mix-blend-mode: screen`, `steps(1)` animation |
+
+### 7.1 Motion contract
+
+- **Smooth ease preferred**: `.2s ease` colors, `.3s ease` transform/box-shadow, `.6s ease` image zoom, `.8s ease` scroll-reveal (`opacity 0→1, translateY(24px)`).
+- **Stepped only for**: typewriter caret (`steps(1)` blink), glitch slices (`steps(1)`).
+- **No** elastic / bounce / ease-in-out overshoot.
+
+```css
+@keyframes geek-blink { 50% { opacity: 0; } }
+@keyframes geek-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.geek-typewriter__caret {
+  display: inline-block;
+  width: .6ch;
+  color: var(--geek-color-red);
+  animation: geek-blink 1s steps(1) infinite;
+}
+.geek-anim--reveal { animation: geek-fade-up .8s ease both; }
+```
+
+### 7.2 Geek scrollbar (signature)
+
+```css
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--geek-color-red), #5a0a10);
+  border-radius: 8px;
+  border: 2px solid var(--geek-color-bg);
 }
 ```
 
-### 6.3 Interaction rules
-
-| Interaction | Recipe |
-|-------------|--------|
-| Hover | Color swap OR edge raise (shadow depth +1), stepped |
-| Active/press | translate + edge shrink (see buttons) |
-| Open/close | 2-step pop-in / pop-out, staggered children via `animation-delay: 40ms` multiples |
-| Slide | `translateX/Y` in grid-unit steps (`steps(N)`) |
-| Focus ring | Flat 3px hard ring, stepped appear |
-| Loading | Spinner = rotating 8-dot square tile, or stepped progress bar with hard block fill |
-| Reduced motion | `@media (prefers-reduced-motion: reduce)`: kill all animations, show final states instantly |
+### 7.3 Reduced motion (mandatory)
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-  .pix-btn, .pix-window, [class*="pix-"] {
+  .geek-btn, .geek-card, .geek-window, .geek-glitch:before, .geek-glitch:after,
+  .geek-typewriter__caret, [class*="geek-anim"] {
     animation: none !important;
     transition: none !important;
   }
 }
 ```
 
-### 6.4 Ambient / decorative
-
-- Background scanline drift, blinking cursor block, marching-ants selection — all at grid-unit step sizes.
-- Never animate `left/top` for layout (use transform) — GPU-friendly and keeps the grid stable.
-
 ---
 
-## 7. Output Format
+## 8. Output Format
 
 - **CSS files**: component-family splits or single `theme.css`. Custom properties in `:root` first.
 - **Markup**: minimal component markup included where needed to demonstrate classes.
@@ -256,16 +259,17 @@ Backgrounds are flat surfaces + hard-edged pattern layers. Never gradient fills.
 
 ---
 
-## 8. Self-Check
+## 9. Self-Check
 
 Before declaring a theme complete:
 - [ ] All HEX colors from declared palette
-- [ ] No `border-radius` > 2px anywhere
-- [ ] No gradient fills (only allowed: hard-edged repeating patterns)
-- [ ] No `box-shadow` blur/spread radius
-- [ ] No `filter: blur` or fractional `opacity`
-- [ ] All spacing on the grid unit
+- [ ] `border-radius` 0px on boxes (dots 50%, scrollbars 8px, code 2px only)
+- [ ] Soft shadows + neon glows used; blurs allowed
+- [ ] Gradients used for grid/scanlines/glows (not forbidden)
+- [ ] All spacing integer px
+- [ ] mono/sans font split respected (mono for labels/numbers/buttons, sans for body)
+- [ ] `.corner` brackets on cards; `//` eyebrow labels; typewriter caret; scanlines present
 - [ ] Every interactive component has hover/active/focus/disabled states
-- [ ] All `pix-` class and `--pix-*` property naming
-- [ ] Animations use `steps()` or short linear, with reduced-motion fallback
-- [ ] Palette + corner + border + shadow + grid identical across all components
+- [ ] All `geek-` class and `--geek-*` property naming
+- [ ] Animations use ease + steps(1) with reduced-motion fallback
+- [ ] Palette + corner + border + shadow + font + motion identical across all components

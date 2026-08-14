@@ -1,17 +1,25 @@
 ---
 name: pixel-ui-maker
 description: >
-  Pixel-style UI/CSS theme maker. Converts interface descriptions, wireframes, or
-  reference designs into pixel-art UI implementations (CSS + component markup) with
-  strict style consistency — covering pixel buttons/interactions, pixel backgrounds,
-  container windows, and style interaction animations. Use when user asks to
+  Dark-hacker/terminal UI/CSS theme maker (SJTU SITA "暗黑终端极客" style). Converts
+  interface descriptions, wireframes, or reference designs into dark-terminal UI
+  implementations (CSS + component markup) with strict style consistency — olive-dark
+  canvas, signal-red accent, sharp 0px corners, red corner brackets, CRT scanlines,
+  glitch/typewriter motifs, soft glow shadows, ease motion. Use when user asks to
   "pixel-style the UI", "make a pixel theme", "generate pixel CSS", "像素风界面",
-  "像素样式开发", "像素按钮", "像素背景", "像素窗口", or mentions "pixel-ui-maker".
+  "像素样式开发", "像素按钮", "像素背景", "像素窗口", "暗黑终端", "终端极客",
+  "黑客风", "terminal style", "hacker theme", "geek UI", "角标", "CRT", "scanline",
+  "glitch", "typewriter", "动态按钮", "按钮擦除", "按钮滑动", "背景浮动",
+  "背景视差", "视差浮动", "鼠标视差", "像素画浮动", "上浮动画", "wipe button",
+  "float-rise", "stagger", "parallax float", "parallax", "背景漂浮",
+  "粒子背景", "粒子网络", "粒子浮动", "canvas 粒子", "连线粒子", "particle",
+  "particle background", "粒子动画", "marquee", "滚动光带", "光带", "动效",
+  "动态效果", or mentions "pixel-ui-maker".
 ---
 
-# Pixel UI Maker
+# Pixel UI Maker (dark terminal geek lock)
 
-> Focused pixel-art UI theme generator. Takes an interface description or reference design, produces a complete pixel-style UI spec (palette, corners, borders, hard shadows, spacing grid) and a consistent CSS implementation — buttons with interaction states, backgrounds, container windows, and step-animated interactions.
+> Dark-hacker/terminal theme generator. Takes an interface description or reference design, produces a complete "geek lock" UI spec (olive-dark palette, red accent, sharp corners, hairline borders, soft shadows + neon glows, mono/sans typography) and a consistent CSS implementation — buttons with hover invert + glow, cards with red corner brackets, tags, windows, eyebrow labels, timeline, and ease-animated interactions.
 
 **Core Pipeline**: `Input (UI description + requirements) → Design Spec → Style Confirmation → Implementation Generation → Validation & Delivery`
 
@@ -22,7 +30,7 @@ description: >
 > 2. **BLOCKING = HARD STOP** — Steps marked ⛔ BLOCKING require a full stop; wait for explicit user response
 > 3. **NO CROSS-PHASE BUNDLING** — Do not prepare content for subsequent Steps before reaching them
 > 4. **GATE BEFORE ENTRY** — Each Step has prerequisites (🚧 GATE) that MUST be verified before starting
-> 5. **STYLE CONSISTENCY ABOVE ALL** — All generated components MUST share the exact same palette, corner radius, border weight, shadow depth, spacing grid, and transition style
+> 5. **STYLE CONSISTENCY ABOVE ALL** — All generated components MUST share the exact same palette, corner radius, border weight, shadow depth, font split, and transition style
 
 > [!IMPORTANT]
 > ## Language Rule
@@ -35,7 +43,7 @@ description: >
 | Script | Purpose |
 |--------|---------|
 | `${SKILL_DIR}/scripts/palette_extractor.py` | Extract all HEX colors from a reference CSS/design file |
-| `${SKILL_DIR}/scripts/style_validator.py` | Validate a CSS file against the pixel style-lock rules (palette, corners, hard shadows, no gradients) |
+| `${SKILL_DIR}/scripts/style_validator.py` | Validate a CSS file against the geek style-lock rules (palette, sharp corners, integer spacing, naming) |
 | `${SKILL_DIR}/scripts/theme_scaffolder.py` | Generate a `theme.css` skeleton (CSS custom properties + component scaffolds) from `ui_spec.md` |
 
 ## Template Index
@@ -44,6 +52,11 @@ description: >
 |----------|------|---------|
 | UI spec | `${SKILL_DIR}/templates/ui_spec.md` | UI design specification template (palette, style-lock params, component inventory, animation plan) |
 | Implementation prompt | `${SKILL_DIR}/templates/ui_implementation_prompt.md` | Structured prompt template for generating the CSS/component implementation |
+
+| Reference | Path | Purpose |
+|-----------|------|---------|
+| Geek generator rules | `${SKILL_DIR}/references/generator-pixel-ui.md` | CSS implementation rules, style lock, component families, signature motifs |
+| **Dynamic effects kit** | `${SKILL_DIR}/references/dynamic-effects.md` | **Distilled motion recipes: `geek-btn-wipe` dual-layer wipe button, `geek-float-parallax` background pixel-art mouse-parallax float (CSS + GSAP), `geek-float-rise` pixel-art stagger rise (CSS + GSAP), `geek-particle-bg` canvas pixel-particle network (from 粒子指南, not JIEJOE), `geek-marquee` scrolling strips, `geek-crt-ripple` CRT filter** |
 
 ---
 
@@ -63,9 +76,9 @@ description: >
 **User must specify**:
 - **Target interface**: e.g., login page, dashboard, settings panel
 - **Platform/framework**: Vue / React / plain HTML+CSS / mini-program
-- **Component list**: buttons, panels, windows, nav, inputs, etc.
-- **Pixel style direction**: NES 8-bit retro / Modern pixel minimal / Retro terminal / custom
-- **Optional**: color palette, spacing grid unit, reference design
+- **Component list**: buttons, cards, windows, nav, tags, inputs, etc.
+- **Geek style direction**: SJTU SITA dark terminal / 暗黑终端极客 / Retro terminal / custom
+- **Optional**: color palette, spacing base, reference design
 
 **Output**: Structured requirements list: interface description, component inventory, style direction, framework target, any reference files
 
@@ -80,30 +93,39 @@ description: >
 | Field | Description |
 |-------|-------------|
 | **Theme name** | Identifier for the theme |
-| **Pixel style** | NES 8-bit / Modern pixel minimal / Retro terminal / Minimalist |
-| **Color palette** | Exact HEX color list (≤ 16 colors typical, each with a role) |
-| **Corner style** | 0px (sharp) / 2px (micro corner) — never rounded |
-| **Border weight** | Integer px per component type (e.g., 2px panels, 2px buttons) |
-| **Shadow style** | HARD only — `offsetX offsetY color`, NO blur radius |
-| **Spacing grid** | Base unit (e.g., 4px), all spacing is a multiple of it |
-| **Transition style** | `steps()` discrete motion vs short linear; duration budget |
+| **Geek style** | SJTU SITA dark terminal / 暗黑终端极客 / Retro terminal / Custom |
+| **Color palette** | Exact HEX color list (olive dark bg + signal red accent + status set, each with a role) |
+| **Corner style** | 0px on boxes — dots `50%`, scrollbars `8px`, code `2px` |
+| **Border weight** | 1px hairline (integer px per component type) |
+| **Shadow style** | Soft + neon glow — card `0 8px 32px rgba(0,0,0,.45)`, glow `0 0 24px rgba(201,21,30,.45)` |
+| **Spacing** | Integer px, loose (no strict grid) |
+| **Transition style** | Smooth `ease` (.2s colors / .3s transform / .6s zoom / .8s reveal) |
 
-**Component Inventory** — the four families (see `references/generator-pixel-ui.md`):
+**Component Inventory** — the families (see `references/generator-pixel-ui.md`):
 
 | Family | Sub-components |
 |--------|---------------|
-| **Button interactions** | `pix-btn` default/hover/active/focus/disabled states, variants (solid/outlined/ghost/danger), sizes, press mechanics |
-| **Backgrounds** | Flat solid, dithered pattern, grid, checkerboard, noise, vignette |
-| **Container windows** | `pix-window` (title bar + body), `pix-panel`, `pix-card`, `pix-modal` |
-| **Interaction animations** | Transitions, hover/active moves, pop-in/out, idle bob, shake, keyframe design, reduced-motion |
+| **Button interactions** | `geek-btn` default/hover/active/focus/disabled states, variants (primary/ghost/danger), sizes, hover-invert + glow |
+| **Cards & windows** | `geek-card` (corner brackets + hover lift), `geek-panel`, `geek-window`, `geek-tag` |
+| **Decorative motifs** | `.corner` brackets, `//` eyebrow, timeline, typewriter caret, scanlines, grid, glitch |
+| **Interaction animations** | ease transitions, hover lift, scroll reveal, caret/glitch `steps(1)`, reduced-motion |
+| **Dynamic effects** | `geek-btn-wipe` dual-layer wipe button, `geek-float-parallax` background pixel-art mouse-parallax float (CSS + GSAP), `geek-float-rise` pixel-art stagger rise (CSS + GSAP), `geek-particle-bg` canvas pixel-particle network (pixel squares + proximity links + mouse repel), `geek-marquee` 4-direction scrolling strips, `geek-crt-ripple` CRT water-ripple filter — recipes in `references/dynamic-effects.md` |
 
 **Animation Plan** (for each interaction):
 
-| Component | Trigger | Motion | Frames/Steps | Duration |
-|-----------|---------|--------|--------------|----------|
-| `pix-btn` | hover | brighten bg | 1 step | 100ms |
-| `pix-btn` | active | press down 3px, shadow shrinks | 1 step | 60ms |
-| `pix-window` | open | pop-in (scale 0→1 in 2 steps) | 2 steps | 120ms |
+| Component | Trigger | Motion | Timing | Duration |
+|-----------|---------|--------|--------|----------|
+| `geek-btn` | hover | color swap + lift | ease | .2s / .3s |
+| `geek-card` | hover | lift + red border + deep shadow | ease | .3s |
+| section | scroll | fadeUp (opacity + translateY 24px) | ease | .8s |
+| `geek-typewriter__caret` | loop | blink | steps(1) | 1s infinite |
+| `geek-glitch` | loop | clip-path slices | steps(1) | 3s infinite |
+| `geek-btn-wipe` | hover | dual-layer wipe-in (staggered `.1s` chase) + label/icon slide | ease | .4s |
+| `geek-float-parallax` | pointermove | bg rotates ±15° by mouse Y; layers drift opposite by mouse X — laggy float | ease | 3s |
+| `geek-float-rise` | open/reveal | background tiles rise from `translateY(100%)`, `stagger 120ms` | ease | .8s |
+| `geek-particle-bg` | pointermove / loop | canvas pixel squares float; proximity links; mouse repel + cyan cursor links | rAF | — |
+| `geek-marquee` | loop | 4-direction scrolling strips | linear | 8s infinite |
+| `geek-crt-ripple` | loop | SVG turbulence displacement, rAF-driven seed/scale | — | — |
 | ... | ... | ... | ... | ... |
 
 **Output**:
@@ -118,9 +140,9 @@ description: >
 
 ⛔ **BLOCKING** — Present the UI design spec and interaction plan to user for confirmation:
 
-- Palette and spacing grid
+- Palette and spacing
 - Corner / border / shadow treatment
-- Component inventory (buttons, backgrounds, containers, animations)
+- Component inventory (buttons, cards, windows, tags, motifs, animations)
 - Visual description of the target interface
 
 Wait for user approval or revision before proceeding.
@@ -131,35 +153,36 @@ Wait for user approval or revision before proceeding.
 
 🚧 **GATE**: Step 3 confirmed by user
 
-**Role**: See `references/generator-pixel-ui.md` for detailed generation rules.
+**Role**: See `references/generator-pixel-ui.md` for detailed generation rules. When the spec includes dynamic motion (wipe buttons, floating backgrounds, marquees, CRT ripple), follow `references/dynamic-effects.md` — it holds the distilled, style-locked recipes for those effects.
 
 **Core rules**:
 1. Generate CSS **per component family** — complete one family (e.g., buttons) before the next
 2. **Style lock**: Every component MUST share the exact same:
    - Color palette (every HEX from declared palette)
-   - Corner radius (0–2px max)
+   - Corner radius (0px on boxes; dots 50%, scrollbars 8px, code 2px)
    - Border weight per component type
-   - Hard shadows only (no blur radius)
-   - Spacing grid multiples
-   - Transition timing style
-3. **No gradients, no blurred shadows, no soft rounding, no fractional-opacity fills**
+   - Soft shadows + neon glows
+   - Integer px spacing
+   - mono/sans font split
+   - Transition timing style (ease)
+3. **Signature motifs required**: `.corner` red brackets on cards, `//` eyebrow labels, CRT scanlines, typewriter caret, glowing dots. **Soft shadows, gradients (grid/scanlines/glows), fractional opacity, and `blur`/`backdrop-filter` are all allowed.**
 
 **Component organization**:
 
-Each generated theme exports CSS custom properties in `:root`, then component classes under the `pix-` prefix:
+Each generated theme exports CSS custom properties in `:root`, then component classes under the `geek-` prefix:
 
 ```
 :root {
-  --pix-color-bg:        #111111;
-  --pix-color-surface:   #1E1E1E;
-  --pix-color-accent:    #5D8BFF;
-  --pix-space-1: 4px;  --pix-space-2: 8px;  ...
+  --geek-color-bg:        #1d211c;   /* olive dark */
+  --geek-color-bg-soft:   #232825;   /* surface */
+  --geek-color-red:       #c9151e;   /* primary accent */
+  --geek-space-1: 4px;  --geek-space-2: 8px;  ...
 }
 
-.pix-btn { ... }          /* button interactions */
-.pix-bg--checker { ... }  /* backgrounds */
-.pix-window { ... }       /* container windows */
-.pix-window__title { ... }
+.geek-btn { ... }          /* button interactions */
+.geek-card { ... }         /* cards with .corner brackets */
+.geek-window { ... }       /* container windows */
+.geek-typewriter__caret { ... }
 ```
 
 **Output**: CSS files + optional component markup, placed in the target project
@@ -172,7 +195,8 @@ Each generated theme exports CSS custom properties in `:root`, then component cl
 
 ```bash
 # 1. Validate style-lock compliance
-python ${SKILL_DIR}/scripts/style_validator.py <theme.css> --palette "#111111" "#1E1E1E" ...
+python ${SKILL_DIR}/scripts/style_validator.py <theme.css> --palette "#1d211c" "#c9151e" ...
+python ${SKILL_DIR}/scripts/style_validator.py <theme.css> --spec ui_spec.md --prefix geek-
 
 # 2. Extract and review the palette actually used
 python ${SKILL_DIR}/scripts/palette_extractor.py <theme.css>
@@ -183,13 +207,12 @@ python ${SKILL_DIR}/scripts/theme_scaffolder.py ui_spec.md --output theme.css
 
 **Validation checks**:
 - [ ] All HEX colors belong to declared palette
-- [ ] No `border-radius` greater than 2px
-- [ ] No gradients (`linear-gradient`, `radial-gradient`, `conic-gradient`)
-- [ ] No `box-shadow` with a blur radius (hard shadows only)
-- [ ] No `filter: blur(...)` or non-binary `opacity`
-- [ ] All spacing values are multiples of the grid unit
-- [ ] All class names follow the `pix-` prefix contract
+- [ ] No `border-radius` > 0px on boxes (allowed: 1/2px, dots 50%, scrollbars 8px)
+- [ ] All spacing values are integer px
+- [ ] Class names follow the `geek-` prefix contract
+- [ ] Soft shadows / gradients / fractional opacity / blur used deliberately
 - [ ] Interaction states present for every interactive component
+- [ ] `prefers-reduced-motion` fallback included
 
 **Export structure**:
 ```
@@ -197,7 +220,7 @@ output/<theme_name>_<timestamp>/
 ├── theme.css              # :root variables + all components
 ├── components/            # optional per-family CSS splits
 │   ├── buttons.css
-│   ├── backgrounds.css
+│   ├── cards.css
 │   ├── windows.css
 │   └── animations.css
 ├── ui_spec.md             # Final spec
@@ -212,11 +235,11 @@ output/<theme_name>_<timestamp>/
 
 ```
 theme.css
-├── :root variables (palette, grid, style-lock params)
+├── :root variables (palette, fonts, shadows, motion)
 ├── Reset / base
 ├── Buttons (states + variants)
-├── Backgrounds (patterns)
-├── Container windows (window/panel/card/modal)
+├── Cards / windows (corner brackets, tags)
+├── Decorative motifs (eyebrow, timeline, typewriter, backgrounds)
 ├── Animation keyframes + interaction rules
 └── Reduced-motion fallback
 ```
@@ -228,15 +251,15 @@ Preferred for larger interfaces with many components. Each file follows the same
 **Manifest format** (`theme_manifest.json`):
 ```json
 {
-  "theme": "retro-console",
-  "palette": ["#111111", "#1E1E1E", "#5D8BFF"],
-  "grid_unit": 4,
-  "corner_radius": 2,
+  "theme": "geek-terminal",
+  "palette": ["#1d211c", "#232825", "#c9151e"],
+  "corner_radius": 0,
+  "border": 1,
   "files": {
     "theme.css":       "custom properties + base",
-    "buttons.css":     "pix-btn states and variants",
-    "backgrounds.css": "pix-bg patterns",
-    "windows.css":     "pix-window / pix-panel / pix-card",
+    "buttons.css":     "geek-btn states and variants",
+    "cards.css":       "geek-card / geek-tag / corner brackets",
+    "windows.css":     "geek-window / geek-panel",
     "animations.css":  "keyframes + interaction rules"
   }
 }

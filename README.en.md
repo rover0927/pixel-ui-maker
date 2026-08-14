@@ -1,10 +1,10 @@
 # Pixel UI Maker
 
-> Pixel-style UI/CSS theme maker — a [Claude Code](https://claude.com/claude-code) skill that converts interface descriptions, wireframes, or reference designs into complete pixel-art UI implementations (CSS + component markup) with strict style consistency.
+> Dark-hacker/terminal UI/CSS theme maker — a [Claude Code](https://claude.com/claude-code) skill that converts interface descriptions, wireframes, or reference designs into complete **dark-terminal geek** UI implementations (CSS + component markup) with strict style consistency.
 
-Covers **pixel buttons and interactions**, **pixel backgrounds**, **container windows**, and **style interaction animations** — all locked to a single shared visual contract.
+Distilled from the **SJTU SITA (思源极客协会)** official site's design language: near-black olive canvas + signal-red accent, sharp 0px geometry, red corner brackets, CRT scanline / glitch / typewriter terminal motifs, soft glow shadows, and smooth ease motion.
 
-> 🇨🇳 中文版见 [README.zh-CN.md](README.zh-CN.md) · English is the canonical version.
+> 🇨🇳 中文版见 [README.md](README.md) · English is the canonical version.
 
 ---
 
@@ -12,30 +12,33 @@ Covers **pixel buttons and interactions**, **pixel backgrounds**, **container wi
 
 Given a UI description, wireframe, or existing CSS/reference screenshot, the skill produces:
 
-1. A **UI design spec** (`ui_spec.md`) — theme name, pixel style, color palette, style-lock parameters, component inventory, and an animation plan.
-2. A **CSS implementation** (`theme.css` or per-family splits) with `--pix-*` custom properties and `pix-` prefixed component classes.
-3. **Validation** — automated checks that every component obeys the style-lock rules.
+1. A **UI design spec** (`ui_spec.md`) — theme name, geek style, color palette, style-lock parameters, component inventory, and an animation plan.
+2. A **CSS implementation** (`theme.css` or per-family splits) with `--geek-*` custom properties and `geek-` prefixed component classes.
+3. **Dynamic effects** (distilled from the JIEJOE design portfolio + the particle-background guide; see `references/dynamic-effects.md`) — `geek-btn-wipe` dual-layer wipe button, `geek-float-parallax` mouse-parallax background float (pure CSS / GSAP), `geek-float-rise` staggered pixel-art rise (pure CSS / GSAP), `geek-particle-bg` canvas pixel-particle network (pixel squares + proximity links + mouse repel), `geek-marquee` 4-direction scrolling strips, `geek-crt-ripple` CRT water-ripple filter.
+4. **Validation** — automated checks that every component obeys the style-lock rules.
 
 A demo of the core output shape:
 
 ```css
 :root {
-  --pix-color-bg:        #111111;
-  --pix-color-surface:   #1E1E1E;
-  --pix-color-accent:    #5D8BFF;
-  --pix-space-1: 4px;  --pix-space-2: 8px;
+  --geek-color-bg:        #1d211c;   /* olive dark */
+  --geek-color-bg-soft:   #232825;   /* surface */
+  --geek-color-red:       #c9151e;   /* primary accent */
+  --geek-shadow-glow:     0 0 24px rgba(201, 21, 30, .45);
+  --geek-space-1: 4px;  --geek-space-2: 8px;
 }
 
-.pix-btn {           /* button interactions */
-  border: 2px solid var(--pix-color-accent-edge);
-  border-radius: 2px;
-  box-shadow: 0 4px 0 var(--pix-color-accent-shadow);  /* the hard 3D edge */
-  transition: transform 60ms linear, box-shadow 60ms linear;
+.geek-btn {           /* mono outline button, hover inverts + red glow + lift */
+  font-family: var(--geek-font-mono);
+  border: 1px solid var(--geek-color-text);
+  border-radius: 0;
+  transition: box-shadow .2s ease, transform .3s ease;
 }
-.pix-btn:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 var(--pix-color-accent-shadow);  /* press down the edge */
+.geek-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--geek-shadow-glow);
 }
+.corner:before, .corner:after { ... }   /* red L-shaped corner brackets */
 ```
 
 ---
@@ -45,10 +48,12 @@ A demo of the core output shape:
 Invoke this skill when the request mentions any of:
 
 - "pixel-style the UI", "make a pixel theme", "generate pixel CSS"
-- **像素风界面**, **像素样式开发**, **像素按钮**, **像素背景**, **像素窗口**
+- "terminal style", "hacker theme", "geek UI"
+- **像素风界面**, **像素样式开发**, **像素按钮**, **像素背景**, **像素窗口** (backward-compatible aliases)
+- **暗黑终端**, **终端极客**, **黑客风**, **角标**, **CRT**, **scanline**, **glitch**, **typewriter**
 - `pixel-ui-maker`
 
-Typical targets: login pages, dashboards, settings panels, game UI, retro portfolios — in Vue, React, plain HTML+CSS, or mini-programs.
+Typical targets: login pages, dashboards, settings panels, club sites, geek portfolios — in Vue, React, plain HTML+CSS, or mini-programs.
 
 ---
 
@@ -86,35 +91,41 @@ Validation & Delivery ── Step 5 · style_validator.py + export
 
 ## Core Concepts
 
-### The Style Lock (STRICT)
+### The Style Lock (STRICT) — the "geek lock"
 
 Every generated component **must** satisfy all of these rules — this is the heart of the skill:
 
 | Rule | Constraint |
 |------|------------|
-| **Palette** | Every HEX color from the declared palette ONLY |
-| **Corners** | `border-radius` 0–2px ONLY, never soft-rounded |
-| **Borders** | Integer px weight, consistent per component type |
-| **Shadows** | HARD only: `box-shadow: <offsetX> <offsetY> <color>` — NO blur/spread radius |
-| **Gradients** | Forbidden for fills; hard-edged `repeating-*` texture patterns allowed |
-| **Opacity** | 0 or 1 only (stepped overlay scrims excepted) |
-| **Blur** | `filter: blur(...)` forbidden |
-| **Grid** | All spacing is a multiple of the base unit (e.g. 4px) |
-| **Font** | Monospace or pixel font; `font-smoothing` off for pixel fonts |
-| **Image** | `image-rendering: pixelated` for raster assets |
-| **Motion** | `steps()` discrete or short linear — no elastic/ease-in-out overshoot; `prefers-reduced-motion` fallback mandatory |
-| **Naming** | `pix-` class prefix, `--pix-*` custom properties |
+| **Palette** | Every HEX color from the declared palette ONLY (olive `#1d211c` + red `#c9151e` + status set) |
+| **Corners** | **0px** on boxes (sharp); exceptions: dots `50%`, scrollbars `8px`, code `2px` |
+| **Borders** | 1px hairline, consistent per component type |
+| **Shadows** | **Soft + neon glow allowed**: card `0 8px 32px rgba(0,0,0,.45)`, glow `0 0 24px rgba(201,21,30,.45)` |
+| **Gradients** | **Allowed**: grid lines, CRT scanlines, radial glows, scrollbars |
+| **Opacity** | **Fractional alpha allowed** (scanlines `.025`, glows `.45`) |
+| **Blur** | **Allowed** `filter: blur` / `backdrop-filter` (blurred nav) |
+| **Spacing** | Integer px, loose (no strict grid-multiple lock) |
+| **Fonts** | **mono** for labels/numbers/buttons/metadata + wide letter-spacing; **sans** for body/headings |
+| **Motion** | Smooth `ease` (.2s colors / .3s transform / .6s zoom / .8s reveal); caret/glitch use `steps(1)`; `prefers-reduced-motion` fallback mandatory |
+| **Naming** | `geek-` class prefix, `--geek-*` custom properties (`.corner` excepted) |
 
-### The Four Component Families
+### Signature motifs (must use)
+
+- **`.corner` red L-brackets** (14×14, top-left + bottom-right)
+- **`//` eyebrow labels** (mono red, `.18em` uppercase, 28px red leading line)
+- **CRT scanlines** (`repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px)`)
+- **56px grid backgrounds**, **glitch titles** (red + teal clip-path slices), **typewriter caret `▌`**, **glowing timeline dots**
+
+### The Component Families
 
 | Family | Covered components |
 |--------|--------------------|
-| **Button interactions** | `pix-btn` default/hover/active/focus-visible/disabled states, `[aria-pressed]` toggles, variants (solid / outlined / ghost / danger / success), sizes (`--sm` 32px / `--md` 40px / `--lg` 48px), `pix-btn-group` |
-| **Backgrounds** | Flat, checkerboard, grid lines, dithered fill, noise/scanlines, vignette, tile border |
-| **Container windows** | `pix-window` (title bar + body + buttons), `pix-panel` (+ raised/sunken), `pix-card`, `pix-modal` |
-| **Interaction animations** | Pop-in/out, press mechanics, idle bob, shake, focus rings, loading spinners, ambient loops — all stepped |
+| **Button interactions** | `geek-btn` default/hover/active/focus-visible/disabled states, variants (primary / ghost / danger), sizes (`--sm`/`--lg`), hover-invert + red glow + lift |
+| **Cards & windows** | `geek-card` (corner brackets + hover lift + red border), `geek-panel`, `geek-window` (4px red top-bar title), `geek-tag` |
+| **Decorative motifs** | `.corner` brackets, `//` eyebrow, timeline, typewriter caret, scanlines, grid, glitch |
+| **Interaction animations** | ease transitions, hover invert/lift, scroll reveal fadeUp, card lift, stepped caret/glitch — all ease + `steps(1)` |
 
-> For the full generation contract (button press mechanics, background recipes, window anatomy, keyframe recipes) see [`references/generator-pixel-ui.md`](references/generator-pixel-ui.md).
+> For the full generation contract (button recipes, card/window anatomy, background recipes, motion table) see [`references/generator-pixel-ui.md`](references/generator-pixel-ui.md).
 
 ---
 
@@ -131,16 +142,16 @@ python scripts/palette_extractor.py theme.css --analyze-only           # no pale
 python scripts/palette_extractor.py theme.css --format json --output palette.json
 ```
 
-### style_validator.py — validate a CSS file against the style lock
+### style_validator.py — validate a CSS file against the geek style lock
 
 ```bash
-python scripts/style_validator.py theme.css --palette "#111111" "#1E1E1E" "#5D8BFF"
-python scripts/style_validator.py theme.css --spec ui_spec.md --grid 4 --prefix pix-
+python scripts/style_validator.py theme.css --palette "#1d211c" "#232825" "#c9151e"
+python scripts/style_validator.py theme.css --spec ui_spec.md --prefix geek-
 python scripts/style_validator.py theme.css --spec ui_spec.md --strict          # warnings = failures
 python scripts/style_validator.py theme.css --spec ui_spec.md --output validation.json
 ```
 
-Checks: palette membership, `border-radius` ≤ 2px, no gradient fills, hard shadows only, no `filter: blur`, binary opacity, grid-multiple spacing, `pix-` prefix contract. **Exit code 0 = valid, 1 = invalid.**
+Checks: palette membership, `border-radius` 0px on boxes (dots 50%, scrollbars 8px, code 2px), integer px spacing, `geek-` prefix contract. **Exit code 0 = valid, 1 = invalid.** (`--grid` is accepted but ignored — spacing is no longer grid-locked.)
 
 ### theme_scaffolder.py — generate a `theme.css` skeleton from `ui_spec.md`
 
@@ -149,7 +160,7 @@ python scripts/theme_scaffolder.py ui_spec.md --output theme.css
 python scripts/theme_scaffolder.py ui_spec.md --print                   # print to stdout
 ```
 
-Parses the spec's palette and style tables into `:root` variables, then emits component scaffolds as the starting point for Step 4.
+Parses the spec's palette and style tables into `:root` variables (`--geek-*`), then emits component scaffolds (buttons, corner brackets, cards/windows, tags, eyebrow, backgrounds, glitch, timeline, typewriter, animations) as the starting point for Step 4.
 
 ---
 
@@ -168,7 +179,7 @@ Not part of the main pipeline — reusable checklists for common follow-up tasks
 
 | Workflow | When to use |
 |----------|-------------|
-| [`workflows/extend-theme.md`](workflows/extend-theme.md) | Add new components to an **existing** pixel theme while keeping style-lock consistency |
+| [`workflows/extend-theme.md`](workflows/extend-theme.md) | Add new components to an **existing** dark-terminal theme while keeping style-lock consistency |
 | [`workflows/from-reference.md`](workflows/from-reference.md) | Build a theme derived from a **reference** screenshot, wireframe, or existing CSS |
 
 ---
@@ -177,8 +188,9 @@ Not part of the main pipeline — reusable checklists for common follow-up tasks
 
 All generated themes MUST follow (the validator and scaffolder depend on it):
 
-- **Class prefix**: `pix-` → `.pix-btn`, `.pix-window`, `.pix-bg--checker`
-- **Custom properties**: `--pix-*` → `--pix-color-accent`, `--pix-space-2`, `--pix-motion-enter`
+- **Class prefix**: `geek-` → `.geek-btn`, `.geek-card`, `.geek-window`
+- **Custom properties**: `--geek-*` → `--geek-color-red`, `--geek-space-2`, `--geek-shadow-glow`
+- **Signature corner helper**: `.corner` (unprefixed by design)
 
 ---
 
@@ -191,11 +203,11 @@ output/<theme_name>_<timestamp>/
 ├── theme.css              # :root variables + all components
 ├── components/            # optional per-family splits
 │   ├── buttons.css
-│   ├── backgrounds.css
+│   ├── cards.css
 │   ├── windows.css
 │   └── animations.css
 ├── ui_spec.md             # final spec
-├── theme_manifest.json    # theme name, palette, grid, file map (multi-file mode)
+├── theme_manifest.json    # theme name, palette, file map (multi-file mode)
 └── validation.json        # style_validator.py output
 ```
 
