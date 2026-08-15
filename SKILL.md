@@ -33,6 +33,7 @@ description: >
 > 3. **NO CROSS-PHASE BUNDLING** — Do not prepare content for subsequent Steps before reaching them
 > 4. **GATE BEFORE ENTRY** — Each Step has prerequisites (🚧 GATE) that MUST be verified before starting
 > 5. **STYLE CONSISTENCY ABOVE ALL** — All generated components MUST share the exact same palette, corner radius, border weight, shadow depth, font split, and transition style
+> 6. **PREVIEW IS A STEP-1 SUB-FLOW, NOT A STEP** — The Step 1 dynamic-background preview server is a helper inside Step 1; it never creates a new pipeline step, and must be stopped if the user declines dynamic backgrounds
 
 > [!IMPORTANT]
 > ## Language Rule
@@ -47,6 +48,7 @@ description: >
 | `${SKILL_DIR}/scripts/palette_extractor.py` | Extract all HEX colors from a reference CSS/design file |
 | `${SKILL_DIR}/scripts/style_validator.py` | Validate a CSS file against the geek style-lock rules (palette, sharp corners, integer spacing, naming) |
 | `${SKILL_DIR}/scripts/theme_scaffolder.py` | Generate a `theme.css` skeleton (CSS custom properties + component scaffolds) from `ui_spec.md` |
+| `${SKILL_DIR}/scripts/preview_backgrounds.py` | Serve the `examples/` background-toolkit gallery + demos over local HTTP (stdlib only): prints reachable URL(s) + effect catalog, `index.html` as landing page |
 
 ## Template Index
 
@@ -83,7 +85,23 @@ description: >
 - **Geek style direction**: SJTU SITA dark terminal / 暗黑终端极客 / Retro terminal / custom
 - **Optional**: color palette, spacing base, reference design
 
-**Output**: Structured requirements list: interface description, component inventory, style direction, framework target, any reference files
+**Dynamic background inquiry (proactive — a sub-flow within Step 1, NOT a new step)**:
+
+Before freezing the requirements, **proactively ask** the user whether they need *advanced dynamic backgrounds*. Do it inline in this same turn, in order:
+
+1. **Ask** — use this prompt (match the user's language):
+   > "需要为界面加入进阶动态背景吗？可以打开本地预览挑选 —— 粒子网络 / 流体网格 / 像素画视差浮动 / 滚动光带 / CRT 水波纹等。"
+2. **Launch instant preview** — immediately start the zero-dependency preview server in the background so the user can browse live while deciding:
+   ```bash
+   # run as a background task; keep it alive until the user answers
+   python3 ${SKILL_DIR}/scripts/preview_backgrounds.py
+   ```
+   Read the printed URLs from the tool output and hand them to the user — gallery landing `/` and demo `/geek-effects-demo.html`.
+3. **Present the toolkit catalog** — summarize `examples/index.html`: `geek-btn-wipe`, `geek-float-parallax`, `geek-float-rise`, `geek-particle-bg`, `geek-marquee`, `geek-crt-ripple`, `geek-fluid-grid`, `geek-copy-params`. Note which are instantly viewable in the static demo (`geek-btn-wipe`, `geek-float-rise`, `geek-marquee`, `geek-crt-ripple`) and which live in the Vue demos `geek-homepage` / `fluid-grid-bg` (require `npm install && npm run dev`; Vite dev port 5173). **Do not start the Vue demos.**
+4. **Record the choice** — write the user's selection into the **Output** below (e.g. `dynamic_backgrounds: [geek-particle-bg, geek-btn-wipe]`). If declined, record `dynamic_backgrounds: none`.
+5. **If declined → stop the preview** — kill the background server (`TaskStop` / Ctrl+C) and continue the pipeline without dynamic backgrounds.
+
+**Output**: Structured requirements list: interface description, component inventory, style direction, framework target, any reference files, and the recorded dynamic-background selection (effect classes + trigger, or `none`)
 
 ---
 

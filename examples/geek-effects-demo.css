@@ -46,6 +46,23 @@
   --geek-shadow-glow:     0 0 24px rgba(23,247,0,.35);
 }
 
+/* sci-fi blue palette (deep blue-black + electric cyan) — flip via data-theme="scifi" */
+:root[data-theme="scifi"] {
+  --geek-color-bg:        #0b1026;
+  --geek-color-bg-soft:   #131b3a;
+  --geek-color-line:      #1e2a4a;
+  --geek-color-red:       #2fd6ff;   /* electric cyan-blue primary accent */
+  --geek-color-text:      #e6f1ff;
+  --geek-color-text-dim:  #c9d2e8;
+  --geek-color-text-mute: #7a87a6;
+  --geek-shadow-glow:     0 0 24px rgba(47,214,255,.45);
+}
+:root[data-theme="scifi"] .geek-demo {
+  background-image:
+    linear-gradient(1px, transparent 1px, rgba(47,214,255,.07) 1px, transparent 2px),
+    linear-gradient(90deg, transparent 1px, rgba(47,214,255,.07) 1px, transparent 2px);
+}
+
 /* ---- base / layout ---- */
 .geek-demo {
   box-sizing: border-box;
@@ -239,7 +256,7 @@
   font-size: 13px;
   letter-spacing: .1em;
   color: var(--geek-color-teal);
-  background-color: #0a0e0c;
+  background-color: #0a0f26;
   border: 1px solid var(--geek-color-line);
   border-radius: 0;
   overflow: hidden;

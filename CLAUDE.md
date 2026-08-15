@@ -23,6 +23,10 @@ python scripts/style_validator.py theme.css --spec ui_spec.md --prefix geek-
 
 # Generate a theme.css skeleton from ui_spec.md
 python scripts/theme_scaffolder.py ui_spec.md --output theme.css
+
+# Serve the examples/ background-toolkit gallery + demos locally (stdlib only)
+python scripts/preview_backgrounds.py              # default port 8000, auto-increments if busy
+python scripts/preview_backgrounds.py --port 9000  # pick a specific base port
 ```
 
 No dependencies required — all scripts use the Python standard library only.
@@ -33,6 +37,7 @@ No dependencies required — all scripts use the Python standard library only.
 
 The skill follows a 5-step serial pipeline: Input Collection → Design Specification → Style Confirmation (blocking, user) → Implementation Generation → Validation & Delivery.
 
+- **Step 1 proactively offers dynamic backgrounds** — before freezing requirements it asks whether the user wants advanced dynamic effects, launches `scripts/preview_backgrounds.py` in the background to serve `examples/index.html` (gallery) + `geek-effects-demo.html` (static demo), hands the URLs to the user, records the choice into the requirements output, and stops the server if the user declines. This is a sub-flow of Step 1, not a new pipeline step.
 - **Step 3 is a blocking user confirmation gate** — always present the UI spec and wait for approval before generating CSS.
 - **Style Lock is the hardest rule** (the "geek lock"): every component must share palette, corner radius (0px boxes; dots 50%, scrollbars 8px, code 2px), border weight (1px hairline), soft shadows + neon glows, integer px spacing, mono/sans font split, and ease transition style.
 - **Generation order**: complete one component family (buttons → cards/windows → tags/motifs → animations) before the next.
@@ -46,6 +51,7 @@ Three independent scripts that share no common library:
 | `palette_extractor.py` | Extract HEX colors used in a CSS file with usage counts | Reads any CSS file, outputs hex/json palette + analysis |
 | `style_validator.py` | Validate a CSS file against the geek style-lock rules | Reads CSS + palette spec; checks palette, corners (0px boxes), integer spacing, naming |
 | `theme_scaffolder.py` | Generate a `theme.css` skeleton from `ui_spec.md` | Reads spec, outputs CSS with `--geek-*` variables + component scaffolds |
+| `preview_backgrounds.py` | Serve the `examples/` background-toolkit gallery + demos over local HTTP (stdlib only) | Binds `127.0.0.1:<port>` (default 8000), auto-increments if busy; prints reachable URLs + effect catalog; serves `index.html` as landing page |
 
 **Critical naming contract**: all generated themes follow `geek-` class prefix and `--geek-*` custom property names — e.g., `.geek-btn`, `.geek-card`, `.geek-window`, `--geek-color-red`, `--geek-shadow-glow`. `style_validator.py` and `theme_scaffolder.py` rely on this contract. The `.corner` helper is unprefixed by design.
 
@@ -75,6 +81,8 @@ Three independent scripts that share no common library:
 | Copy-params interaction | `geek-copy-params` | same demo — one click serializes the settings to JSON and copies it, so the user can paste it back to an agent to reproduce the effect |
 
 > Runnable source: `examples/geek-homepage/` is the full Vue 3 + Vite implementation of the JIEJOE effects above (11 `Geek*` components + 3 `use*` composables + `assets/geek-homepage.css`), alongside the fluid-grid demo in `examples/fluid-grid-bg/`. See `examples/README.md` for the index.
+
+A static gallery `examples/index.html` catalogs all eight effects (class, one-line description, trigger, source, and a live-preview link — instant for the flat demo, `npm install && npm run dev` for the two Vue demos). Serve it with `scripts/preview_backgrounds.py` or open the file directly.
 
 Naming contract: `geek-btn-wipe`, `geek-float-parallax`, `geek-float-rise`, `geek-particle-bg`, `geek-marquee` classes; `--geek-motion-*`, `--geek-stagger`, `--geek-rise-height`, `--geek-parallax-x`, `--geek-parallax-rot` custom properties. All effects are plain CSS except the GSAP variants (optional) and the three `requestAnimationFrame` drivers (the ripple's seed/scale, `geek-particle-bg`'s particle loop, `geek-fluid-grid`'s flow loop). `geek-float-parallax` (hero background float), `geek-float-rise` (menu/section entrance), `geek-particle-bg` (canvas particle network, layers *under* the parallax) and `geek-fluid-grid` (fixed LED-matrix pixel grid, flow-driven) are **different background effects** — don't conflate them. Every effect ships a `prefers-reduced-motion` fallback (canvas backgrounds render one static frame).
 

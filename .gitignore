@@ -1,0 +1,10 @@
+# Node build artifacts (Vue demos — regenerate via npm install)
+node_modules/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+
+# Editor / OS
+.DS_Store

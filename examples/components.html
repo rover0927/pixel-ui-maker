@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="scifi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>// Component Showcase · Pixel UI Maker</title>
+<link rel="stylesheet" href="geek-effects-demo.css">
+<style>
+  /* ---- core component styles (geek lock), built on geek-effects-demo.css tokens ---- */
+
+  /* red L-bracket corner signature (14x14, top-left + bottom-right) */
+  .corner { position: relative; }
+  .corner::before, .corner::after { content: ""; position: absolute; width: 14px; height: 14px; }
+  .corner::before { top: -1px; left: -1px; border-top: 2px solid var(--geek-color-red); border-left: 2px solid var(--geek-color-red); }
+  .corner::after  { bottom: -1px; right: -1px; border-bottom: 2px solid var(--geek-color-red); border-right: 2px solid var(--geek-color-red); }
+
+  /* // eyebrow label */
+  .geek-eyebrow {
+    display: inline-flex; align-items: center; gap: var(--geek-space-2);
+    font-family: var(--geek-font-mono); font-size: 12px; font-weight: 600;
+    letter-spacing: .18em; text-transform: uppercase; color: var(--geek-color-red);
+    margin: 0 0 var(--geek-space-3);
+  }
+  .geek-eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--geek-color-red); }
+
+  /* layout helpers */
+  .lead { margin: 0 0 var(--geek-space-6); color: var(--geek-color-text-dim); font-family: var(--geek-font-mono); }
+  section { margin-bottom: var(--geek-space-6); }
+  .row { display: flex; flex-wrap: wrap; gap: var(--geek-space-4); align-items: center; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--geek-space-5); }
+
+  /* title */
+  .geek-glitch { position: relative; display: inline-block; font-family: var(--geek-font-mono); font-size: 30px; letter-spacing: .12em; color: #fff; margin: 0 0 var(--geek-space-2); }
+
+  /* palette swatch strip */
+  .palette { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--geek-space-3); }
+  .swatch { border: 1px solid var(--geek-color-line); padding: var(--geek-space-4) var(--geek-space-4) var(--geek-space-3); background: var(--sw, var(--geek-color-bg)); color: var(--tx, #fff); min-height: 84px; box-shadow: var(--geek-shadow-card); }
+  .swatch span { font-family: var(--geek-font-mono); font-size: 12px; letter-spacing: .06em; }
+  .swatch em { display: block; font-style: normal; font-family: var(--geek-font-mono); font-size: 11px; opacity: .75; margin-top: 4px; }
+
+  /* buttons — mono outline, hover invert + red glow + lift */
+  .geek-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: var(--geek-space-2);
+    font-family: var(--geek-font-mono); font-size: 13px; letter-spacing: .08em;
+    padding: var(--geek-space-3) var(--geek-space-5); min-height: 40px;
+    background: var(--geek-color-bg); color: var(--geek-color-text);
+    border: 1px solid var(--geek-color-text); border-radius: 0;
+    cursor: pointer; user-select: none;
+    transition: color var(--geek-motion-color), background var(--geek-motion-color),
+                border-color var(--geek-motion-color), box-shadow var(--geek-motion-color),
+                transform var(--geek-motion-transform);
+  }
+  .geek-btn:hover { transform: translateY(-2px); box-shadow: var(--geek-shadow-glow); }
+  .geek-btn:active { transform: translateY(0); }
+  .geek-btn:focus-visible { outline: 1px solid var(--geek-color-red); outline-offset: 3px; }
+  .geek-btn--primary { background: var(--geek-color-red); border-color: var(--geek-color-red); color: #fff; }
+  .geek-btn--ghost { background: transparent; color: var(--geek-color-text-dim); border-color: var(--geek-color-line); }
+  .geek-btn--ghost:hover { color: var(--geek-color-text); border-color: var(--geek-color-text); box-shadow: none; }
+  .geek-btn--danger { color: var(--geek-color-red); border-color: var(--geek-color-red); }
+  .geek-btn--danger:hover { background: var(--geek-color-red); color: #fff; }
+  .geek-btn--sm { padding: var(--geek-space-2) var(--geek-space-3); min-height: 30px; font-size: 12px; }
+  .geek-btn--lg { padding: var(--geek-space-4) var(--geek-space-6); min-height: 48px; font-size: 15px; }
+  .geek-btn:disabled { opacity: .4; pointer-events: none; }
+
+  /* card — corner brackets + hover lift + red edge */
+  .geek-card {
+    position: relative; padding: var(--geek-space-5);
+    background: var(--geek-color-bg-soft); border: 1px solid var(--geek-color-line);
+    box-shadow: var(--geek-shadow-card);
+    transition: transform var(--geek-motion-transform), border-color var(--geek-motion-color), box-shadow var(--geek-motion-color);
+  }
+  .geek-card:hover { transform: translateY(-4px); border-color: var(--geek-color-red); box-shadow: var(--geek-shadow-card), var(--geek-shadow-glow); }
+  .geek-card h3 { font-family: var(--geek-font-mono); font-size: 15px; margin: 0 0 var(--geek-space-2); color: var(--geek-color-text); }
+  .geek-card p { margin: 0; color: var(--geek-color-text-dim); font-size: 14px; line-height: 1.6; }
+
+  /* window — 4px red title bar */
+  .geek-window { background: var(--geek-color-bg-soft); border: 1px solid var(--geek-color-line); box-shadow: var(--geek-shadow-card); }
+  .geek-window__bar { height: 4px; background: var(--geek-color-red); }
+  .geek-window__title { display: flex; align-items: center; gap: var(--geek-space-3); padding: var(--geek-space-3) var(--geek-space-4); border-bottom: 1px solid var(--geek-color-line); }
+  .geek-window__title span { font-family: var(--geek-font-mono); font-size: 12px; letter-spacing: .12em; color: var(--geek-color-text-dim); }
+  .geek-window__dots { display: flex; gap: 6px; }
+  .geek-window__dots i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .geek-window__body { padding: var(--geek-space-4); color: var(--geek-color-text-dim); font-family: var(--geek-font-mono); font-size: 13px; line-height: 2; }
+  .geek-window__body p { margin: 0; }
+  .geek-window__body .ok { color: var(--geek-color-teal); }
+  .geek-window__body .prompt { color: var(--geek-color-red); }
+
+  /* tag */
+  .geek-tag { display: inline-block; font-family: var(--geek-font-mono); font-size: 12px; padding: 3px 10px; border: 1px solid var(--geek-color-line); color: var(--geek-color-text-dim); letter-spacing: .06em; }
+  .geek-tag--on { color: #fff; border-color: var(--geek-color-red); box-shadow: inset 0 0 0 1px var(--geek-color-red); }
+  .geek-tag--warn { color: var(--geek-color-red); border-color: var(--geek-color-red); }
+
+  /* typewriter caret */
+  .geek-caret { display: inline-block; width: 8px; height: 1em; background: var(--geek-color-red); vertical-align: -2px; animation: caret-blink 1s steps(1) infinite; }
+  @keyframes caret-blink { 50% { opacity: 0; } }
+
+  /* glitch title (red + teal clip-path slices) */
+  .geek-glitch::before, .geek-glitch::after { content: attr(data-text); position: absolute; left: 0; top: 0; width: 100%; }
+  .geek-glitch::before { color: var(--geek-color-red); transform: translate(-2px, 0); clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%); animation: glitch-a 3s steps(1) infinite; }
+  .geek-glitch::after { color: var(--geek-color-teal); transform: translate(2px, 0); clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); animation: glitch-b 2.7s steps(1) infinite; }
+  @keyframes glitch-a { 0%, 88%, 100% { clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%); } 50% { clip-path: polygon(0 18%, 100% 18%, 100% 60%, 0 60%); } }
+  @keyframes glitch-b { 0%, 90%, 100% { clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); } 50% { clip-path: polygon(0 40%, 100% 40%, 100% 82%, 0 82%); } }
+
+  /* timeline — glowing red dots */
+  .geek-timeline { list-style: none; margin: 0; padding: 0; }
+  .geek-timeline li { position: relative; padding: 0 0 var(--geek-space-5) var(--geek-space-5); border-left: 1px solid var(--geek-color-line); }
+  .geek-timeline li:last-child { padding-bottom: 0; }
+  .geek-timeline li::before { content: ""; position: absolute; left: -5px; top: 4px; width: 9px; height: 9px; border-radius: 50%; background: var(--geek-color-red); box-shadow: var(--geek-shadow-glow); }
+  .geek-timeline time { font-family: var(--geek-font-mono); font-size: 12px; color: var(--geek-color-red); letter-spacing: .1em; }
+  .geek-timeline p { margin: var(--geek-space-1) 0 0; color: var(--geek-color-text-dim); font-size: 14px; }
+
+  /* CRT scanlines overlay */
+  .geek-scanlines { position: relative; }
+  .geek-scanlines::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px); }
+
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body class="geek-demo geek-scanlines">
+
+  <header>
+    <p class="geek-eyebrow">// pixel-ui-maker · dark terminal geek lock</p>
+    <h1 class="geek-glitch" data-text="COMPONENT SHOWCASE">COMPONENT SHOWCASE</h1>
+    <p class="lead">样式锁生成的组件家族 —— 深蓝黑 · 电光青蓝 · 0 圆角 · 柔和光晕<span class="geek-caret"></span></p>
+  </header>
+
+  <section>
+    <h2 class="geek-eyebrow">// palette · 调色板</h2>
+    <div class="palette">
+      <div class="swatch" style="--sw:#0b1026"><span>#0B1026</span><em>bg 深蓝黑</em></div>
+      <div class="swatch" style="--sw:#131b3a"><span>#131B3A</span><em>surface 深蓝表面</em></div>
+      <div class="swatch" style="--sw:#1e2a4a"><span>#1E2A4A</span><em>line 蓝灰线条</em></div>
+      <div class="swatch" style="--sw:#2fd6ff"><span>#2FD6FF</span><em>cyan 电光青蓝</em></div>
+      <div class="swatch" style="--sw:#43d9c1"><span>#43D9C1</span><em>teal 霓虹青绿</em></div>
+      <div class="swatch" style="--sw:#e6f1ff; --tx:#0b1026"><span>#E6F1FF</span><em>text 冷白</em></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="geek-eyebrow">// buttons · 按钮交互</h2>
+    <div class="row">
+      <button class="geek-btn">默认按钮</button>
+      <button class="geek-btn geek-btn--primary">主按钮</button>
+      <button class="geek-btn geek-btn--ghost">幽灵</button>
+      <button class="geek-btn geek-btn--danger">危险</button>
+      <button class="geek-btn geek-btn--sm">小尺寸</button>
+      <button class="geek-btn geek-btn--lg">大尺寸</button>
+      <button class="geek-btn" disabled>禁用</button>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="geek-eyebrow">// cards &amp; windows · 卡片与窗口</h2>
+    <div class="grid">
+      <article class="geek-card corner">
+        <h3>geek-card</h3>
+        <p>青蓝 L 型角标签名 + hover 上浮青蓝边。柔和阴影 + 霓虹光晕，0 圆角锐利几何，发丝线 1px 边框。</p>
+      </article>
+      <div class="geek-window corner">
+        <div class="geek-window__bar"></div>
+        <div class="geek-window__title">
+          <span class="geek-window__dots"><i style="background:var(--geek-color-red)"></i><i style="background:var(--geek-color-line)"></i><i style="background:var(--geek-color-line)"></i></span>
+          <span>geek-window — terminal</span>
+        </div>
+        <div class="geek-window__body">
+          <p><span class="prompt">➜</span> pixel-ui-maker --theme geek --effects particle</p>
+          <p><span class="ok">✓</span> ui_spec.md — 4 families · 12 components</p>
+          <p><span class="prompt">➜</span> style_validator.py theme.css --spec ui_spec.md</p>
+          <p><span class="ok">✓</span> style-lock passed — 0 warnings</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="geek-eyebrow">// tags · 标签</h2>
+    <div class="row">
+      <span class="geek-tag geek-tag--on">HTML</span>
+      <span class="geek-tag geek-tag--on">CSS</span>
+      <span class="geek-tag geek-tag--warn">Vue</span>
+      <span class="geek-tag">React</span>
+      <span class="geek-tag">Canvas</span>
+      <span class="geek-tag">GSAP</span>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="geek-eyebrow">// timeline · 时间线</h2>
+    <ul class="geek-timeline">
+      <li><time>2024</time><p>输入收集 → 设计规范 → 风格确认</p></li>
+      <li><time>2025</time><p>实现生成 → 验证与交付</p></li>
+      <li><time>2026</time><p>动态背景工具包：粒子网络 / 流体网格 / 视差浮动</p></li>
+    </ul>
+  </section>
+
+</body>
+</html>

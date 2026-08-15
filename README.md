@@ -43,6 +43,132 @@
 
 ---
 
+## 组件展示 / Component Showcase
+
+以下截图来自仓库内可运行示例（三个示例页通过 `data-theme="scifi"` 切换为**科幻蓝**配色：深蓝黑底 `#0b1026` + 电光青蓝强调 `#2fd6ff`；skill 默认的橄榄黑/信号红调色板保持不变）。想**现场观看**，一行命令起本地预览服务器（Python 标准库，零依赖）：
+
+```bash
+python scripts/preview_backgrounds.py     # 默认端口 8000，占用自动递增
+# 打开 http://localhost:8000/  → 背景工具包画廊（全部 8 个动态背景效果目录）
+# 打开 http://localhost:8000/components.html        → 核心组件展示
+# 打开 http://localhost:8000/geek-effects-demo.html → 动态效果 demo
+```
+
+### 核心组件（按钮 / 卡片 / 窗口 / 标签 / 调色板）
+
+![核心组件展示](assets/screenshots/components.png)
+
+- `geek-btn` —— 默认 / primary / ghost / danger / `--sm` / `--lg` / disabled，hover 反白 + 青蓝光晕 + 上浮
+- `geek-card` —— 青蓝 `.corner` L 型角标 + hover 上浮青蓝边
+- `geek-window` —— 4px 青蓝顶条标题栏终端窗口
+- `geek-tag` —— 单选/警告/普通标签
+- 签名 motif：`//` 眉题、glitch 标题、typewriter 光标、发光时间线圆点
+
+### 动态效果（背景工具包）
+
+![动态效果](assets/screenshots/dynamic-effects.png)
+
+`geek-btn-wipe` 双层擦除按钮、`geek-float-rise` 背景像素画错峰上浮、`geek-marquee` 四向滚动光带、`geek-crt-ripple` CRT 水波纹（静态 demo 即看）。
+
+![背景工具包画廊](assets/screenshots/toolkit.png)
+
+另外 4 个 canvas 引擎效果在 Vue demo 里（`npm install && npm run dev`）：
+
+- `geek-particle-bg` 像素粒子网络、`geek-float-parallax` 视差浮动 → `examples/geek-homepage/`
+- `geek-fluid-grid` 流体网格双引擎 + `geek-copy-params` 复制参数 → `examples/fluid-grid-bg/`
+
+> 完整可运行示例索引见 [`examples/README.md`](examples/README.md)；效果配方见 [`references/dynamic-effects.md`](references/dynamic-effects.md) 与 [`references/background-fluid-grid.md`](references/background-fluid-grid.md)。
+
+### 组件源码速查 / Source Snapshot
+
+截图看不够?这里直接给**真实源码**——`examples/` 里的可运行页面,复制即可带走。完整文件:
+
+- [`examples/components.html`](examples/components.html) — 核心组件展示页(调色板 / 按钮 / 卡片 / 窗口 / 标签 / 签名 motif)
+- [`examples/geek-effects-demo.html`](examples/geek-effects-demo.html) + [`examples/geek-effects-demo.css`](examples/geek-effects-demo.css) — 动态效果 demo + 样式锁 token 全集
+
+**HTML · 组件结构**(节选自 `components.html` / `geek-effects-demo.html`):
+
+```html
+<!-- geek-window · 4px 顶条终端窗口 + 圆点 -->
+<div class="geek-window corner">
+  <div class="geek-window__bar"></div>
+  <div class="geek-window__title">
+    <span class="geek-window__dots">
+      <i style="background:var(--geek-color-red)"></i>
+      <i style="background:var(--geek-color-line)"></i>
+      <i style="background:var(--geek-color-line)"></i>
+    </span>
+    <span>geek-window — terminal</span>
+  </div>
+  <div class="geek-window__body">
+    <p><span class="prompt">➜</span> pixel-ui-maker --theme geek</p>
+    <p><span class="ok">✓</span> style-lock passed — 0 warnings</p>
+  </div>
+</div>
+
+<!-- geek-btn-wipe · 双层擦除按钮(hover 两层错位擦入) -->
+<button class="geek-btn-wipe" type="button">
+  <span class="geek-btn-wipe__label">CONTACT</span>
+  <svg class="geek-btn-wipe__icon" viewBox="0 0 50 50">
+    <polyline points="12,25 38,25" />
+    <polyline points="28,15 38,25 28,35" />
+  </svg>
+</button>
+```
+
+**CSS · 样式锁核心**(节选自 `geek-effects-demo.css`,token + 签名 + 动效):
+
+```css
+:root {
+  --geek-color-bg:     #1d211c;   /* 橄榄黑底 */
+  --geek-color-red:    #c9151e;   /* 信号红强调 */
+  --geek-color-teal:   #43d9c1;
+  --geek-font-mono: "JetBrains Mono","Fira Code",Consolas,monospace;
+  --geek-radius: 0px;                          /* 0 圆角锐利几何 */
+  --geek-shadow-glow: 0 0 24px rgba(201,21,30,.45);  /* 霓虹光晕 */
+  --geek-motion-transform: .3s ease;           /* ease 动效契约 */
+}
+/* scifi 变体:data-theme="scifi" 一键切科幻蓝(展示页默认) */
+:root[data-theme="scifi"] {
+  --geek-color-bg:  #0b1026;
+  --geek-color-red: #2fd6ff;                   /* 电光青蓝 */
+}
+
+/* 签名 L 型角标(唯一无前缀 helper) */
+.corner { position: relative; }
+.corner::before, .corner::after { content: ""; position: absolute; width: 14px; height: 14px; }
+.corner::before { top: -1px; left: -1px;   border-top: 2px solid var(--geek-color-red); border-left: 2px solid var(--geek-color-red); }
+.corner::after  { bottom: -1px; right: -1px; border-bottom: 2px solid var(--geek-color-red); border-right: 2px solid var(--geek-color-red); }
+
+/* 双层擦除按钮:前层 surface 后层强调色,先后错位滑入 */
+.geek-btn-wipe { position: relative; overflow: hidden; border: 1px solid var(--geek-color-red); border-radius: 0; color: var(--geek-color-red); background: transparent; }
+.geek-btn-wipe:before,
+.geek-btn-wipe:after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: translateX(-100%); }
+.geek-btn-wipe:before { background: var(--geek-color-bg-soft); transition: transform var(--geek-motion-wipe); }
+.geek-btn-wipe:after  { background: var(--geek-color-red);     transition: transform var(--geek-motion-wipe); transition-delay: .1s; }
+.geek-btn-wipe:hover:before,
+.geek-btn-wipe:hover:after { transform: translateX(0); }
+```
+
+**JS · 交互驱动**(节选自 `geek-effects-demo.html`,CRT 水波纹 rAF + `prefers-reduced-motion` 兜底):
+
+```js
+// geek-crt-ripple · CRT 水波纹 rAF 驱动
+var turb  = document.querySelector('#geek-crt-ripple feTurbulence');
+var disp  = document.querySelector('#geek-crt-ripple feDisplacementMap');
+var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+function ripple() {
+  turb.setAttribute('seed', Math.random() * 100);   // 逐帧扰动种子
+  disp.setAttribute('scale', 10 + Math.random() * 20); // 逐帧位移幅度
+  if (!reduce.matches) requestAnimationFrame(ripple);   // 尊重 reduced-motion
+}
+ripple();
+```
+
+> GitHub 的 README 渲染会剥掉 `<script>` / `<style>` 标签、不执行 JS,所以源码以代码块形式展示(语言高亮,可直接复制)。想看**真实渲染效果**,跑 `python scripts/preview_backgrounds.py` 打开本地端口即可。
+
+---
+
 ## 何时使用
 
 当请求中提到以下任一关键词时，调用本技能：
@@ -132,7 +258,7 @@
 
 ## 脚本
 
-[`scripts/`](scripts/) 下有三个独立的 Python 脚本，**仅使用 Python 标准库 —— 无需安装任何依赖**（`requirements.txt` 刻意为空）。
+[`scripts/`](scripts/) 下有四个独立的 Python 脚本，**仅使用 Python 标准库 —— 无需安装任何依赖**（`requirements.txt` 刻意为空）。
 
 ### palette_extractor.py —— 从 CSS 文件提取 HEX 颜色
 
@@ -162,6 +288,15 @@ python scripts/theme_scaffolder.py ui_spec.md --print                   # 输出
 ```
 
 解析规范中的调色板和样式表生成 `:root` 变量（`--geek-*`），再输出组件脚手架（按钮、角标、卡片/窗口、标签、眉题、背景、glitch、时间线、typewriter、动画），作为第 4 步的起点。
+
+### preview_backgrounds.py —— 本地预览背景工具包
+
+```bash
+python scripts/preview_backgrounds.py                 # 默认端口 8000，占用自动递增
+python scripts/preview_backgrounds.py --port 9000     # 指定基准端口
+```
+
+用 Python 标准库 HTTP 服务器托管 `examples/`（画廊 `index.html` + 核心组件展示 `components.html` + 动态效果 demo `geek-effects-demo.html`），打印实际端口与 8 个效果目录。配合第 1 步的「动态背景主动询问」子流程，让用户在起草设计规范前现场浏览并挑选背景效果。
 
 ---
 

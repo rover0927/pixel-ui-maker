@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="scifi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,13 +42,13 @@
       <div class="geek-panel">
         <p class="geek-panel__label">// MENU</p>
         <div class="geek-float-rise" id="floatRise">
-          <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23c9151e'/%3E%3Crect x='10' y='10' width='20' height='20' fill='%231d211c'/%3E%3Crect x='16' y='16' width='8' height='8' fill='%23c9151e'/%3E%3C/svg%3E"
+          <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%232fd6ff'/%3E%3Crect x='10' y='10' width='20' height='20' fill='%230b1026'/%3E%3Crect x='16' y='16' width='8' height='8' fill='%232fd6ff'/%3E%3C/svg%3E"
                alt="tile A" style="--i:0; top:12%; left:15%; width:64px;">
-          <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23ffffff' opacity='.9'/%3E%3Crect x='8' y='8' width='24' height='24' fill='%23c9151e'/%3E%3Crect x='16' y='16' width='8' height='8' fill='%23ffffff'/%3E%3C/svg%3E"
+          <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23e6f1ff' opacity='.9'/%3E%3Crect x='8' y='8' width='24' height='24' fill='%232fd6ff'/%3E%3Crect x='16' y='16' width='8' height='8' fill='%23e6f1ff'/%3E%3C/svg%3E"
                alt="tile B" style="--i:1; top:6%; right:10%; width:56px;">
-          <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%231d211c'/%3E%3Crect x='6' y='22' width='28' height='12' fill='%23c9151e'/%3E%3Crect x='10' y='6' width='6' height='16' fill='%23ffffff' opacity='.6'/%3E%3Crect x='20' y='10' width='6' height='12' fill='%23ffffff' opacity='.6'/%3E%3C/svg%3E"
+          <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%230b1026'/%3E%3Crect x='6' y='22' width='28' height='12' fill='%232fd6ff'/%3E%3Crect x='10' y='6' width='6' height='16' fill='%23e6f1ff' opacity='.6'/%3E%3Crect x='20' y='10' width='6' height='12' fill='%23e6f1ff' opacity='.6'/%3E%3C/svg%3E"
                alt="tile C" style="--i:2; bottom:8%; left:10%; width:72px;">
-          <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23232825'/%3E%3Crect x='14' y='8' width='12' height='12' fill='%23ffffff' opacity='.8'/%3E%3Crect x='8' y='24' width='24' height='8' fill='%23c9151e'/%3E%3C/svg%3E"
+          <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23131b3a'/%3E%3Crect x='14' y='8' width='12' height='12' fill='%23e6f1ff' opacity='.8'/%3E%3Crect x='8' y='24' width='24' height='8' fill='%232fd6ff'/%3E%3C/svg%3E"
                alt="tile D" style="--i:3; bottom:10%; right:14%; width:52px;">
         </div>
       </div>
@@ -131,11 +131,11 @@
     }
     ripple();
 
-    // palette toggle — geek ⇄ jiejoe original (green on black)
+    // palette toggle — scifi (electric blue) ⇄ jiejoe original (green on black)
     var themeToggle = document.getElementById('themeToggle');
     themeToggle.addEventListener('click', function () {
       document.documentElement.setAttribute('data-theme',
-        document.documentElement.getAttribute('data-theme') === 'jiejoe' ? 'geek' : 'jiejoe');
+        document.documentElement.getAttribute('data-theme') === 'jiejoe' ? 'scifi' : 'jiejoe');
     });
   </script>
 </body>
