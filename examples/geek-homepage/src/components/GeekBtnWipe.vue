@@ -1,5 +1,5 @@
 <script setup>
-// geek-btn-wipe — 双层擦除按钮（蒸馏自 JIEJOE CONTACT）
+// geek-btn-wipe — 双层擦除按钮
 defineProps({
   label: { type: String, default: 'CONTACT' },
   type: { type: String, default: 'button' },

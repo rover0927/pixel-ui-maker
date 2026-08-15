@@ -1,6 +1,6 @@
 # CYBER-GEEK — 黑客赛博朋克个人主页 Design Spec
 
-> 暗黑终端极客 geek lock 的赛博朋克变体：近黑深空底 + 霓虹青主强调 + 霓虹洋红辅强调，0 圆角锐利几何、红色角标→青色角标、CRT scanline / glitch / typewriter 终端 motif、霓虹光晕与平滑动效。内置 JIEJOE 蒸馏动态效果：`geek-btn-wipe` / `geek-float-rise` / `geek-marquee` / `geek-crt-ripple`。
+> 像素数据流 geek lock 的赛博朋克变体：近黑深空底 + 霓虹青主强调 + 霓虹洋红辅强调，0 圆角锐利几何、红色角标→青色角标、CRT scanline / glitch / typewriter 终端 motif、霓虹光晕与平滑动效。内置蒸馏动态效果：`geek-btn-wipe` / `geek-float-rise` / `geek-marquee` / `geek-crt-ripple`。
 
 ---
 
@@ -11,7 +11,7 @@
 | **Name** | cyber-geek |
 | **Target Interface** | 个人主页（单页，长滚动） |
 | **Platform / Framework** | Vue 3 + Vite（Composition API） |
-| **Geek Style** | 暗黑终端极客 × 黑客赛博朋克（自定义） |
+| **Geek Style** | 像素数据流 × 黑客赛博朋克（自定义） |
 | **Spacing base** | 4px（整数 px，松散非严格网格） |
 | **Target Use** | 个人作品集主页 |
 

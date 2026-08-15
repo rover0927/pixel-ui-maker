@@ -1,6 +1,6 @@
-# Dark Terminal Geek UI Implementation Prompt
+# Pixel Data Stream UI Implementation Prompt
 
-> Universal template for generating dark-hacker/terminal CSS/component implementations (SJTU SITA style) with consistent style across all components.
+> Universal template for generating pixel data stream CSS/component implementations (pixel data stream style) with consistent style across all components.
 
 ---
 
@@ -10,7 +10,7 @@
 Theme:       [name]
 Interface:   [login page / dashboard / settings / ...]
 Framework:   [vue / react / plain / mini-program]
-Style:       [SJTU SITA dark terminal / 暗黑终端极客 / retro terminal]
+Style:       [pixel data stream / 像素数据流 / retro terminal]
 Corner:      [0]px (boxes; dots 50%, scrollbars 8px, code 2px)
 Border:      [1]px hairline per component type
 Spacing:     integer px, loose (base [N]px)

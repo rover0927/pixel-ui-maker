@@ -1,20 +1,20 @@
 # Dynamic Effects Kit — 动态效果组件库
 
-> Distilled motion recipes for the dark-terminal geek style. Three flagship effects distilled
-> from the **JIEJOE** design portfolio (jiejoe.com): background pixel-art **parallax float**,
+> Distilled motion recipes for the pixel data stream style. Three flagship effects distilled
+> from a **reference** design portfolio: background pixel-art **parallax float**,
 > menu pixel-art **stagger rise**, and a dual-layer **wipe** button. Re-themed to the geek lock
 > (olive dark + signal red, 0px corners, hairline borders, ease motion). Both a pure-CSS and a
 > GSAP version are provided for the flagship effects, plus a canvas **pixel-particle network**
-> (`geek-particle-bg`, from the《粒子背景动画效果实现指南》particle guide, *not* JIEJOE) and a
+> (`geek-particle-bg`, from the《粒子背景动画效果实现指南》particle guide) and a
 > compact marquee / CRT-ripple bonus set.
 
 ---
 
 ## 0. Source Analysis (蒸馏来源)
 
-These recipes were distilled from `HOME - JIEJOE _ 视觉设计者.html` / its compiled CSS:
+These recipes were distilled from `HOME - 参考视觉设计.html` / its compiled CSS:
 
-| JIEJOE effect | Where it lived | What it does | Distilled as |
+| Reference effect | Where it lived | What it does | Distilled as |
 |---------------|----------------|--------------|--------------|
 | **首页背景视差浮动** | `.home_welcome_background` + GSAP `move_ball()` | 2 blurballs (big+small) float in the hero bg; on `mousemove` the whole background **rotates ±15° by mouse Y** while the big ball drifts right / small ball drifts left by a normalized mouse X — soft `power3.out`, `3s` lag | `geek-float-parallax` |
 | **菜单像素画上浮** | `menubox_menu_backg img` + GSAP `menu.show()` | 4 pixel-art images hidden at `translateY(100%)`; on menu open they **rise in sequence** (`stagger .1s`, `power3.out`, `.8s`) | `geek-float-rise` |
@@ -27,8 +27,8 @@ These recipes were distilled from `HOME - JIEJOE _ 视觉设计者.html` / its c
 > (§3) is the *one-shot* entrance of menu/section pixel-art — items rise in a wave when the panel
 > opens. If you want "背景像素画浮动", that's `geek-float-parallax`.
 
-> **`geek-particle-bg` (this doc §5) is NOT from JIEJOE.** It's a canvas pixel-particle network
-> distilled from the《粒子背景动画效果实现指南》(position / velocity / size / color / lifetime,
+> **`geek-particle-bg` (this doc §5) is from the《粒子背景动画效果实现指南》, not the reference design.** It's a canvas pixel-particle network
+> distilled from that guide (position / velocity / size / color / lifetime,
 > mouse interaction, proximity links) and re-themed to the geek lock — pixels are drawn as
 > **0px-corner squares** (`fillRect`, integer 1–3px), colors come only from the theme palette,
 > and it layers *underneath* `geek-float-parallax` in the hero. Pure Canvas 2D, no libraries.
@@ -44,11 +44,11 @@ All four are pure CSS except the GSAP variant of `geek-float-rise` and the rippl
 :root {
   /* dynamic-effects motion contract */
   --geek-motion-wipe:    .4s ease;              /* layer wipe on geek-btn-wipe */
-  --geek-motion-rise:    .8s ease;              /* float-rise entrance (jiejoe .8s) */
-  --geek-motion-marquee: 8s linear infinite;    /* scrolling strips (jiejoe 8s) */
-  --geek-stagger:        120ms;                 /* per-item stagger step (jiejoe .1s) */
-  --geek-rise-height:    100%;                  /* distance items rise from (jiejoe 100%) */
-  --geek-motion-parallax: 3s ease;              /* parallax lag (jiejoe power3.out 3s) */
+  --geek-motion-rise:    .8s ease;              /* float-rise entrance (源 .8s) */
+  --geek-motion-marquee: 8s linear infinite;    /* scrolling strips (源 8s) */
+  --geek-stagger:        120ms;                 /* per-item stagger step (源 .1s) */
+  --geek-rise-height:    100%;                  /* distance items rise from (源 100%) */
+  --geek-motion-parallax: 3s ease;              /* parallax lag (源 power3.out 3s) */
   --geek-parallax-x:     0px;                   /* pointer X → layer drift (written by JS) */
   --geek-parallax-rot:   0deg;                  /* pointer Y → bg rotation, capped ±15deg */
   /* palette already in use: --geek-color-bg, -bg-soft, -line, -red, -text, ... */
@@ -57,7 +57,7 @@ All four are pure CSS except the GSAP variant of `geek-float-rise` and the rippl
 
 ---
 
-## 2. `geek-btn-wipe` — 双层擦除按钮 (from JIEJOE CONTACT)
+## 2. `geek-btn-wipe` — 双层擦除按钮 (from 参考设计 CONTACT)
 
 **Mechanism.** The button is `overflow:hidden`. Two pseudo-element layers sit at
 `translateX(-100%)` (off-screen left). On hover they sweep to `translateX(0)` in sequence —
@@ -103,13 +103,13 @@ flipping color; the arrow icon slides from `+320%` to `+550%`. All in `.4s ease`
 
 .geek-btn-wipe__label {
   position: relative; z-index: 1;
-  transform: translateX(-13%);               /* jiejoe: slide from offset */
+  transform: translateX(-13%);               /* 参考: slide from offset */
   transition: color var(--geek-motion-wipe), transform var(--geek-motion-wipe);
 }
 .geek-btn-wipe__icon {
   position: relative; z-index: 1;
   width: 14px; height: 14px;
-  transform: translateX(320%);               /* jiejoe: arrow off-screen right */
+  transform: translateX(320%);               /* 参考: arrow off-screen right */
   transition: transform var(--geek-motion-wipe);
 }
 .geek-btn-wipe__icon line,
@@ -144,13 +144,13 @@ flipping color; the arrow icon slides from `+320%` to `+550%`. All in `.4s ease`
 4. Arrow slides `320% → 550%`, white stroke.
 
 **Tuning.** Layer order, chase delay and colors are the "signature" — keep two contrasting
-layers and a visible stagger (`.1s–.15s`). Source values: jiejoe used `border-radius:1.5rem`
+layers and a visible stagger (`.1s–.15s`). Source values: the reference used `border-radius:1.5rem`
 pill, `.4s ease`, `.1s` chase, white→green layers. The geek version sharpens corners to 0px
 and uses red as the accent layer.
 
 ---
 
-## 3. `geek-float-rise` — 背景像素画浮动上浮 (from JIEJOE menu)
+## 3. `geek-float-rise` — 背景像素画浮动上浮 (from 参考设计 menu)
 
 **Mechanism.** A stack of background images (pixel-art tiles, logos, glyphs) starts hidden
 `translateY(var(--geek-rise-height))` inside an `overflow:hidden` container. When the
@@ -195,7 +195,7 @@ the soul: items arrive in a wave, not together.
 </div>
 ```
 
-### 3.2 GSAP variant (matches the original jiejoe menu exactly)
+### 3.2 GSAP variant (matches the original reference menu exactly)
 
 ```js
 gsap.set(tiles, { yPercent: 100 });                       // hidden below container
@@ -204,7 +204,7 @@ gsap.timeline()
   .to(tiles,  { y: 0, duration: .8, ease: "power3.out", stagger: .1 }, "<"); // tiles rise in a wave
 ```
 
-`power3.out` + `stagger:.1` is the jiejoe feel — slightly bouncy ease-out, items land in a
+`power3.out` + `stagger:.1` is the reference feel — slightly bouncy ease-out, items land in a
 soft wave. For the geek lock (no elastic overshoot) keep `power2/power3.out` and stagger
 `.08s–.12s`.
 
@@ -220,9 +220,9 @@ io.observe(document.querySelector(".geek-float-rise"));
 
 ---
 
-## 4. `geek-float-parallax` — 背景像素画视差浮动 (from JIEJOE home hero)
+## 4. `geek-float-parallax` — 背景像素画视差浮动 (from 参考设计 home hero)
 
-**Mechanism.** The hero background is a stack of pixel-art / decoy layers (JIEJOE uses two
+**Mechanism.** The hero background is a stack of pixel-art / decoy layers (the reference uses two
 "blurballs"). On `pointermove` over the host section the whole background **rotates ±15°** by
 mouse Y, while the big layer drifts **with** the cursor and the small layer drifts **against**
 it by a normalized mouse-X factor — that opposition is what sells the parallax depth. Every
@@ -230,7 +230,7 @@ tween eases **`power3.out`, `3s`**, so the float always *lags* behind the cursor
 drifting a moment after it stops. The "floating" feel comes from the lag, not the distance.
 
 ```js
-// jiejoe source (a GSAP timeline built per move)
+// source reference (a GSAP timeline built per move)
 const t  = (mouseX - innerWidth/2) / (innerWidth/innerHeight * 5); // normalized drift
 const rt = mouseY / innerHeight * 30 - 15;                          // -15..15 deg
 gsap.timeline()
@@ -442,7 +442,7 @@ host.addEventListener('mouseleave', () => (mouse.active = false));
 
 ---
 
-## 6. Bonus: `geek-marquee` — 四向滚动光带 (from JIEJOE draglines)
+## 6. Bonus: `geek-marquee` — 四向滚动光带 (from 参考设计 draglines)
 
 Seamless scrolling strips of mono text + glyphs, `8s linear infinite`. Duplicate the content
 inside a single track and translate `-50%` for a gapless loop.
@@ -484,7 +484,7 @@ inside a single track and translate `-50%` for a gapless loop.
 
 ---
 
-## 7. Bonus: `geek-crt-ripple` — CRT 水波纹 (from JIEJOE video covers)
+## 7. Bonus: `geek-crt-ripple` — CRT 水波纹 (from 参考设计 video covers)
 
 An SVG turbulence/displacement filter whose seed+scale are nudged every frame produces a
 living CRT/water ripple over any element. The filter is pure SVG; the driver is one rAF loop.

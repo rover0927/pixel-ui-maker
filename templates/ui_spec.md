@@ -1,6 +1,6 @@
-# <Theme Name> — Dark Terminal Geek UI Design Spec
+# <Theme Name> — Pixel Data Stream UI Design Spec
 
-> Human-readable dark-hacker/terminal design specification (SJTU SITA style). Input for CSS implementation generation.
+> Human-readable pixel data stream design specification (pixel data stream style). Input for CSS implementation generation.
 
 ---
 
@@ -11,7 +11,7 @@
 | **Name** | |
 | **Target Interface** | e.g., Login page / Dashboard / Settings panel |
 | **Platform / Framework** | Vue / React / Plain HTML+CSS / Mini-program |
-| **Geek Style** | SJTU SITA dark terminal / 暗黑终端极客 / Retro terminal / Custom |
+| **Geek Style** | pixel data stream / 像素数据流 / Retro terminal / Custom |
 | **Spacing base** | e.g., 4px (integer px, loose — not enforced as a strict grid) |
 | **Target Use** | Web app / Student-club site / Portfolio / Demo |
 
@@ -22,7 +22,7 @@
 ```
 [Detailed visual description of the interface]
 
-- Overall mood: [e.g., dark hacker/terminal, near-black olive canvas + one signal red]
+- Overall mood: [e.g., pixel data stream, near-black olive canvas + one signal red]
 - Layout structure: [header / sidebar / content split, etc.]
 - Component list: [buttons, cards, tags, windows, nav, timeline, modals, ...]
 - Distinctive features: [red corner brackets, // eyebrow labels, CRT scanlines,
@@ -51,7 +51,7 @@
 
 **Total colors**: N
 
-> Default geek palette (SJTU SITA): `#1d211c` bg · `#232825` surface · `#2c3330` line ·
+> Default geek palette: `#1d211c` bg · `#232825` surface · `#2c3330` line ·
 > `#c9151e` red accent · `#ffffff` text · `#c9cfca` text-dim · `#8a918d` text-mute ·
 > `#43d9c1` teal · `#7aa6ff` blue · `#ffc043` amber · `#c8324a` crimson.
 
@@ -119,7 +119,7 @@
 | Typewriter caret | blink | steps(1) | 1s infinite |
 | Glitch | clip-path slices | steps(1) | 3s infinite |
 
-### F. Dynamic Effects (蒸馏自 JIEJOE + 粒子指南 + 流体网格像素背景 demo — recipes in `references/dynamic-effects.md` / `references/background-fluid-grid.md`)
+### F. Dynamic Effects (蒸馏动效 + 粒子指南 + 流体网格像素背景 demo — recipes in `references/dynamic-effects.md` / `references/background-fluid-grid.md`)
 
 | Effect | Class | Trigger | Motion | Timing | Duration |
 |--------|-------|---------|--------|--------|----------|

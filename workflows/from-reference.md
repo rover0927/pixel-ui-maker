@@ -1,10 +1,10 @@
 ---
-description: Build a dark-terminal geek theme from an existing reference design or CSS
+description: Build a pixel data stream theme from an existing reference design or CSS
 ---
 
 # Reference-Based Theme Workflow
 
-Standalone workflow for creating a dark-terminal theme derived from an existing reference (screenshot, wireframe, or existing CSS) to ensure visual consistency.
+Standalone workflow for creating a pixel data stream theme derived from an existing reference (screenshot, wireframe, or existing CSS) to ensure visual consistency.
 
 ## Steps
 

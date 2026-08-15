@@ -1,5 +1,5 @@
 <script setup>
-// geek-marquee — 四向滚动光带分割带（蒸馏自 JIEJOE draglines）
+// geek-marquee — 四向滚动光带分割带
 const props = defineProps({
   text: { type: String, default: '// SYSTEM ONLINE · ACCESS GRANTED' },
   count: { type: Number, default: 6 }, // per half-run; x2 duplicated for -50% loop

@@ -32,11 +32,11 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 CATALOG = [
     # class, zh description, trigger, source, preview target
-    ("geek-btn-wipe",      "双层擦除按钮",            "hover",            "JIEJOE",            "/geek-effects-demo.html"),
-    ("geek-float-rise",    "背景像素画错峰上浮",       "panel open/scroll", "JIEJOE",            "/geek-effects-demo.html"),
-    ("geek-marquee",       "四向滚动光带",            "loop",             "JIEJOE",            "/geek-effects-demo.html"),
-    ("geek-crt-ripple",    "CRT 水波纹",              "loop",             "JIEJOE",            "/geek-effects-demo.html"),
-    ("geek-float-parallax", "背景像素画视差浮动",      "pointermove",      "JIEJOE",            "Vue demo `geek-homepage/` (npm install && npm run dev)"),
+    ("geek-btn-wipe",      "双层擦除按钮",            "hover",            "geek 动效库",            "/geek-effects-demo.html"),
+    ("geek-float-rise",    "背景像素画错峰上浮",       "panel open/scroll", "geek 动效库",            "/geek-effects-demo.html"),
+    ("geek-marquee",       "四向滚动光带",            "loop",             "geek 动效库",            "/geek-effects-demo.html"),
+    ("geek-crt-ripple",    "CRT 水波纹",              "loop",             "geek 动效库",            "/geek-effects-demo.html"),
+    ("geek-float-parallax", "背景像素画视差浮动",      "pointermove",      "geek 动效库",            "Vue demo `geek-homepage/` (npm install && npm run dev)"),
     ("geek-particle-bg",   "像素粒子网络背景",         "pointermove/loop", "粒子指南",          "Vue demo `geek-homepage/` (npm install && npm run dev)"),
     ("geek-fluid-grid",    "流体网格像素背景",         "loop/pointermove", "流体网格 demo",     "Vue demo `fluid-grid-bg/` (npm install && npm run dev)"),
     ("geek-copy-params",   "复制参数交互",            "click",            "流体网格 demo",     "Vue demo `fluid-grid-bg/` (npm install && npm run dev)"),

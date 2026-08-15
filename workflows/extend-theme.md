@@ -1,10 +1,10 @@
 ---
-description: Add new components to an existing dark-terminal geek theme
+description: Add new components to an existing pixel data stream theme
 ---
 
 # Extend Theme Workflow
 
-Standalone workflow for adding new components to an existing dark-terminal theme while keeping style-lock consistency.
+Standalone workflow for adding new components to an existing pixel data stream theme while keeping style-lock consistency.
 
 ## Steps
 

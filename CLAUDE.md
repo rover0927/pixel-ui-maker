@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-pixel-ui-maker is a Claude Code skill for generating dark-hacker/terminal web UI themes (SJTU SITA "暗黑终端极客" style) from interface descriptions or reference designs. It defines a serial pipeline and provides supporting Python scripts for palette extraction, style-lock validation, and theme scaffolding. It covers button interactions, cards/windows, tags, decorative motifs (corner brackets, `//` eyebrows, timeline, typewriter, scanlines, glitch), and ease-animated interactions.
+pixel-ui-maker is a Claude Code skill for generating pixel data stream web UI themes ("像素数据流" style) from interface descriptions or reference designs. It defines a serial pipeline and provides supporting Python scripts for palette extraction, style-lock validation, and theme scaffolding. It covers button interactions, cards/windows, tags, decorative motifs (corner brackets, `//` eyebrows, timeline, typewriter, scanlines, glitch), and ease-animated interactions.
 
 ## Commands
 
@@ -62,25 +62,25 @@ Three independent scripts that share no common library:
 
 ### Workflows (standalone, not part of main pipeline)
 
-- `workflows/extend-theme.md` — add new components to an existing dark-terminal theme
+- `workflows/extend-theme.md` — add new components to an existing pixel data stream theme
 - `workflows/from-reference.md` — build a theme from an existing reference design/CSS
 
 #### Dynamic Effects Reference
 
-`references/dynamic-effects.md` holds the distilled motion recipes (originally distilled from the JIEJOE design portfolio) and is part of the generator's reference set alongside `references/generator-pixel-ui.md`:
+`references/dynamic-effects.md` holds the distilled motion recipes and is part of the generator's reference set alongside `references/generator-pixel-ui.md`:
 
 | Effect | Class / Pattern | Source |
 |--------|-----------------|--------|
-| Dual-layer wipe button | `geek-btn-wipe` | JIEJOE `menubox_navigation_contact` |
-| Background pixel-art mouse-parallax float | `geek-float-parallax` (CSS + GSAP) | JIEJOE home hero `move_ball()` |
-| Pixel-art stagger rise | `geek-float-rise` (CSS + GSAP) | JIEJOE menu background |
-| Canvas pixel-particle network | `geek-particle-bg` (Canvas 2D + rAF) | 《粒子背景动画效果实现指南》(not JIEJOE) |
-| 4-direction scrolling strips | `geek-marquee` | JIEJOE `photos_draglines_*` |
-| CRT water-ripple filter | `geek-crt-ripple` (SVG + rAF) | JIEJOE video cover filter |
+| Dual-layer wipe button | `geek-btn-wipe` | 参考设计 `menubox_navigation_contact` |
+| Background pixel-art mouse-parallax float | `geek-float-parallax` (CSS + GSAP) | 参考设计 home hero `move_ball()` |
+| Pixel-art stagger rise | `geek-float-rise` (CSS + GSAP) | 参考设计 menu background |
+| Canvas pixel-particle network | `geek-particle-bg` (Canvas 2D + rAF) | 《粒子背景动画效果实现指南》 |
+| 4-direction scrolling strips | `geek-marquee` | 参考设计 `photos_draglines_*` |
+| CRT water-ripple filter | `geek-crt-ripple` (SVG + rAF) | 参考设计 video cover filter |
 | Fluid-grid pixel background | `geek-fluid-grid` (Canvas 2D + rAF, 双引擎) | 流体网格像素背景 Vue demo (`examples/fluid-grid-bg/`) — `useFluidGrid` flow modes (noise/wave/vortex + mouse) + `useDisturbanceWave` uniform pixels / dual-noise fields / breathing tide; see `references/background-fluid-grid.md` |
 | Copy-params interaction | `geek-copy-params` | same demo — one click serializes the settings to JSON and copies it, so the user can paste it back to an agent to reproduce the effect |
 
-> Runnable source: `examples/geek-homepage/` is the full Vue 3 + Vite implementation of the JIEJOE effects above (11 `Geek*` components + 3 `use*` composables + `assets/geek-homepage.css`), alongside the fluid-grid demo in `examples/fluid-grid-bg/`. See `examples/README.md` for the index.
+> Runnable source: `examples/geek-homepage/` is the full Vue 3 + Vite implementation of the effects above (11 `Geek*` components + 3 `use*` composables + `assets/geek-homepage.css`), alongside the fluid-grid demo in `examples/fluid-grid-bg/`. See `examples/README.md` for the index.
 
 A static gallery `examples/index.html` catalogs all eight effects (class, one-line description, trigger, source, and a live-preview link — instant for the flat demo, `npm install && npm run dev` for the two Vue demos). Serve it with `scripts/preview_backgrounds.py` or open the file directly.
 

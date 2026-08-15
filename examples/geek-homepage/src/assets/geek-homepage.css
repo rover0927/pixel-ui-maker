@@ -1,5 +1,5 @@
 /* ==========================================================================
-   geek-homepage.css — 黑客赛博朋克主题（暗黑终端极客 geek lock 变体）
+   geek-homepage.css — 黑客赛博朋克主题（像素数据流 geek lock 变体）
    Palette: 近黑深空 + 霓虹青主强调 + 洋红辅强调 · 0 圆角 · 发丝线 · 霓虹光晕
    含动态效果：geek-particle-bg（像素粒子网络）/ geek-btn-wipe / geek-marquee / geek-crt-ripple
    ========================================================================== */
@@ -192,7 +192,7 @@ img { display: block; }
 .geek-btn--primary:hover:not(:disabled) { background: var(--geek-color-text); border-color: var(--geek-color-text); box-shadow: var(--geek-shadow-glow); }
 .geek-btn--ghost:hover:not(:disabled) { background: var(--geek-color-red-soft); border-color: var(--geek-color-red); }
 
-/* geek-btn-wipe — 双层擦除按钮（蒸馏自 JIEJOE CONTACT） */
+/* geek-btn-wipe — 双层擦除按钮 */
 .geek-btn-wipe {
   position: relative;
   display: inline-flex;
@@ -476,7 +476,7 @@ img { display: block; }
 .geek-screen b { color: var(--geek-color-red); font-weight: 400; }
 .geek-screen em { color: var(--geek-color-crimson); font-style: normal; }
 
-/* ---------- 8. Marquee — 四向滚动光带（蒸馏自 JIEJOE draglines） ---------- */
+/* ---------- 8. Marquee — 四向滚动光带 ---------- */
 .geek-marquee-strip {
   position: relative;
   overflow: hidden;

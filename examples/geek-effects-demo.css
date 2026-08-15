@@ -1,11 +1,11 @@
 /* ==========================================================================
    geek-effects-demo.css — distilled dynamic effects for the geek lock
    Effects: geek-btn-wipe, geek-float-rise, geek-marquee, geek-crt-ripple
-   Source: references/dynamic-effects.md  (distilled from JIEJOE portfolio)
+   Source: references/dynamic-effects.md
    ========================================================================== */
 
 :root {
-  /* geek palette (SJTU SITA default) */
+  /* geek palette (default) */
   --geek-color-bg:        #1d211c;
   --geek-color-bg-soft:   #232825;
   --geek-color-line:      #2c3330;
@@ -34,8 +34,8 @@
   --geek-rise-height:    100%;
 }
 
-/* jiejoe original palette (green-on-black) — flip via data-theme="jiejoe" */
-:root[data-theme="jiejoe"] {
+/* retro green palette (green-on-black) — flip via data-theme="green" */
+:root[data-theme="green"] {
   --geek-color-bg:        #0d0d0d;
   --geek-color-bg-soft:   #f2f2f2;
   --geek-color-line:      #2a2a2a;
@@ -90,7 +90,7 @@
 .geek-demo__row { display: flex; gap: var(--geek-space-4); align-items: center; flex-wrap: wrap; }
 
 /* ==========================================================================
-   1. geek-btn-wipe — dual-layer wipe button (from JIEJOE CONTACT)
+   1. geek-btn-wipe — dual-layer wipe button
    ========================================================================== */
 .geek-btn-wipe {
   position: relative;
@@ -148,7 +148,7 @@
 .geek-btn-wipe:focus-visible { outline: 3px solid var(--geek-color-red); outline-offset: 2px; }
 
 /* ==========================================================================
-   2. geek-float-rise — staggered background pixel-art rise (from JIEJOE menu)
+   2. geek-float-rise — staggered background pixel-art rise
    ========================================================================== */
 .geek-menu-open { padding: var(--geek-space-4) var(--geek-space-5); }
 
@@ -197,7 +197,7 @@
 }
 
 /* ==========================================================================
-   3. geek-marquee — 4-direction scrolling strips (from JIEJOE draglines)
+   3. geek-marquee — 4-direction scrolling strips
    ========================================================================== */
 .geek-marquee-stage {
   position: relative;
@@ -246,7 +246,7 @@
 @keyframes geek-marquee-y { to { transform: translateY(-50%); } }
 
 /* ==========================================================================
-   4. geek-crt-ripple — CRT water ripple filter (from JIEJOE video covers)
+   4. geek-crt-ripple — CRT water ripple filter
    ========================================================================== */
 .geek-screen {
   box-sizing: border-box;

@@ -3,7 +3,7 @@ const projects = [
   {
     year: '2026',
     title: 'NEON_DECK — 赛博终端 UI 套件',
-    desc: '暗黑终端极客风格组件库，含 JIEJOE 蒸馏动态效果（擦除按钮 / 像素画上浮 / 光带 / CRT 波纹）。',
+    desc: '像素数据流风格组件库，含蒸馏动态效果（擦除按钮 / 像素画上浮 / 光带 / CRT 波纹）。',
     tags: ['Vue3', 'CSS', 'Motion'],
   },
   {

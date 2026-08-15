@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Theme Scaffolder for Pixel UI Maker (dark terminal / geek lock)
+Theme Scaffolder for Pixel UI Maker (pixel data stream / geek lock)
 
 Reads a ui_spec.md and generates a theme.css skeleton:
 - :root custom properties (--geek-color-*, --geek-space-*, fonts, shadows, motion)

@@ -1,6 +1,6 @@
-# Generator Dark Terminal Geek UI — CSS Implementation Rules
+# Generator Pixel Data Stream UI — CSS Implementation Rules
 
-> Execution guidelines for generating dark-hacker/terminal web UI styles (SJTU SITA / 思源极客协会 language) with strict style consistency. Applies to buttons, cards/windows, tags, backgrounds, decorative motifs, and interaction animations.
+> Execution guidelines for generating pixel data stream web UI styles (pixel data stream language) with strict style consistency. Applies to buttons, cards/windows, tags, backgrounds, decorative motifs, and interaction animations.
 
 ---
 

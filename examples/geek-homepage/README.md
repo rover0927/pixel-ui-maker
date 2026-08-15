@@ -1,7 +1,7 @@
 # 黑客赛博朋克个人主页 — Cyber Geek Home Vue Demo
 
-按 pixel-ui-maker 的「暗黑终端极客 × 黑客赛博朋克」风格实现的 Vue 3 + Vite 个人主页 demo:
-近黑深空画布 + 霓虹青主强调 + 洋红辅强调,内置 JIEJOE 蒸馏动态效果
+按 pixel-ui-maker 的「像素数据流 × 黑客赛博朋克」风格实现的 Vue 3 + Vite 个人主页 demo:
+近黑深空画布 + 霓虹青主强调 + 洋红辅强调,内置蒸馏动态效果
 (`geek-btn-wipe` / `geek-float-rise` / `geek-marquee` / `geek-crt-ripple` / `geek-particle-bg`)。
 
 ## 运行

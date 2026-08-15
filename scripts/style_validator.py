@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Style Validator for Pixel UI Maker (dark terminal / geek lock)
+Style Validator for Pixel UI Maker (pixel data stream / geek lock)
 
-Validates a CSS file against the "geek lock" rules (SJTU SITA dark-hacker-terminal language):
+Validates a CSS file against the "geek lock" rules (pixel data stream language):
 - All HEX colors come from the declared palette OR the theme's own custom properties
 - border-radius: 0px on boxes (allowed: 0/1/2px, 50% on dots, 8px on scrollbars)
 - Soft shadows + neon glows allowed (blur/spread unrestricted)

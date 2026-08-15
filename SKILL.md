@@ -1,13 +1,13 @@
 ---
 name: pixel-ui-maker
 description: >
-  Dark-hacker/terminal UI/CSS theme maker (SJTU SITA "暗黑终端极客" style). Converts
-  interface descriptions, wireframes, or reference designs into dark-terminal UI
+  Pixel Data Stream UI/CSS theme maker ("像素数据流" style). Converts
+  interface descriptions, wireframes, or reference designs into pixel data stream UI
   implementations (CSS + component markup) with strict style consistency — olive-dark
   canvas, signal-red accent, sharp 0px corners, red corner brackets, CRT scanlines,
   glitch/typewriter motifs, soft glow shadows, ease motion. Use when user asks to
   "pixel-style the UI", "make a pixel theme", "generate pixel CSS", "像素风界面",
-  "像素样式开发", "像素按钮", "像素背景", "像素窗口", "暗黑终端", "终端极客",
+  "像素样式开发", "像素按钮", "像素背景", "像素窗口", "像素数据流", "暗黑终端", "终端极客",
   "黑客风", "terminal style", "hacker theme", "geek UI", "角标", "CRT", "scanline",
   "glitch", "typewriter", "动态按钮", "按钮擦除", "按钮滑动", "背景浮动",
   "背景视差", "视差浮动", "鼠标视差", "像素画浮动", "上浮动画", "wipe button",
@@ -19,9 +19,9 @@ description: >
   "动态效果", or mentions "pixel-ui-maker".
 ---
 
-# Pixel UI Maker (dark terminal geek lock)
+# Pixel UI Maker (pixel data stream geek lock)
 
-> Dark-hacker/terminal theme generator. Takes an interface description or reference design, produces a complete "geek lock" UI spec (olive-dark palette, red accent, sharp corners, hairline borders, soft shadows + neon glows, mono/sans typography) and a consistent CSS implementation — buttons with hover invert + glow, cards with red corner brackets, tags, windows, eyebrow labels, timeline, and ease-animated interactions.
+> Pixel Data Stream theme generator. Takes an interface description or reference design, produces a complete "geek lock" UI spec (olive-dark palette, red accent, sharp corners, hairline borders, soft shadows + neon glows, mono/sans typography) and a consistent CSS implementation — buttons with hover invert + glow, cards with red corner brackets, tags, windows, eyebrow labels, timeline, and ease-animated interactions.
 
 **Core Pipeline**: `Input (UI description + requirements) → Design Spec → Style Confirmation → Implementation Generation → Validation & Delivery`
 
@@ -60,7 +60,7 @@ description: >
 | Reference | Path | Purpose |
 |-----------|------|---------|
 | Geek generator rules | `${SKILL_DIR}/references/generator-pixel-ui.md` | CSS implementation rules, style lock, component families, signature motifs |
-| **Dynamic effects kit** | `${SKILL_DIR}/references/dynamic-effects.md` | **Distilled motion recipes: `geek-btn-wipe` dual-layer wipe button, `geek-float-parallax` background pixel-art mouse-parallax float (CSS + GSAP), `geek-float-rise` pixel-art stagger rise (CSS + GSAP), `geek-particle-bg` canvas pixel-particle network (from 粒子指南, not JIEJOE), `geek-marquee` scrolling strips, `geek-crt-ripple` CRT filter** |
+| **Dynamic effects kit** | `${SKILL_DIR}/references/dynamic-effects.md` | **Distilled motion recipes: `geek-btn-wipe` dual-layer wipe button, `geek-float-parallax` background pixel-art mouse-parallax float (CSS + GSAP), `geek-float-rise` pixel-art stagger rise (CSS + GSAP), `geek-particle-bg` canvas pixel-particle network (from 粒子指南), `geek-marquee` scrolling strips, `geek-crt-ripple` CRT filter** |
 | **Fluid-grid background** | `${SKILL_DIR}/references/background-fluid-grid.md` | **Canvas pixel-grid background (双引擎): `geek-fluid-grid` flow modes (noise/wave/vortex + mouse swirl-repel) and the disturbance-wave engine (uniform pixels + dual-noise fields + breathing tide, no mouse); 9-field param schema + `geek-copy-params` interaction + control-panel UI; runnable source in `examples/fluid-grid-bg/`** |
 
 ---
@@ -82,7 +82,7 @@ description: >
 - **Target interface**: e.g., login page, dashboard, settings panel
 - **Platform/framework**: Vue / React / plain HTML+CSS / mini-program
 - **Component list**: buttons, cards, windows, nav, tags, inputs, etc.
-- **Geek style direction**: SJTU SITA dark terminal / 暗黑终端极客 / Retro terminal / custom
+- **Geek style direction**: pixel data stream / 像素数据流 / Retro terminal / custom
 - **Optional**: color palette, spacing base, reference design
 
 **Dynamic background inquiry (proactive — a sub-flow within Step 1, NOT a new step)**:
@@ -114,7 +114,7 @@ Before freezing the requirements, **proactively ask** the user whether they need
 | Field | Description |
 |-------|-------------|
 | **Theme name** | Identifier for the theme |
-| **Geek style** | SJTU SITA dark terminal / 暗黑终端极客 / Retro terminal / Custom |
+| **Geek style** | pixel data stream / 像素数据流 / Retro terminal / Custom |
 | **Color palette** | Exact HEX color list (olive dark bg + signal red accent + status set, each with a role) |
 | **Corner style** | 0px on boxes — dots `50%`, scrollbars `8px`, code `2px` |
 | **Border weight** | 1px hairline (integer px per component type) |

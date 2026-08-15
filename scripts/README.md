@@ -1,4 +1,4 @@
-# Pixel UI Maker - Scripts Reference (dark terminal geek lock)
+# Pixel UI Maker - Scripts Reference (pixel data stream geek lock)
 
 ## Overview
 
