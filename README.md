@@ -72,10 +72,17 @@ python scripts/preview_backgrounds.py     # 默认端口 8000，占用自动递�
 
 ![背景工具包画廊](assets/screenshots/toolkit.png)
 
-另外 4 个 canvas 引擎效果在 Vue demo 里（`npm install && npm run dev`）：
+### Vue 完整示例（canvas 引擎，需 npm）
 
-- `geek-particle-bg` 像素粒子网络、`geek-float-parallax` 视差浮动 → `examples/geek-homepage/`
-- `geek-fluid-grid` 流体网格双引擎 + `geek-copy-params` 复制参数 → `examples/fluid-grid-bg/`
+另外 4 个 canvas 引擎效果在 Vue demo 里，运行 `npm install && npm run dev`（Vite 默认端口 5173）。Vue demo 保持各自原生配色（dark cyberpunk / 流体网格），与上面静态示例的科幻蓝变体不同。
+
+![黑客赛博朋克个人主页](assets/screenshots/homepage.png)
+
+`examples/geek-homepage/` —— CYBER GEEK 个人主页：`geek-particle-bg` 像素粒子网络、`geek-float-parallax` 视差浮动、glitch / 打字机 / CRT、四向滚动光带、双层擦除按钮等 11 组件 + 3 composables。运行 `cd examples/geek-homepage && npm install && npm run dev`。
+
+![流体网格像素背景](assets/screenshots/fluid-grid.png)
+
+`examples/fluid-grid-bg/` —— 双引擎流体网格 canvas 背景：`geek-fluid-grid`（fBm 噪声 / 波浪 / 涡流 + 鼠标漩涡·排斥）+ `geek-copy-params` 一键导出参数。运行 `cd examples/fluid-grid-bg && npm install && npm run dev`。
 
 > 完整可运行示例索引见 [`examples/README.md`](examples/README.md)；效果配方见 [`references/dynamic-effects.md`](references/dynamic-effects.md) 与 [`references/background-fluid-grid.md`](references/background-fluid-grid.md)。
 
