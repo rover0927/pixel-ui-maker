@@ -2,7 +2,7 @@
 
 > Pixel Data Stream UI/CSS theme maker — a [Claude Code](https://claude.com/claude-code) skill that converts interface descriptions, wireframes, or reference designs into complete **pixel data stream** UI implementations (CSS + component markup) with strict style consistency.
 
-Design language: near-black olive canvas + signal-red accent, sharp 0px geometry, red corner brackets, CRT scanline / glitch / typewriter terminal motifs, soft glow shadows, and smooth ease motion.
+Design language: light canvas + signal-blue accent, sharp 0px geometry, blue corner brackets, CRT scanline / glitch / typewriter terminal motifs, soft glow shadows, and smooth ease motion.
 
 > 🇨🇳 中文版见 [README.md](README.md) · English is the canonical version.
 
@@ -21,14 +21,14 @@ A demo of the core output shape:
 
 ```css
 :root {
-  --geek-color-bg:        #1d211c;   /* olive dark */
-  --geek-color-bg-soft:   #232825;   /* surface */
-  --geek-color-red:       #c9151e;   /* primary accent */
-  --geek-shadow-glow:     0 0 24px rgba(201, 21, 30, .45);
+  --geek-color-bg:        #f8f9fa;   /* light canvas */
+  --geek-color-bg-soft:   #e9ecef;   /* surface */
+  --geek-color-blue:      #3b82f6;   /* primary accent */
+  --geek-shadow-glow:     0 0 24px rgba(59, 130, 246, .45);
   --geek-space-1: 4px;  --geek-space-2: 8px;
 }
 
-.geek-btn {           /* mono outline button, hover inverts + red glow + lift */
+.geek-btn {           /* mono outline button, hover inverts + blue glow + lift */
   font-family: var(--geek-font-mono);
   border: 1px solid var(--geek-color-text);
   border-radius: 0;
@@ -98,10 +98,10 @@ Every generated component **must** satisfy all of these rules — this is the he
 
 | Rule | Constraint |
 |------|------------|
-| **Palette** | Every HEX color from the declared palette ONLY (olive `#1d211c` + red `#c9151e` + status set) |
+| **Palette** | Every HEX color from the declared palette ONLY (light `#f8f9fa` + blue `#3b82f6` + status set) |
 | **Corners** | **0px** on boxes (sharp); exceptions: dots `50%`, scrollbars `8px`, code `2px` |
 | **Borders** | 1px hairline, consistent per component type |
-| **Shadows** | **Soft + neon glow allowed**: card `0 8px 32px rgba(0,0,0,.45)`, glow `0 0 24px rgba(201,21,30,.45)` |
+| **Shadows** | **Soft + neon glow allowed**: card `0 8px 32px rgba(0,0,0,.45)`, glow `0 0 24px rgba(59,130,246,.45)` |
 | **Gradients** | **Allowed**: grid lines, CRT scanlines, radial glows, scrollbars |
 | **Opacity** | **Fractional alpha allowed** (scanlines `.025`, glows `.45`) |
 | **Blur** | **Allowed** `filter: blur` / `backdrop-filter` (blurred nav) |
@@ -121,8 +121,8 @@ Every generated component **must** satisfy all of these rules — this is the he
 
 | Family | Covered components |
 |--------|--------------------|
-| **Button interactions** | `geek-btn` default/hover/active/focus-visible/disabled states, variants (primary / ghost / danger), sizes (`--sm`/`--lg`), hover-invert + red glow + lift |
-| **Cards & windows** | `geek-card` (corner brackets + hover lift + red border), `geek-panel`, `geek-window` (4px red top-bar title), `geek-tag` |
+| **Button interactions** | `geek-btn` default/hover/active/focus-visible/disabled states, variants (primary / ghost / danger), sizes (`--sm`/`--lg`), hover-invert + blue glow + lift |
+| **Cards & windows** | `geek-card` (corner brackets + hover lift + blue border), `geek-panel`, `geek-window` (4px blue top-bar title), `geek-tag` |
 | **Decorative motifs** | `.corner` brackets, `//` eyebrow, timeline, typewriter caret, scanlines, grid, glitch |
 | **Interaction animations** | ease transitions, hover invert/lift, scroll reveal fadeUp, card lift, stepped caret/glitch — all ease + `steps(1)` |
 
@@ -146,7 +146,7 @@ python scripts/palette_extractor.py theme.css --format json --output palette.jso
 ### style_validator.py — validate a CSS file against the geek style lock
 
 ```bash
-python scripts/style_validator.py theme.css --palette "#1d211c" "#232825" "#c9151e"
+python scripts/style_validator.py theme.css --palette "#f8f9fa" "#e9ecef" "#3b82f6"
 python scripts/style_validator.py theme.css --spec ui_spec.md --prefix geek-
 python scripts/style_validator.py theme.css --spec ui_spec.md --strict          # warnings = failures
 python scripts/style_validator.py theme.css --spec ui_spec.md --output validation.json
@@ -190,7 +190,7 @@ Not part of the main pipeline — reusable checklists for common follow-up tasks
 All generated themes MUST follow (the validator and scaffolder depend on it):
 
 - **Class prefix**: `geek-` → `.geek-btn`, `.geek-card`, `.geek-window`
-- **Custom properties**: `--geek-*` → `--geek-color-red`, `--geek-space-2`, `--geek-shadow-glow`
+- **Custom properties**: `--geek-*` → `--geek-color-blue`, `--geek-space-2`, `--geek-shadow-glow`
 - **Signature corner helper**: `.corner` (unprefixed by design)
 
 ---

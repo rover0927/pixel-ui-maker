@@ -16,7 +16,7 @@ python scripts/palette_extractor.py theme.css
 python scripts/palette_extractor.py theme.css --analyze-only
 
 # Validate style-lock compliance
-python scripts/style_validator.py theme.css --palette "#1d211c" "#232825" "#c9151e"
+python scripts/style_validator.py theme.css --palette "#f8f9fa" "#e9ecef" "#3b82f6"
 
 # Validate using palette from ui_spec.md (plus naming contract)
 python scripts/style_validator.py theme.css --spec ui_spec.md --prefix geek-
@@ -53,7 +53,7 @@ Three independent scripts that share no common library:
 | `theme_scaffolder.py` | Generate a `theme.css` skeleton from `ui_spec.md` | Reads spec, outputs CSS with `--geek-*` variables + component scaffolds |
 | `preview_backgrounds.py` | Serve the `examples/` background-toolkit gallery + demos over local HTTP (stdlib only) | Binds `127.0.0.1:<port>` (default 8000), auto-increments if busy; prints reachable URLs + effect catalog; serves `index.html` as landing page |
 
-**Critical naming contract**: all generated themes follow `geek-` class prefix and `--geek-*` custom property names — e.g., `.geek-btn`, `.geek-card`, `.geek-window`, `--geek-color-red`, `--geek-shadow-glow`. `style_validator.py` and `theme_scaffolder.py` rely on this contract. The `.corner` helper is unprefixed by design.
+**Critical naming contract**: all generated themes follow `geek-` class prefix and `--geek-*` custom property names — e.g., `.geek-btn`, `.geek-card`, `.geek-window`, `--geek-color-blue`, `--geek-shadow-glow`. `style_validator.py` and `theme_scaffolder.py` rely on this contract. The `.corner` helper is unprefixed by design.
 
 ### Templates
 

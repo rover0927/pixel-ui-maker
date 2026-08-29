@@ -22,10 +22,10 @@
 ```
 [Detailed visual description of the interface]
 
-- Overall mood: [e.g., pixel data stream, near-black olive canvas + one signal red]
+- Overall mood: [e.g., pixel data stream, light canvas + signal blue accent]
 - Layout structure: [header / sidebar / content split, etc.]
 - Component list: [buttons, cards, tags, windows, nav, timeline, modals, ...]
-- Distinctive features: [red corner brackets, // eyebrow labels, CRT scanlines,
+- Distinctive features: [blue corner brackets, // eyebrow labels, CRT scanlines,
   glitch title, typewriter caret, glowing timeline nodes]
 - Background treatment: [flat / scanlines / 56px grid / radial glow]
 ```
@@ -39,7 +39,7 @@
 | 0 | #______ | Background | Page / app root (`--geek-color-bg`) |
 | 1 | #______ | Surface | Panels, cards, windows (`--geek-color-bg-soft`) |
 | 2 | #______ | Line / border | Hairline 1px borders (`--geek-color-line`) |
-| 3 | #______ | Red accent | Primary buttons, active nav, corner brackets (`--geek-color-red`) |
+| 3 | #______ | Blue accent | Primary buttons, active nav, corner brackets (`--geek-color-blue`) |
 | 4 | #______ | Text primary | Headings, body copy (`--geek-color-text`) |
 | 5 | #______ | Text secondary | Subtitles, meta (`--geek-color-text-dim`) |
 | 6 | #______ | Text muted | Captions, line numbers (`--geek-color-text-mute`) |
@@ -51,9 +51,9 @@
 
 **Total colors**: N
 
-> Default geek palette: `#1d211c` bg · `#232825` surface · `#2c3330` line ·
-> `#c9151e` red accent · `#ffffff` text · `#c9cfca` text-dim · `#8a918d` text-mute ·
-> `#43d9c1` teal · `#7aa6ff` blue · `#ffc043` amber · `#c8324a` crimson.
+> Default geek palette: `#f8f9fa` bg · `#e9ecef` surface · `#dee2e6` line ·
+> `#3b82f6` blue accent · `#1e293b` text · `#475569` text-dim · `#94a3b8` text-mute ·
+> `#10b981` teal · `#8b5cf6` purple · `#f59e0b` amber · `#ef4444` crimson.
 
 ---
 
@@ -63,10 +63,10 @@
 |----------|-------|
 | **Corner radius** | 0px on boxes (dots `50%`, scrollbars `8px`, code `2px`) |
 | **Border weight** | 1px hairline (integer px, consistent per component type) |
-| **Shadow style** | Soft + neon glow — card `0 8px 32px rgba(0,0,0,.45)`, glow `0 0 24px rgba(201,21,30,.45)` |
+| **Shadow style** | Soft + neon glow — card `0 8px 32px rgba(0,0,0,.45)`, glow `0 0 24px rgba(59,130,246,.45)` |
 | **Hover lift** | `translateY(-2px)` buttons / `translateY(-4px)` cards |
 | **Gradients** | Allowed — grid lines, CRT scanlines, radial glows, scrollbar |
-| **Focus ring** | `outline: 3px solid red`, `outline-offset: 2px` |
+| **Focus ring** | `outline: 3px solid blue`, `outline-offset: 2px` |
 | **Spacing** | Integer px, loose (base `N` px; NOT enforced as a strict grid) |
 | **Transition** | `.2s ease` colors / `.3s ease` transform / `.6s ease` zoom / `.8s ease` reveal |
 
@@ -87,16 +87,16 @@
 |-----------|--------|--------|-----------------|
 | `geek-card` | 1px line | card | `.corner` |
 | `geek-panel` | 1px line | card | optional |
-| `geek-window` | 1px line | card | `.corner`, 4px red top bar |
+| `geek-window` | 1px line | card | `.corner`, 4px blue top bar |
 
 ### C. Tags / Eyebrow / Timeline / Typewriter
 
 | Component | Rule |
 |-----------|------|
 | `geek-tag` | mono, radius 0, status color (teal/blue/amber/crimson) + soft bg |
-| `geek-eyebrow` | mono red `// 标签`, 28px red leading line, `.18em` uppercase |
-| `geek-timeline` | red gradient line + glowing red dots |
-| `geek-typewriter__caret` | `▌` red, `1s steps(1)` blink |
+| `geek-eyebrow` | mono blue `// 标签`, 28px blue leading line, `.18em` uppercase |
+| `geek-timeline` | blue gradient line + glowing blue dots |
+| `geek-typewriter__caret` | `▌` blue, `1s steps(1)` blink |
 
 ### D. Backgrounds / Decorative
 
@@ -105,7 +105,7 @@
 | Flat | solid `--geek-color-bg` |
 | Scanlines | `repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px)` |
 | Grid | 56px `linear-gradient` lines, radial-fade masked |
-| Radial glow | `radial-gradient(ellipse, rgba(201,21,30,.18), transparent 70%)` |
+| Radial glow | `radial-gradient(ellipse, rgba(59,130,246,.18), transparent 70%)` |
 | Glitch title | red + teal clip-path slices, `mix-blend-mode: screen` |
 
 ### E. Interaction Animations
@@ -113,7 +113,7 @@
 | Interaction | Motion | Timing | Duration |
 |-------------|--------|--------|----------|
 | Button hover | color swap + lift | ease | .2s / .3s |
-| Card hover | lift + red border | ease | .3s |
+| Card hover | lift + blue border | ease | .3s |
 | Image zoom | scale | ease | .6s |
 | Scroll reveal | fadeUp (opacity + translateY 24px) | ease | .8s |
 | Typewriter caret | blink | steps(1) | 1s infinite |

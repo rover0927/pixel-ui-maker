@@ -16,17 +16,17 @@ Border:      [1]px hairline per component type
 Spacing:     integer px, loose (base [N]px)
 
 Palette (≤ [N] colors):
-  background   → #[hex]   /* olive dark, default #1d211c */
-  surface      → #[hex]   /* default #232825 */
-  line         → #[hex]   /* default #2c3330 */
-  red-accent   → #[hex]   /* primary, default #c9151e */
-  text         → #[hex]   /* default #ffffff */
-  text-secondary→ #[hex]  /* default #c9cfca */
-  text-muted   → #[hex]   /* default #8a918d */
-  teal         → #[hex]   /* success / 研究, default #43d9c1 */
-  blue         → #[hex]   /* info, default #7aa6ff */
-  amber        → #[hex]   /* warn, default #ffc043 */
-  crimson      → #[hex]   /* danger, default #c8324a */
+  background   → #[hex]   /* light canvas, default #f8f9fa */
+  surface      → #[hex]   /* default #e9ecef */
+  line         → #[hex]   /* default #dee2e6 */
+  blue-accent  → #[hex]   /* primary, default #3b82f6 */
+  text         → #[hex]   /* default #1e293b */
+  text-secondary→ #[hex]  /* default #475569 */
+  text-muted   → #[hex]   /* default #94a3b8 */
+  teal         → #[hex]   /* success / 研究, default #10b981 */
+  purple       → #[hex]   /* info, default #8b5cf6 */
+  amber        → #[hex]   /* warn, default #f59e0b */
+  crimson      → #[hex]   /* danger, default #ef4444 */
   ...
 ```
 
@@ -36,7 +36,7 @@ Palette (≤ [N] colors):
 - Corner radius: 0px on boxes (dots 50%, scrollbars 8px, code 2px)
 - 1px hairline borders, consistent per component type
 - Soft shadows + neon glows allowed: card 0 8px 32px rgba(0,0,0,.45),
-  glow 0 0 24px rgba(201,21,30,.45)
+  glow 0 0 24px rgba(59,130,246,.45)
 - Gradients allowed (grid lines, CRT scanlines, radial glows)
 - filter: blur / backdrop-filter allowed (blurred nav)
 - Fractional opacity allowed (scanlines .025, glows .45)
@@ -45,7 +45,7 @@ Palette (≤ [N] colors):
 - Class prefix `geek-`, custom properties `--geek-*`
 - Motion: smooth ease (.2s colors / .3s transform / .6s zoom / .8s reveal);
   typewriter caret & glitch use steps(1); reduced-motion fallback mandatory
-- Signature motifs MUST be used: `.corner` red brackets on cards,
+- Signature motifs MUST be used: `.corner` blue brackets on cards,
   `//` eyebrow labels, CRT scanlines, typewriter caret, glowing dots
 ```
 
@@ -53,18 +53,18 @@ Palette (≤ [N] colors):
 
 ```
 :root {
-  --geek-color-bg:        #[hex];   /* default #1d211c */
-  --geek-color-bg-soft:   #[hex];   /* default #232825 */
-  --geek-color-line:      #[hex];   /* default #2c3330 */
-  --geek-color-red:       #[hex];   /* default #c9151e */
-  --geek-color-red-soft:  rgba(201, 21, 30, .13);
-  --geek-color-text:      #[hex];   /* default #ffffff */
-  --geek-color-text-dim:  #[hex];   /* default #c9cfca */
-  --geek-color-text-mute: #[hex];   /* default #8a918d */
-  --geek-color-teal:      #[hex];   /* default #43d9c1 */
-  --geek-color-blue:      #[hex];   /* default #7aa6ff */
-  --geek-color-amber:     #[hex];   /* default #ffc043 */
-  --geek-color-crimson:   #[hex];   /* default #c8324a */
+  --geek-color-bg:        #[hex];   /* default #f8f9fa */
+  --geek-color-bg-soft:   #[hex];   /* default #e9ecef */
+  --geek-color-line:      #[hex];   /* default #dee2e6 */
+  --geek-color-blue:      #[hex];   /* default #3b82f6 */
+  --geek-color-blue-soft: rgba(59, 130, 246, .13);
+  --geek-color-text:      #[hex];   /* default #1e293b */
+  --geek-color-text-dim:  #[hex];   /* default #475569 */
+  --geek-color-text-mute: #[hex];   /* default #94a3b8 */
+  --geek-color-teal:      #[hex];   /* default #10b981 */
+  --geek-color-purple:    #[hex];   /* default #8b5cf6 */
+  --geek-color-amber:     #[hex];   /* default #f59e0b */
+  --geek-color-crimson:   #[hex];   /* default #ef4444 */
 
   --geek-font-mono: "JetBrains Mono","Fira Code",Consolas,...,monospace;
   --geek-font-sans: "Inter",-apple-system,...,"PingFang SC",sans-serif;
@@ -73,7 +73,7 @@ Palette (≤ [N] colors):
   --geek-radius: 0px;
   --geek-border: 1px;
 
-  --geek-shadow-glow: 0 0 24px rgba(201, 21, 30, .45);
+  --geek-shadow-glow: 0 0 24px rgba(59, 130, 246, .45);
   --geek-shadow-card: 0 8px 32px rgba(0, 0, 0, .45);
   --geek-shadow-card-hover: 0 12px 40px rgba(0, 0, 0, .55);
 
@@ -101,32 +101,32 @@ Palette (≤ [N] colors):
 | State | Value |
 |-------|-------|
 | base | `font-family: mono; font-size:14px; letter-spacing:.08em; background: transparent; border:1px solid text; radius 0; padding:14px 22px;` |
-| hover | `transform: translateY(-2px);` (primary inverts: white bg + red text + glow) |
+| hover | `transform: translateY(-2px);` (primary inverts: white bg + blue text + glow) |
 | active | `transform: translateY(0);` |
-| focus-visible | `outline: 3px solid red; outline-offset: 2px;` |
+| focus-visible | `outline: 3px solid blue; outline-offset: 2px;` |
 | disabled | `opacity:.5; cursor: not-allowed;` |
 
-Variants: `--primary` (red fill), `--ghost` (hover `#ffffff14` + red border), `--danger` (crimson). Sizes: `--sm` / `--lg`.
+Variants: `--primary` (blue fill), `--ghost` (hover `#ffffff14` + blue border), `--danger` (crimson). Sizes: `--sm` / `--lg`.
 
 ### B. Cards / Windows — `geek-card` / `geek-panel` / `geek-window`
 
 | Class | Rule |
 |-------|------|
-| `geek-card` | `position:relative; bg-soft; 1px line; radius 0; card shadow`; hover `translateY(-4px)` + red border; `.corner` brackets |
-| `.corner` | 14×14 red L-brackets (top-left `:before` + bottom-right `:after`) |
-| `geek-window` | like card + `overflow:hidden`; `__title` = 4px red top bar + mono title |
+| `geek-card` | `position:relative; bg-soft; 1px line; radius 0; card shadow`; hover `translateY(-4px)` + blue border; `.corner` brackets |
+| `.corner` | 14×14 blue L-brackets (top-left `:before` + bottom-right `:after`) |
+| `geek-window` | like card + `overflow:hidden`; `__title` = 4px blue top bar + mono title |
 | `geek-tag` | mono 12px, radius 0, status color + 13% alpha soft bg |
 
 ### C. Eyebrow / Timeline / Typewriter / Backgrounds
 
 | Class | Recipe |
 |-------|--------|
-| `geek-eyebrow` | mono 13px red `.18em` uppercase; `:before` = 28px red line; text begins with `//` |
-| `geek-timeline` | red vertical gradient line + 11px glowing red dot (`0 0 14px`) |
-| `geek-typewriter__caret` | `▌` red, `1s steps(1) infinite` blink |
+| `geek-eyebrow` | mono 13px blue `.18em` uppercase; `:before` = 28px blue line; text begins with `//` |
+| `geek-timeline` | blue vertical gradient line + 11px glowing blue dot (`0 0 14px`) |
+| `geek-typewriter__caret` | `▌` blue, `1s steps(1) infinite` blink |
 | `geek-bg--scanline` | `repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px)` |
 | `geek-bg--grid` | 56px `linear-gradient` lines |
-| `geek-glitch` | red + teal clip-path slices, `mix-blend-mode: screen` |
+| `geek-glitch` | blue + teal clip-path slices, `mix-blend-mode: screen` |
 
 ### D. Interaction Animations
 

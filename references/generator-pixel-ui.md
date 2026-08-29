@@ -26,7 +26,7 @@ Every generated component MUST satisfy ALL of the following:
 | **Palette** | Every HEX color from the declared palette ONLY |
 | **Corners** | `border-radius` **0px** on all boxes. Exceptions only: dots/badges `50%`, scrollbar thumb `8px`, code blocks `2px` |
 | **Borders** | Integer px weight (1px hairline typical), consistent per component type |
-| **Shadows** | **Soft + neon glow allowed**: card `0 8px 32px rgba(0,0,0,.45)`, glow `0 0 24px rgba(201,21,30,.45)`, neon dot `0 0 14px var(--geek-color-red)`. Blur/spread unrestricted |
+| **Shadows** | **Soft + neon glow allowed**: card `0 8px 32px rgba(0,0,0,.45)`, glow `0 0 24px rgba(59,130,246,.45)`, neon dot `0 0 14px var(--geek-color-blue)`. Blur/spread unrestricted |
 | **Gradients** | **Allowed** — 56px grid lines (`linear-gradient`), CRT scanlines (`repeating-linear-gradient`), radial glows, scrollbar gradient, timeline gradient |
 | **Opacity** | **Fractional alpha allowed** (scanlines `.025`, glows `.45`, scrims `.5`) |
 | **Blur** | **Allowed** — nav `backdrop-filter: blur(14px) saturate(140%)`, brand `drop-shadow` (add `-webkit-backdrop-filter` for Safari) |
@@ -42,20 +42,20 @@ Every generated component MUST satisfy ALL of the following:
 
 The following make the theme recognizable — use them on cards, headings, labels, and page heroes:
 
-- **`.corner` red corner brackets** — 14×14px L-shapes, top-left + bottom-right, 1px red borders (verbatim):
+- **`.corner` blue corner brackets** — 14×14px L-shapes, top-left + bottom-right, 1px blue borders (verbatim):
   ```css
   .corner { position: relative; }
-  .corner:before, .corner:after { content:""; position:absolute; width:14px; height:14px; border:1px solid var(--geek-color-red); }
+  .corner:before, .corner:after { content:""; position:absolute; width:14px; height:14px; border:1px solid var(--geek-color-blue); }
   .corner:before { top:-1px; left:-1px; border-right:none; border-bottom:none; }
   .corner:after  { bottom:-1px; right:-1px; border-left:none; border-top:none; }
   ```
 - **CRT scanlines**: `repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px)` (+ `mix-blend-mode: overlay; opacity: .6` when used as an overlay).
-- **56px sub-page grid**: `background-image: linear-gradient(1px, transparent 1px, rgba(201,21,30,.06) 1px, transparent 2px), linear-gradient(90deg, ...); background-size: 56px 56px;` masked with a radial fade.
-- **Glitch title**: two `clip-path`-sliced copies (red `var(--geek-color-red)` + teal `var(--geek-color-teal)`) with `mix-blend-mode: screen`.
-- **Typewriter caret**: `▌` in red, `animation: 1s steps(1) infinite`.
-- **`//` eyebrow labels**: mono, red, `.18em` uppercase, preceded by a 28px red line. UI copy itself begins with `//` (e.g. `// SYSTEM INITIALIZED · WELCOME, GEEK.`).
-- **Left accent bars**: `border-left: 2px solid var(--geek-color-red)` (nav/items), 3px for h3/blockquotes, plus `box-shadow: 0 0 8px var(--geek-color-red)`.
-- **Timeline**: vertical red gradient line + glowing red node dots (`border:2px solid bg; border-radius:50%; box-shadow:0 0 14px var(--geek-color-red)`).
+- **56px sub-page grid**: `background-image: linear-gradient(1px, transparent 1px, rgba(59,130,246,.06) 1px, transparent 2px), linear-gradient(90deg, ...); background-size: 56px 56px;` masked with a radial fade.
+- **Glitch title**: two `clip-path`-sliced copies (blue `var(--geek-color-blue)` + teal `var(--geek-color-teal)`) with `mix-blend-mode: screen`.
+- **Typewriter caret**: `▌` in blue, `animation: 1s steps(1) infinite`.
+- **`//` eyebrow labels**: mono, blue, `.18em` uppercase, preceded by a 28px blue line. UI copy itself begins with `//` (e.g. `// SYSTEM INITIALIZED · WELCOME, GEEK.`).
+- **Left accent bars**: `border-left: 2px solid var(--geek-color-blue)` (nav/items), 3px for h3/blockquotes, plus `box-shadow: 0 0 8px var(--geek-color-blue)`.
+- **Timeline**: vertical blue gradient line + glowing blue node dots (`border:2px solid bg; border-radius:50%; box-shadow:0 0 14px var(--geek-color-blue)`).
 
 ---
 
@@ -63,7 +63,7 @@ The following make the theme recognizable — use them on cards, headings, label
 
 ### 4.1 The terminal button contract
 
-A geek button is a mono outline slab that inverts on hover and lifts `-2px` with a red glow.
+A geek button is a mono outline slab that inverts on hover and lifts `-2px` with a blue glow.
 
 ```css
 .geek-btn {
@@ -85,14 +85,14 @@ A geek button is a mono outline slab that inverts on hover and lifts `-2px` with
 .geek-btn:hover  { transform: translateY(-2px); }
 .geek-btn:active { transform: translateY(0); }
 .geek-btn--primary {
-  background: var(--geek-color-red);
-  border-color: var(--geek-color-red);
+  background: var(--geek-color-blue);
+  border-color: var(--geek-color-blue);
 }
 .geek-btn--primary:hover:not(:disabled) {
   background: #fff;
   border-color: #fff;
-  color: var(--geek-color-red);
-  box-shadow: 0 0 24px rgba(201, 21, 30, .45);  /* red glow */
+  color: var(--geek-color-blue);
+  box-shadow: 0 0 24px rgba(59, 130, 246, .45);  /* blue glow */
 }
 ```
 
@@ -100,18 +100,18 @@ A geek button is a mono outline slab that inverts on hover and lifts `-2px` with
 
 | State | Required Behavior |
 |-------|-------------------|
-| `:hover` | Lift `translateY(-2px)`; primary inverts to white bg + red text + glow; ghost gets `#ffffff14` bg + red border |
+| `:hover` | Lift `translateY(-2px)`; primary inverts to white bg + blue text + glow; ghost gets `#ffffff14` bg + blue border |
 | `:active` | Settle back `translateY(0)` |
-| `:focus-visible` | `outline: 3px solid var(--geek-color-red); outline-offset: 2px;` |
+| `:focus-visible` | `outline: 3px solid var(--geek-color-blue); outline-offset: 2px;` |
 | `:disabled` | `opacity:.5`, `cursor: not-allowed`, no hover lift |
-| `[aria-pressed="true"]` (toggles) | Show pressed/selected visual (red fill or red border) |
+| `[aria-pressed="true"]` (toggles) | Show pressed/selected visual (blue fill or blue border) |
 
 ### 4.2 Variants & sizes
 
 | Variant | Recipe |
 |---------|--------|
-| `geek-btn--primary` | Red fill; hover inverts to white/red with glow |
-| `geek-btn--ghost` | Transparent; hover `#ffffff14` bg + red border |
+| `geek-btn--primary` | Blue fill; hover inverts to white/blue with glow |
+| `geek-btn--ghost` | Transparent; hover `#ffffff14` bg + blue border |
 | `geek-btn--danger` | Crimson family (`--geek-color-crimson`) |
 
 Sizes: `geek-btn--sm` (`padding:10px 14px; font-size:13px`), base md, `geek-btn--lg` (`padding:16px 28px; font-size:15px`).
@@ -125,14 +125,14 @@ Sizes: `geek-btn--sm` (`padding:10px 14px; font-size:13px`), base md, `geek-btn-
 ```css
 .geek-card {
   position: relative;
-  background: var(--geek-color-bg-soft);   /* #232825 */
-  border: 1px solid var(--geek-color-line);/* #2c3330 hairline */
+  background: var(--geek-color-bg-soft);   /* #e9ecef */
+  border: 1px solid var(--geek-color-line);/* #dee2e6 hairline */
   border-radius: 0;
   box-shadow: 0 8px 32px rgba(0, 0, 0, .45);
 }
 .geek-card:hover {
   transform: translateY(-4px);
-  border-color: var(--geek-color-red);
+  border-color: var(--geek-color-blue);
   box-shadow: 0 12px 40px rgba(0, 0, 0, .55);
 }
 ```
@@ -143,7 +143,7 @@ Every card also carries the `.corner` brackets (see §3).
 
 ```
 ┌────────────────────────────────────────┐
-│ ▂▂▂▂  4px red top bar                  │  <- title bar: mono title, red top border
+│ ▂▂▂▂  4px blue top bar                  │  <- title bar: mono title, blue top border
 │ title                      [×]         │
 ├────────────────────────────────────────┤  <- 1px hairline border
 │                                        │
@@ -155,7 +155,7 @@ Every card also carries the `.corner` brackets (see §3).
 | Part | Class | Rule |
 |------|-------|------|
 | Window frame | `.geek-window` | `bg-soft`, 1px line border, radius 0, `overflow: hidden`, card shadow, `.corner` |
-| Title bar | `.geek-window__title` | `border-top: 4px solid var(--geek-color-red)`, mono title, `padding: 8px 16px` |
+| Title bar | `.geek-window__title` | `border-top: 4px solid var(--geek-color-blue)`, mono title, `padding: 8px 16px` |
 | Body | `.geek-window__body` | `bg-soft`, `padding: 16px`, internal scroll with geek scrollbar |
 | Modal overlay | `.geek-modal__overlay` | `rgba(0,0,0,.6)` scrim; content fades up via `geek-fade-up` |
 
@@ -185,12 +185,12 @@ Every card also carries the `.corner` brackets (see §3).
   font-size: 13px;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--geek-color-red);
+  color: var(--geek-color-blue);
 }
-.geek-eyebrow:before { content: ""; width: 28px; height: 1px; background: var(--geek-color-red); }
+.geek-eyebrow:before { content: ""; width: 28px; height: 1px; background: var(--geek-color-blue); }
 ```
 
-Timeline: vertical red gradient line (`linear-gradient(180deg, transparent 0%, red 8%, red 92%, transparent 100%)`, 1px wide) + 11px glowing red dots.
+Timeline: vertical blue gradient line (`linear-gradient(180deg, transparent 0%, blue 8%, blue 92%, transparent 100%)`, 1px wide) + 11px glowing blue dots.
 
 ---
 
@@ -201,8 +201,8 @@ Timeline: vertical red gradient line (`linear-gradient(180deg, transparent 0%, r
 | **Flat** | Solid `background-color: var(--geek-color-bg)` |
 | **Scanlines** | `repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px)` |
 | **Grid** | 56px `linear-gradient` 1px lines, radial-fade masked |
-| **Radial glow** | `radial-gradient(ellipse at center, rgba(201,21,30,.18), transparent 70%)` |
-| **Glitch** | `.geek-glitch` — two clip-path-sliced pseudo copies (red + teal), `mix-blend-mode: screen`, `steps(1)` animation |
+| **Radial glow** | `radial-gradient(ellipse at center, rgba(59,130,246,.18), transparent 70%)` |
+| **Glitch** | `.geek-glitch` — two clip-path-sliced pseudo copies (blue + teal), `mix-blend-mode: screen`, `steps(1)` animation |
 
 ### 7.1 Motion contract
 
@@ -219,7 +219,7 @@ Timeline: vertical red gradient line (`linear-gradient(180deg, transparent 0%, r
 .geek-typewriter__caret {
   display: inline-block;
   width: .6ch;
-  color: var(--geek-color-red);
+  color: var(--geek-color-blue);
   animation: geek-blink 1s steps(1) infinite;
 }
 .geek-anim--reveal { animation: geek-fade-up .8s ease both; }
@@ -230,7 +230,7 @@ Timeline: vertical red gradient line (`linear-gradient(180deg, transparent 0%, r
 ```css
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--geek-color-red), #5a0a10);
+  background: linear-gradient(180deg, var(--geek-color-blue), #1e3a5f);
   border-radius: 8px;
   border: 2px solid var(--geek-color-bg);
 }

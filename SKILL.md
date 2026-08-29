@@ -1,30 +1,13 @@
 ---
 name: pixel-ui-maker
-description: "Pixel Data Stream UI/CSS theme maker (\"像素数据流\" style). Converts interface descriptions, wireframes, or reference designs into pixel data stream UI implementations (CSS + component markup) with strict style consistency — olive-dark canvas, signal-red accent, sharp 0px corners, red corner brackets, CRT scanlines, glitch/typewriter motifs, soft glow shadows, ease motion. Use when user asks to \"pixel-style the UI\", \"make a pixel theme\", \"generate pixel CSS\", \"像素风界面\", \"像素样式开发\", \"像素按钮\", \"像素背景\", \"像素窗口\", \"像素数据流\", \"暗黑终端\", \"终端极客\", \"黑客风\", \"terminal style\", \"hacker theme\", \"geek UI\", \"角标\", \"CRT\", \"scanline\", \"glitch\", \"typewriter\", \"动态按钮\", \"按钮擦除\", \"按钮滑动\", \"背景浮动\", \"背景视差\", \"视差浮动\", \"鼠标视差\", \"像素画浮动\", \"上浮动画\", \"wipe button\", \"float-rise\", \"stagger\", \"parallax float\", \"parallax\", \"背景漂浮\", \"粒子背景\", \"粒子网络\", \"粒子浮动\", \"canvas 粒子\", \"连线粒子\", \"particle\", \"particle background\", \"粒子动画\", \"流体网格\", \"fluid grid\", \"流体背景\", \"grid background\", \"点阵背景\", \"像素点阵\", \"噪声背景\", \"背景噪声\", \"marquee\", \"滚动光带\", \"光带\", \"动效\", \"动态效果\", or mentions \"pixel-ui-maker\"."
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+description: "Pixel Data Stream UI/CSS theme maker (\"像素数据流\" style). Converts interface descriptions, wireframes, or reference designs into pixel data stream UI implementations (CSS + component markup) with strict style consistency — light canvas, signal-blue accent, sharp 0px corners, blue corner brackets, CRT scanlines, glitch/typewriter motifs, soft glow shadows, ease motion. Use when user asks to \"pixel-style the UI\", \"make a pixel theme\", \"generate pixel CSS\", \"像素风界面\", \"像素样式开发\", \"像素按钮\", \"像素背景\", \"像素窗口\", \"像素数据流\", \"暗黑终端\", \"终端极客\", \"黑客风\", \"terminal style\", \"hacker theme\", \"geek UI\", \"角标\", \"CRT\", \"scanline\", \"glitch\", \"typewriter\", \"动态按钮\", \"按钮擦除\", \"按钮滑动\", \"背景浮动\", \"背景视差\", \"视差浮动\", \"鼠标视差\", \"像素画浮动\", \"上浮动画\", \"wipe button\", \"float-rise\", \"stagger\", \"parallax float\", \"parallax\", \"背景漂浮\", \"粒子背景\", \"粒子网络\", \"粒子浮动\", \"canvas 粒子\", \"连线粒子\", \"particle\", \"particle background\", \"粒子动画\", \"流体网格\", \"fluid grid\", \"流体背景\", \"grid background\", \"点阵背景\", \"像素点阵\", \"噪声背景\", \"背景噪声\", \"marquee\", \"滚动光带\", \"光带\", \"动效\", \"动态效果\", or mentions \"pixel-ui-maker\"."
 ---
 
 > **Path compatibility**: `${SKILL_DIR}` (Claude Code) and `{baseDir}` (dsh / AgentSkills) both refer to this skill directory. When running under dsh, treat `${SKILL_DIR}` as `{baseDir}`.
 
-
 # Pixel UI Maker (pixel data stream geek lock)
 
-> Pixel Data Stream theme generator. Takes an interface description or reference design, produces a complete "geek lock" UI spec (olive-dark palette, red accent, sharp corners, hairline borders, soft shadows + neon glows, mono/sans typography) and a consistent CSS implementation — buttons with hover invert + glow, cards with red corner brackets, tags, windows, eyebrow labels, timeline, and ease-animated interactions.
+> Pixel Data Stream theme generator. Takes an interface description or reference design, produces a complete "geek lock" UI spec (light palette, blue accent, sharp corners, hairline borders, soft shadows + neon glows, mono/sans typography) and a consistent CSS implementation — buttons with hover invert + glow, cards with blue corner brackets, tags, windows, eyebrow labels, timeline, and ease-animated interactions.
 
 **Core Pipeline**: `Input (UI description + requirements) → Design Spec → Style Confirmation → Implementation Generation → Validation & Delivery`
 
@@ -118,10 +101,10 @@ Before freezing the requirements, **proactively ask** the user whether they need
 |-------|-------------|
 | **Theme name** | Identifier for the theme |
 | **Geek style** | pixel data stream / 像素数据流 / Retro terminal / Custom |
-| **Color palette** | Exact HEX color list (olive dark bg + signal red accent + status set, each with a role) |
+| **Color palette** | Exact HEX color list (light bg + signal blue accent + status set, each with a role) |
 | **Corner style** | 0px on boxes — dots `50%`, scrollbars `8px`, code `2px` |
 | **Border weight** | 1px hairline (integer px per component type) |
-| **Shadow style** | Soft + neon glow — card `0 8px 32px rgba(0,0,0,.45)`, glow `0 0 24px rgba(201,21,30,.45)` |
+| **Shadow style** | Soft + neon glow — card `0 8px 32px rgba(0,0,0,.45)`, glow `0 0 24px rgba(59,130,246,.45)` |
 | **Spacing** | Integer px, loose (no strict grid) |
 | **Transition style** | Smooth `ease` (.2s colors / .3s transform / .6s zoom / .8s reveal) |
 
@@ -140,7 +123,7 @@ Before freezing the requirements, **proactively ask** the user whether they need
 | Component | Trigger | Motion | Timing | Duration |
 |-----------|---------|--------|--------|----------|
 | `geek-btn` | hover | color swap + lift | ease | .2s / .3s |
-| `geek-card` | hover | lift + red border + deep shadow | ease | .3s |
+| `geek-card` | hover | lift + blue border + deep shadow | ease | .3s |
 | section | scroll | fadeUp (opacity + translateY 24px) | ease | .8s |
 | `geek-typewriter__caret` | loop | blink | steps(1) | 1s infinite |
 | `geek-glitch` | loop | clip-path slices | steps(1) | 3s infinite |
@@ -191,7 +174,7 @@ Wait for user approval or revision before proceeding.
    - Integer px spacing
    - mono/sans font split
    - Transition timing style (ease)
-3. **Signature motifs required**: `.corner` red brackets on cards, `//` eyebrow labels, CRT scanlines, typewriter caret, glowing dots. **Soft shadows, gradients (grid/scanlines/glows), fractional opacity, and `blur`/`backdrop-filter` are all allowed.**
+3. **Signature motifs required**: `.corner` blue brackets on cards, `//` eyebrow labels, CRT scanlines, typewriter caret, glowing dots. **Soft shadows, gradients (grid/scanlines/glows), fractional opacity, and `blur`/`backdrop-filter` are all allowed.**
 
 **Component organization**:
 
@@ -199,9 +182,9 @@ Each generated theme exports CSS custom properties in `:root`, then component cl
 
 ```
 :root {
-  --geek-color-bg:        #1d211c;   /* olive dark */
-  --geek-color-bg-soft:   #232825;   /* surface */
-  --geek-color-red:       #c9151e;   /* primary accent */
+  --geek-color-bg:        #f8f9fa;   /* light canvas */
+  --geek-color-bg-soft:   #e9ecef;   /* surface */
+  --geek-color-blue:      #3b82f6;   /* primary accent */
   --geek-space-1: 4px;  --geek-space-2: 8px;  ...
 }
 
@@ -221,7 +204,7 @@ Each generated theme exports CSS custom properties in `:root`, then component cl
 
 ```bash
 # 1. Validate style-lock compliance
-python ${SKILL_DIR}/scripts/style_validator.py <theme.css> --palette "#1d211c" "#c9151e" ...
+python ${SKILL_DIR}/scripts/style_validator.py <theme.css> --palette "#f8f9fa" "#3b82f6" ...
 python ${SKILL_DIR}/scripts/style_validator.py <theme.css> --spec ui_spec.md --prefix geek-
 
 # 2. Extract and review the palette actually used
@@ -278,7 +261,7 @@ Preferred for larger interfaces with many components. Each file follows the same
 ```json
 {
   "theme": "geek-terminal",
-  "palette": ["#1d211c", "#232825", "#c9151e"],
+  "palette": ["#f8f9fa", "#e9ecef", "#3b82f6"],
   "corner_radius": 0,
   "border": 1,
   "files": {

@@ -3,7 +3,7 @@
 > Distilled motion recipes for the pixel data stream style. Three flagship effects distilled
 > from a **reference** design portfolio: background pixel-art **parallax float**,
 > menu pixel-art **stagger rise**, and a dual-layer **wipe** button. Re-themed to the geek lock
-> (olive dark + signal red, 0px corners, hairline borders, ease motion). Both a pure-CSS and a
+> (light canvas + signal blue, 0px corners, hairline borders, ease motion). Both a pure-CSS and a
 > GSAP version are provided for the flagship effects, plus a canvas **pixel-particle network**
 > (`geek-particle-bg`, from the《粒子背景动画效果实现指南》particle guide) and a
 > compact marquee / CRT-ripple bonus set.
@@ -78,9 +78,9 @@ flipping color; the arrow icon slides from `+320%` to `+550%`. All in `.4s ease`
   font-family: var(--geek-font-mono);
   font-size: 14px;
   letter-spacing: .08em;
-  color: var(--geek-color-red);              /* red label on transparent slab */
+  color: var(--geek-color-blue);              /* blue label on transparent slab */
   background: transparent;
-  border: 1px solid var(--geek-color-red);
+  border: 1px solid var(--geek-color-blue);
   border-radius: 0;                          /* sharp — geek lock */
   cursor: pointer;
   overflow: hidden;                          /* clip the wipe layers */
@@ -96,7 +96,7 @@ flipping color; the arrow icon slides from `+320%` to `+550%`. All in `.4s ease`
   z-index: 0;
 }
 .geek-btn-wipe:before { background: var(--geek-color-bg-soft); transition: transform var(--geek-motion-wipe); }
-.geek-btn-wipe:after  { background: var(--geek-color-red);     transition: transform var(--geek-motion-wipe) .1s; } /* chase */
+.geek-btn-wipe:after  { background: var(--geek-color-blue);     transition: transform var(--geek-motion-wipe) .1s; } /* chase */
 .geek-btn-wipe:hover:before,
 .geek-btn-wipe:hover:after { transform: translateX(0); }
 .geek-btn-wipe:hover:after  { transition-delay: .1s; }
@@ -120,7 +120,7 @@ flipping color; the arrow icon slides from `+320%` to `+550%`. All in `.4s ease`
 .geek-btn-wipe:hover .geek-btn-wipe__label { color: var(--geek-color-text); transform: translateX(0); }
 .geek-btn-wipe:hover .geek-btn-wipe__icon  { transform: translateX(550%); }
 
-.geek-btn-wipe:focus-visible { outline: 3px solid var(--geek-color-red); outline-offset: 2px; }
+.geek-btn-wipe:focus-visible { outline: 3px solid var(--geek-color-blue); outline-offset: 2px; }
 .geek-btn-wipe:active .geek-btn-wipe__label,
 .geek-btn-wipe:active .geek-btn-wipe__icon { transition-duration: .2s; }
 ```
@@ -138,8 +138,8 @@ flipping color; the arrow icon slides from `+320%` to `+550%`. All in `.4s ease`
 ```
 
 **Sequence (hover):**
-1. `:before` (olive surface) sweeps in from left — `.4s ease`, delay 0.
-2. `:after` (signal red) chases it — `.4s ease`, delay `.1s`. Slab ends solid red.
+1. `:before` (light surface) sweeps in from left — `.4s ease`, delay 0.
+2. `:after` (signal blue) chases it — `.4s ease`, delay `.1s`. Slab ends solid blue.
 3. Label `CONTACT` slides from `-13%` to center, flips red → white.
 4. Arrow slides `320% → 550%`, white stroke.
 

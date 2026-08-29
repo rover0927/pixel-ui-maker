@@ -25,10 +25,10 @@
 
 ```css
 :root {
-  --geek-color-bg:        #1d211c;   /* 橄榄黑底 */
-  --geek-color-bg-soft:   #232825;   /* 表面 */
-  --geek-color-red:       #c9151e;   /* 主强调色 */
-  --geek-shadow-glow:     0 0 24px rgba(201, 21, 30, .45);
+  --geek-color-bg:        #f8f9fa;   /* 浅色画布 */
+  --geek-color-bg-soft:   #e9ecef;   /* 表面 */
+  --geek-color-blue:      #3b82f6;   /* 主强调色 */
+  --geek-shadow-glow:     0 0 24px rgba(59, 130, 246, .45);
   --geek-space-1: 4px;  --geek-space-2: 8px;
 }
 
@@ -101,7 +101,7 @@ python scripts/preview_backgrounds.py     # 默认端口 8000，占用自动递�
   <div class="geek-window__bar"></div>
   <div class="geek-window__title">
     <span class="geek-window__dots">
-      <i style="background:var(--geek-color-red)"></i>
+      <i style="background:var(--geek-color-blue)"></i>
       <i style="background:var(--geek-color-line)"></i>
       <i style="background:var(--geek-color-line)"></i>
     </span>
@@ -127,32 +127,32 @@ python scripts/preview_backgrounds.py     # 默认端口 8000，占用自动递�
 
 ```css
 :root {
-  --geek-color-bg:     #1d211c;   /* 橄榄黑底 */
-  --geek-color-red:    #c9151e;   /* 信号红强调 */
-  --geek-color-teal:   #43d9c1;
+  --geek-color-bg:     #f8f9fa;   /* 浅色画布 */
+  --geek-color-blue:   #3b82f6;   /* 信号蓝强调 */
+  --geek-color-teal:   #10b981;
   --geek-font-mono: "JetBrains Mono","Fira Code",Consolas,monospace;
   --geek-radius: 0px;                          /* 0 圆角锐利几何 */
-  --geek-shadow-glow: 0 0 24px rgba(201,21,30,.45);  /* 霓虹光晕 */
+  --geek-shadow-glow: 0 0 24px rgba(59,130,246,.45);  /* 霓虹光晕 */
   --geek-motion-transform: .3s ease;           /* ease 动效契约 */
 }
 /* scifi 变体:data-theme="scifi" 一键切科幻蓝(展示页默认) */
 :root[data-theme="scifi"] {
   --geek-color-bg:  #0b1026;
-  --geek-color-red: #2fd6ff;                   /* 电光青蓝 */
+  --geek-color-blue: #2fd6ff;                   /* 电光青蓝 */
 }
 
 /* 签名 L 型角标(唯一无前缀 helper) */
 .corner { position: relative; }
 .corner::before, .corner::after { content: ""; position: absolute; width: 14px; height: 14px; }
-.corner::before { top: -1px; left: -1px;   border-top: 2px solid var(--geek-color-red); border-left: 2px solid var(--geek-color-red); }
-.corner::after  { bottom: -1px; right: -1px; border-bottom: 2px solid var(--geek-color-red); border-right: 2px solid var(--geek-color-red); }
+.corner::before { top: -1px; left: -1px;   border-top: 2px solid var(--geek-color-blue); border-left: 2px solid var(--geek-color-blue); }
+.corner::after  { bottom: -1px; right: -1px; border-bottom: 2px solid var(--geek-color-blue); border-right: 2px solid var(--geek-color-blue); }
 
 /* 双层擦除按钮:前层 surface 后层强调色,先后错位滑入 */
-.geek-btn-wipe { position: relative; overflow: hidden; border: 1px solid var(--geek-color-red); border-radius: 0; color: var(--geek-color-red); background: transparent; }
+.geek-btn-wipe { position: relative; overflow: hidden; border: 1px solid var(--geek-color-blue); border-radius: 0; color: var(--geek-color-blue); background: transparent; }
 .geek-btn-wipe:before,
 .geek-btn-wipe:after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: translateX(-100%); }
 .geek-btn-wipe:before { background: var(--geek-color-bg-soft); transition: transform var(--geek-motion-wipe); }
-.geek-btn-wipe:after  { background: var(--geek-color-red);     transition: transform var(--geek-motion-wipe); transition-delay: .1s; }
+.geek-btn-wipe:after  { background: var(--geek-color-blue);     transition: transform var(--geek-motion-wipe); transition-delay: .1s; }
 .geek-btn-wipe:hover:before,
 .geek-btn-wipe:hover:after { transform: translateX(0); }
 ```
@@ -231,10 +231,10 @@ ripple();
 
 | 规则 | 约束 |
 |------|------|
-| **调色板** | 只用声明过的 HEX 颜色（橄榄黑 `#1d211c` + 红 `#c9151e` + 状态色） |
+| **调色板** | 只用声明过的 HEX 颜色（浅色 `#f8f9fa` + 蓝 `#3b82f6` + 状态色） |
 | **圆角** | 盒子 **0px**（锐利）；例外：圆点 `50%`、滚动条 `8px`、代码 `2px` |
 | **边框** | 1px 发丝线，按组件类型一致 |
-| **阴影** | **柔和 + 霓虹光晕允许**：卡片 `0 8px 32px`、光晕 `0 0 24px rgba(201,21,30,.45)` |
+| **阴影** | **柔和 + 霓虹光晕允许**：卡片 `0 8px 32px`、光晕 `0 0 24px rgba(59,130,246,.45)` |
 | **渐变** | **允许**：网格线、CRT scanline、径向光晕、滚动条 |
 | **透明度** | **允许小数 alpha**（scanline `.025`、光晕 `.45`、遮罩 `.5`） |
 | **模糊** | **允许** `filter: blur` / `backdrop-filter`（毛玻璃导航） |
@@ -279,7 +279,7 @@ python scripts/palette_extractor.py theme.css --format json --output palette.jso
 ### style_validator.py —— 按样式锁规则校验 CSS 文件
 
 ```bash
-python scripts/style_validator.py theme.css --palette "#1d211c" "#232825" "#c9151e"
+python scripts/style_validator.py theme.css --palette "#f8f9fa" "#e9ecef" "#3b82f6"
 python scripts/style_validator.py theme.css --spec ui_spec.md --prefix geek-
 python scripts/style_validator.py theme.css --spec ui_spec.md --strict          # 警告也视为失败
 python scripts/style_validator.py theme.css --spec ui_spec.md --output validation.json
@@ -332,7 +332,7 @@ python scripts/preview_backgrounds.py --port 9000     # 指定基准端口
 所有生成的主题必须遵循（验证器和脚手架依赖此契约）：
 
 - **类前缀**：`geek-` → `.geek-btn`、`.geek-card`、`.geek-window`
-- **自定义属性**：`--geek-*` → `--geek-color-red`、`--geek-space-2`、`--geek-shadow-glow`
+- **自定义属性**：`--geek-*` → `--geek-color-blue`、`--geek-space-2`、`--geek-shadow-glow`
 - **签名角标**：`.corner`（不带前缀，按设计如此）
 
 ---

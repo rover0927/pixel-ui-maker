@@ -30,7 +30,7 @@ Validate a CSS file against the geek style-lock rules.
 
 ```bash
 # Validate against an explicit palette
-python skills/pixel-ui-maker/scripts/style_validator.py theme.css --palette "#1d211c" "#232825" "#c9151e"
+python skills/pixel-ui-maker/scripts/style_validator.py theme.css --palette "#f8f9fa" "#e9ecef" "#3b82f6"
 
 # Validate using palette from ui_spec.md, plus the naming contract
 python skills/pixel-ui-maker/scripts/style_validator.py theme.css --spec ui_spec.md --prefix geek-
@@ -71,7 +71,7 @@ The skeleton parses the spec's Color Palette table and Style Definition table to
 
 Generated themes MUST follow:
 - Class prefix: `geek-` (e.g., `.geek-btn`, `.geek-card`, `.geek-window`)
-- Custom properties: `--geek-*` (e.g., `--geek-color-red`, `--geek-space-2`, `--geek-shadow-glow`)
+- Custom properties: `--geek-*` (e.g., `--geek-color-blue`, `--geek-space-2`, `--geek-shadow-glow`)
 - Signature `.corner` helper is unprefixed by design
 
 `style_validator.py` and `theme_scaffolder.py` rely on this contract.
