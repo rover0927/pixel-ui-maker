@@ -7,7 +7,7 @@
 > + mouse swirl-repel), and a **disturbance-wave** engine (`useDisturbanceWave`) for a calmer
 > "uniform pixels + layered dual-noise fields + breathing tide" look with **no mouse interaction**.
 > Pure Canvas 2D, zero dependencies (works in Vue composables, React, or vanilla).
-> Source project (full source): `${SKILL_DIR}/examples/fluid-grid-bg/` — a runnable
+> Source project (full source): `<skill-dir>/examples/fluid-grid-bg/` — a runnable
 > Vue 3 + Vite demo (`npm install && npm run dev`).
 
 > **Don't conflate with `geek-particle-bg` (dynamic-effects.md §5).** That one is a sparse network

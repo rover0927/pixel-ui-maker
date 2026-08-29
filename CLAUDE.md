@@ -4,7 +4,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-pixel-ui-maker is a Claude Code skill for generating pixel data stream web UI themes ("像素数据流" style) from interface descriptions or reference designs. It defines a serial pipeline and provides supporting Python scripts for palette extraction, style-lock validation, and theme scaffolding. It covers button interactions, cards/windows, tags, decorative motifs (corner brackets, `//` eyebrows, timeline, typewriter, scanlines, glitch), and ease-animated interactions.
+pixel-ui-maker is a skill for generating pixel data stream web UI themes ("像素数据流" style) from interface descriptions or reference designs. It defines a serial pipeline and provides supporting Python scripts for palette extraction, style-lock validation, and theme scaffolding. It covers button interactions, cards/windows, tags, decorative motifs (corner brackets, `//` eyebrows, timeline, typewriter, scanlines, glitch), and ease-animated interactions.
+
+## Runtime Compatibility (dsh / AgentSkills / Claude Code)
+
+This skill works across multiple runtimes. The key difference is the path variable:
+
+| Runtime | Path variable | Skill location |
+|---------|--------------|----------------|
+| Claude Code | `${SKILL_DIR}` | `~/.claude/skills/pixel-ui-maker` |
+| dsh | `{baseDir}` | `~/.dsh/skills/pixel-ui-maker` |
+| AgentSkills | `{baseDir}` | `<install-dir>/skills/pixel-ui-maker` |
+
+**When running under dsh or AgentSkills**: replace all `${SKILL_DIR}` in SKILL.md with `{baseDir}` or the actual absolute path. The Python scripts, templates, and references are all relative to the skill root directory.
+
+**Quick test**: run `ls ${SKILL_DIR}/scripts/` (or `{baseDir}/scripts/`) to verify the path resolves correctly.
 
 ## Commands
 

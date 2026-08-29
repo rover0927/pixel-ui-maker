@@ -3,7 +3,17 @@ name: pixel-ui-maker
 description: "Pixel Data Stream UI/CSS theme maker (\"像素数据流\" style). Converts interface descriptions, wireframes, or reference designs into pixel data stream UI implementations (CSS + component markup) with strict style consistency — light canvas, signal-blue accent, sharp 0px corners, blue corner brackets, CRT scanlines, glitch/typewriter motifs, soft glow shadows, ease motion. Use when user asks to \"pixel-style the UI\", \"make a pixel theme\", \"generate pixel CSS\", \"像素风界面\", \"像素样式开发\", \"像素按钮\", \"像素背景\", \"像素窗口\", \"像素数据流\", \"暗黑终端\", \"终端极客\", \"黑客风\", \"terminal style\", \"hacker theme\", \"geek UI\", \"角标\", \"CRT\", \"scanline\", \"glitch\", \"typewriter\", \"动态按钮\", \"按钮擦除\", \"按钮滑动\", \"背景浮动\", \"背景视差\", \"视差浮动\", \"鼠标视差\", \"像素画浮动\", \"上浮动画\", \"wipe button\", \"float-rise\", \"stagger\", \"parallax float\", \"parallax\", \"背景漂浮\", \"粒子背景\", \"粒子网络\", \"粒子浮动\", \"canvas 粒子\", \"连线粒子\", \"particle\", \"particle background\", \"粒子动画\", \"流体网格\", \"fluid grid\", \"流体背景\", \"grid background\", \"点阵背景\", \"像素点阵\", \"噪声背景\", \"背景噪声\", \"marquee\", \"滚动光带\", \"光带\", \"动效\", \"动态效果\", or mentions \"pixel-ui-maker\"."
 ---
 
-> **Path compatibility**: `${SKILL_DIR}` (Claude Code) and `{baseDir}` (dsh / AgentSkills) both refer to this skill directory. When running under dsh, treat `${SKILL_DIR}` as `{baseDir}`.
+> **⚠️ Path compatibility (dsh / AgentSkills / Claude Code)**
+>
+> This skill uses `${SKILL_DIR}` to reference its own directory. Different runtimes use different variables:
+>
+> | Runtime | Path variable | Example |
+> |---------|--------------|---------|
+> | Claude Code | `${SKILL_DIR}` | `~/.claude/skills/pixel-ui-maker` |
+> | dsh | `{baseDir}` | `~/.dsh/skills/pixel-ui-maker` |
+> | AgentSkills | `{baseDir}` | `<install-dir>/skills/pixel-ui-maker` |
+>
+> **If your runtime does not resolve `${SKILL_DIR}`, replace it with the actual skill directory path.** All scripts, templates, and references below are relative to this directory.
 
 # Pixel UI Maker (pixel data stream geek lock)
 
